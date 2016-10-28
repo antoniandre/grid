@@ -1,0 +1,260 @@
+<html>
+<head>
+    <title>The Grid - Example with responsive images</title>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+    <script src="../js/grid.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            setTimeout(function()
+            {
+                var gh = new gridHandler(
+                {
+                    grid: '.thegrid',
+                    cells: '.cell',
+                    cellHeight: 100,
+                    cellsPerRow: 7,
+                    animationSpeed: 1200,
+                    animationEasing: 'easeOutElastic',
+                    breakpoints:
+                    {
+                        1199:
+                        {
+                            cellsPerRow: 5,
+                            cellHeight: 100
+                        },
+                        767:
+                        {
+                            cellsPerRow: 4,
+                            cellHeight: 130
+                        },
+                        479:
+                        {
+                            cellsPerRow: 2,
+                            cellHeight: 160
+                        },
+                    }
+                });
+            }, 2000);
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../css/grid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        * {margin: 0;padding: 0;}
+        body {
+            font: 12px roboto, sans-serif;
+            color: #999;
+            padding: 30px;
+        }
+
+        h1 {text-align: center;color: #666;}
+        p {padding: 20px 0 40px;text-align: center;}
+
+        .breakpointThreshold {
+            border-left: 1px solid red;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            z-index: 1;
+        }
+        .bp1 {left: 1200px;}
+        .bp2 {left: 768px;}
+        .breakpointThreshold.bp2 span {top: 150px;}
+
+        .bp3 {left: 480px;}
+        .breakpointThreshold span {
+            position: absolute;
+            top: 15px;
+            right: 13px;
+            width: 100px;
+            background: #f8f8f8;
+            padding: 4px;
+            display: block;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 92%;
+        }
+        .breakpointThreshold span h3 {padding-bottom: 5px;}
+        .breakpointThreshold span code {
+            color: #333;
+        }
+        .breakpointThreshold span:before,
+        .breakpointThreshold span:after {
+            content: "";
+            width: 0;
+            height: 0;
+            position: absolute;
+            left: 100%;
+            border: 12px solid transparent;
+            border-width: 8px 12px;
+        }
+        .breakpointThreshold span:before {
+            top: 19px;
+            border-left-color: #ddd;
+        }
+        .breakpointThreshold span:after {
+            top: 20px;
+            border-width: 7px 10px;
+            border-left-color: #f8f8f8;
+        }
+
+
+
+        .thegrid .cell > div {
+            border: 1px solid orange;
+            background-image: radial-gradient(circle at top right, yellow, #f06d06);
+        }
+        .cell div:after {
+            content: attr(data-text);
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: rgba(255,255,255, .3);
+            background: rgba(0,0,0,.4);
+            padding: 4px;
+            font: normal 130% arial;
+        }
+
+        .thegrid .cell {
+            opacity: 0;
+            -webkit-transition: opacity .5s;
+            -o-transition: opacity .5s;
+            transition: opacity .5s;
+        }
+        .thegrid.ready .cell {
+            opacity: 1;
+        }
+
+        /*=========================== LOADING SPINNER ==========================*/
+        .loading:before, .loading:after, .loading {
+           border-radius: 50%;
+            width: 1.5em;
+            height: 1.5em;
+            -webkit-animation-fill-mode: both;
+           animation-fill-mode: both;
+           -webkit-animation: load7 1.8s infinite ease-in-out;
+           animation: load7 1.8s infinite ease-in-out;
+        }
+        .loading {
+            font-size: 1em;
+            margin: -0.5em auto;
+            position: absolute;
+            top: 45%;
+            left: 0;
+            right: 0;
+            opacity: 1;
+            text-indent: -9999em;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+
+        .loading:before {
+            left: -3.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+
+        .loading:after {
+            left: 3.5em;
+        }
+
+        .loading:before, .loading:after {
+            content: '';
+            position: absolute;
+            top: 0;
+        }
+
+        .ready > .loading {opacity: 0;}
+
+
+         @-webkit-keyframes load7 {
+           0%, 80%, 100% {box-shadow: 0 2.5em 0 -1.3em rgba(100,100,100, 0.2); }
+           40% {box-shadow: 0 2.5em 0 0 rgba(100,100,100, 0.2); } }
+
+         @keyframes load7 {
+           0%, 80%, 100% {box-shadow: 0 2.5em 0 -1.3em rgba(100,100,100, 0.2); }
+           40% {box-shadow: 0 2.5em 0 0 rgba(100,100,100, 0.2); } }
+        /*======================== End of LOADING SPINNER ======================*/
+    </style>
+</head>
+<body>
+    <h1>The Grid.</h1>
+    <p>This example has 50 cells and 3 breakpoints - so 4 different configurations.<br>The cells have absolute positioning percentage wdth and fixed height.<br><br>Reduce your screen width to the breakpoint to see the cells reordering with a nice elastic animation.</p>
+    <div class="breakpointThreshold bp1">
+        <span><h3>Breakpoint 1</h3>
+            <code>cellsPerRow: 5,<br>cellHeight: 100</code>
+        </span>
+    </div>
+    <div class="breakpointThreshold bp2">
+        <span><h3>Breakpoint 2</h3>
+            <code>cellsPerRow: 4,<br>cellHeight: 130</code>
+        </span>
+    </div>
+    <div class="breakpointThreshold bp3">
+        <span><h3>Breakpoint 3</h3>
+            <code>cellsPerRow: 2,<br>cellHeight: 160</code>
+        </span>
+    </div>
+
+    <div class="thegrid">
+        <div class="loading"></div>
+        <div class="cell" data-width="1" data-height="4"><div data-text="0"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="1"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="2"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="3"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="4"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="5"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="6"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="7"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="8"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="9"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="10"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="11"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="12"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="13"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="14"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="15"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="16"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="17"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="18"></div></div>
+        <div class="cell" data-width="4" data-height="1"><div data-text="19"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="20"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="21"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="22"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="23"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="24"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="25"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="26"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="27"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="28"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="29"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="30"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="31"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="32"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="33"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="34"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="35"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="36"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="37"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="38"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="39"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="40"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="41"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="42"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="43"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="44"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="45"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="46"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="47"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="48"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="49"></div></div>
+    </div>
+</body>
+</html>

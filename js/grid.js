@@ -4,7 +4,7 @@ var gridHandler = function(options)
     var self = this, grid, cells, cellsNum, cellWidth, cellHeight,
         defaults =
         {
-            // grid: $('#grid'),// The container of the cells.
+            grid: $('.thegrid'),// The container of the cells.
             cells: $('.cell'),// The cells to render / place / filter.
             cellsPerRow: 7,
             cellHeight: 100,// Cell height in pixels.
@@ -25,7 +25,7 @@ var gridHandler = function(options)
             animationSpeed: 500,
             animationEasing: 'linear',
 
-            updateGridHeight: false,// On each render.
+            updateGridHeight: true,// On each render.
 
             // Responsiveness.
             // Only if breakpoints are set the redraw() function is triggered on each resize event.
@@ -383,7 +383,7 @@ var gridHandler = function(options)
 
                 // If position is last, breakpointsArray[i] won't exist => just take the initial config.
                 newBreakpoint = i === breakpointsNum ? 'largest' : breakpointsArray[i];
-                
+
                 breakpointChange = newBreakpoint !== currentBreakpoint;
 
 
@@ -448,7 +448,7 @@ var gridHandler = function(options)
         if (!$.isEmptyObject(options.breakpoints)) $(window).trigger('gridInit');
 
         // Trigger init custom event.
-        grid.trigger('init').addClass('gridjs ready' + (options.useCssTransitions ? ' transitions' : ''));
+        grid.trigger('init').addClass('thegrid ready' + (options.useCssTransitions ? ' transitions' : ''));
     }();
 },
 

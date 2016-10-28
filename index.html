@@ -1,14 +1,72 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/grid.css">
-    <link rel="stylesheet" type="text/css" href="css/demo.css">
+    <title>The Grid</title>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/jquery.easing/js/jquery.easing.min.js"></script>
-    <script src="js/grid.js"></script>
-    <script src="js/demo.js"></script>
+    <script src="js/grid.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $('.thegrid').grid(
+            {
+                cells: '.cell',
+                cellHeight: 100,
+                cellsPerRow: 5,
+                breakpoints:
+                {
+                    1199:
+                    {
+                        cellsPerRow: 4,
+                        cellHeight: 100
+                    },
+                    767:
+                    {
+                        cellsPerRow: 3,
+                        cellHeight: 130
+                    },
+                    479:
+                    {
+                        cellsPerRow: 2,
+                        cellHeight: 160
+                    },
+                }
+            });
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="css/grid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        * {margin: 0;padding: 0;}
+        body {
+            font: 12px roboto, sans-serif;
+            color: #999;
+            padding: 30px;
+        }
+
+        h1 {text-align: center;color: #666;}
+        p {padding: 20px 0 30px;text-align: center;}
+
+        .thegrid .cell > div {
+            background-image: radial-gradient(circle at top right, #f33, pink);
+            display: -ms-flex;
+            display: flex;
+            align-items: center;
+        }
+
+        .cell div:after {
+            content: attr(data-text);
+            display: block;
+            text-align: center;
+            width: 100%;
+            color: rgba(255,255,255, .25);
+            font-size: 200%;
+        }
+    </style>
 </head>
 <body>
-    <div class="grid">
+    <h1>This is The Grid.</h1>
+    <p>Yet another ultra light weight (4.3kb) lib to display your cells in a grid in a surely nice way.<br>You can browse the different examples and try it out.</p>
+    <div class="thegrid">
         <div class="loading"></div>
         <div class="cell" data-width="1" data-height="4"><div data-text="0"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="1"></div></div>
@@ -28,78 +86,8 @@
         <div class="cell" data-width="1" data-height="2"><div data-text="15"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="16"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="17"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="18"></div></div>
-        <div class="cell" data-width="4" data-height="1"><div data-text="19"></div></div>
-        <div class="cell" data-width="1" data-height="3"><div data-text="20"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="21"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="22"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="23"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="24"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="25"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="26"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="27"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="28"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="29"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="30"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="31"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="32"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="33"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="34"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="35"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="36"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="37"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="38"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="39"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="40"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="41"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="42"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="43"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="44"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="45"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="46"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="47"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="48"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="49"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="50"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="51"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="52"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="53"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="54"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="55"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="56"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="57"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="58"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="59"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="60"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="61"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="62"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="63"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="64"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="65"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="66"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="67"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="68"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="69"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="70"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="71"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="72"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="73"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="74"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="75"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="76"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="77"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="78"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="79"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="80"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="81"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="82"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="83"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="84"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="85"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="86"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="87"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="88"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="89"></div></div>
+        <div class="cell" data-width="4" data-height="1"><div data-text="18"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="19"></div></div>
     </div>
 </body>
 </html>
