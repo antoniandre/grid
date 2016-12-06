@@ -1,48 +1,132 @@
+/*================================== GENERAL =================================*/
 * {margin: 0;padding: 0;}
+body {
+    font: 12px roboto, sans-serif;
+    color: #999;
+    padding: 0 30px 50px;
+}
 
-.cell > div {
+.clearfix:before, .clearfix:after {display: table;content: "";clear: both;}
+h1 {text-align: center;color: #666;}
+h2 {color: #666;margin: 30px 0 10px;}
+p.intro {margin: 0;padding: 20px 0 30px;text-align: center;}
+a {
+    color: #f33;
+    text-decoration: none;
+    -webkit-transition: .4s ease-out;
+    -o-transition: .4s ease-out;
+    transition: .4s ease-out;
+}
+a:hover {color: #c11;}
+:before {vertical-align: middle;}
+/*============================================================================*/
+
+
+/*================================ TOP BAR ===================================*/
+.topbar-wrapper {
     position: relative;
-    width: 100%;
-    height: 100%;
-    border: 1px solid orange;
-    background-image: radial-gradient(circle at top right, yellow, #f06d06);
+    height: 50px;
+    margin-bottom: 90px;
+    z-index: 1;
 }
-.cell div:before {
-    content: "";
-    background: url(https://www.google.com.sg/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png) no-repeat center center;
-    -webkit-background-size: contain;
-    background-size: contain;
-    display: block;
-    position: absolute;
+.topbar {
+    position: fixed;
+    margin: auto;
+    max-width: 1200px;
     top: 0;
-    bottom: 0;
     left: 0;
     right: 0;
-    color: #eee;
-    text-shadow: 0 0 5px #000;
-    padding: 4px;
-    font-size: 120%;
+    height: 50px;
+    background-color: rgba(255,255,255,.9);
+    border-bottom: 1px solid rgba(200,200,200,.2);
 }
-.cell div:after {
-    content: attr(data-text);
-    display: block;
+.topbar {vertical-align: middle;line-height: 50px;}
+.topbar-logo {float: left;font-size: 140%;height: 100%;}
+.topbar-logo:before {font-size: 200%;padding-right: 20px;color: #ccc;}
+.topbar-menu {float: right;font-size: 130%;}
+.topbar-menu li {
+    display: inline-block;
+    list-style-type: none;
+    position: relative;
+}
+.topbar-menu li a, .topbar-menu li span {padding: 0 10px;margin: 0 5px;color: #f33;}
+.topbar-menu li a:hover, .topbar-menu li span:hover {color: #c11;}
+.topbar-menu :before {font-size: 140%;padding-right: 10px;}
+.topbar-menu .i-arr-d:before {font-size: 100%;padding-right: 0;color: #ccc;}
+
+.topbar-submenu {
+    display: none;
     position: absolute;
-    bottom: 0;
+    top: 100%;
     left: 0;
-    right: 0;
-    color: rgba(255,255,255, .3);
-    background: rgba(0,0,0,.4);
-    padding: 4px;
-    font: normal 130% arial;
+    line-height: 1.8em;
+    background-color: rgba(255,255,255,.95);
+    border: 1px solid rgba(200,200,200,.2);
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    font-size: 90%;
+    padding: 10px 0;
+}
+li:hover .topbar-submenu {
+    display: block;
+}
+.topbar-submenu li {
+    white-space: nowrap;
+    display: block;
+}
+.topbar-submenu li .i-arr-r:before {font-size: 90%;padding-right: 5px;color: #ccc;}
+/*============================================================================*/
+
+
+/*============================= DOCUMENTATION ================================*/
+.documentation {margin: auto;max-width: 1200px;}
+.documentation h2 {margin-top: 70px;padding-bottom: 10px;margin-bottom: 20px;border-bottom: 1px solid #eee;}
+.documentation h2:first-child {margin-top: 30px;}
+.documentation h2:before {padding-right: 5px;}
+.documentation p {margin-left: 30px;margin-top: 10px;}
+.documentation pre.i-terminal, .documentation pre.i-code {
+    position: relative;
+    margin: 10px 0 10px 55px;
+    border: 1px solid #eee;
+    background-color: #fbfbfb;
+    padding: 8px;
+    border-radius: 4px;
+    color: #444;
+}
+.documentation pre.i-terminal:before, .documentation pre.i-code:before {
+    position: absolute;
+    left: -25px;
+    font-size: 140%;
+    color: #ccc;
+}
+.documentation pre.i-terminal:after, .documentation pre.i-code:after {
+    content: attr(data-label);
+    position: absolute;
+    right: 10px;
+    bottom: 100%;
+    padding: 3px 8px;
+    font-size: 140%;
+    color: #ccc;
+    background-color: #fbfbfb;
+    border: 1px solid #eee;
+    border-bottom: none;
+    font: 100% roboto, sans-serif;
 }
 
+pre .comment {font-style: italic;color: #aaa;}
+pre .comment * {color: #aaa !important;}
+pre .quote {color: #c11;}
+pre .number {color: #c11;}
+pre .bool {color: #c11;}
+/*============================================================================*/
 
 
 
 
 
 
-/*=========================== LOADING SPINNER ==========================*/
+
+/*============================== LOADING SPINNER =============================*/
 .loading:before, .loading:after, .loading {
    border-radius: 50%;
     width: 1.5em;
@@ -93,4 +177,4 @@
  @keyframes load7 {
    0%, 80%, 100% {box-shadow: 0 2.5em 0 -1.3em rgba(100,100,100, 0.2); }
    40% {box-shadow: 0 2.5em 0 0 rgba(100,100,100, 0.2); } }
-/*======================== End of LOADING SPINNER ======================*/
+/*=========================== End of LOADING SPINNER =========================*/

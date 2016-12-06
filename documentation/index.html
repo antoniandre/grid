@@ -1,0 +1,119 @@
+<html>
+<head>
+    <title>The Grid - Documentation</title>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+    <script src="../js/grid.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $('pre').each(function()
+            {
+                this.innerHTML = this.innerHTML
+                                    .replace(/(\/\/.*)/g, '<span class="comment">$1</span>')
+                                    .replace(/(\/\*[\s\S]*\*\/)/mg, '<span class="comment">$1</span>')
+                                    .replace(/(\b\d+|null\b)/mg, '<span class="number">$1</span>')
+                                    .replace(/(\btrue|false\b)/mg, '<span class="bool">$1</span>')
+            });
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="../css/demo.css">
+    <link rel="stylesheet" type="text/css" href="../css/grid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
+</head>
+<body>
+    <div class="topbar-wrapper">
+        <div class="topbar clearfix">
+            <div class="topbar-logo i-thegrid">The Grid</div>
+            <div class="topbar-menu">
+                <ul>
+                    <li><a href="../index.html" class="i-home">home</a></li>
+                    <li>
+                        <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
+                        <ul class="topbar-submenu">
+                            <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
+                            <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
+                            <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
+                        </ul>                        
+                    </li>
+                    <li><span class="i-book">Documentation</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h1>The Grid - Documentation.</h1>
+    <p class="intro">The Grid is an ultra light weight (4.3 Kb) library that displays your cells in a surely nice grid layout way.<br>You can browse the different examples and try it out. &#12484;</p>
+    <div class="documentation">
+        <h2 class="i-check"> Install</h2>
+        <p>Clone from GitHub</p>
+        <pre class="i-terminal" data-label="Terminal">cd [where_you_want_it_to_be]
+git clone git@github.com:antoniandre/grid.git</pre>
+
+        <h2 class="i-check"> Get it working</h2>
+        <p>Install dependencies from Bower</p>
+        <pre class="i-terminal" data-label="Terminal">bower install</pre>
+
+        <h2 class="i-check"> Settings - TO BE UPDATED SOON</h2>
+        <p>You can use all these settings</p>
+        <pre class="i-code" data-label="Javascript">{
+    grid: $('#grid'),// The container of the cells.
+    cells: $('.cell'),// The cells to render / place / filter.
+    cellsPerRow: 4,
+    cellHeight: 100,// Cell height in pixels.
+                    // You can also define a function like so:
+                    // function(gh){return ((gh.gridWidth / gh.options.cellsPerRow) * 262 / 400) + 100};
+                    // But be aware that it will be much more costy (you may opt for throttling).
+
+    // Animations.
+    // Doing this you have to handle cell transition and easing in css:
+    // the class "transition" will be added to the grid so you can add transition like:
+    // .grid.transitions .cell {
+    //     -webkit-transition: .3s ease-in-out;
+    //     -o-transition: .3s ease-in-out;
+    //     transition: .3s ease-in-out;
+    // }
+    // If you want some fancy easing like elastic or bounce, you can use jQuery animation instead.
+    useCssTransitions: true,
+    animationSpeed: 500,
+    animationEasing: 'linear',
+    animationDelay: 0,
+
+    updateGridHeight: false,// On each render.
+
+    // Responsiveness.
+    // Only if breakpoints are set the redraw() function is triggered on each resize event.
+    // You can throttle the redraw to alight the resizing event.
+    // (while resizing the redraw() function is exec every throttlingDelay milliseconds)
+    throttling: false,
+    throttlingDelay: 300,// in ms.
+    /* Breakpoints (from desktop to mobile) to have a different behavior according to the device screen width.
+    Example of use:
+    breakpoints:
+    {
+        1199:
+        {
+            cellsPerRow: 5
+        },
+        767:
+        {
+            cellsPerRow: 4
+        },
+        479:
+        {
+            cellsPerRow: 3
+        },
+    }*/
+    breakpoints: {}
+}</pre>
+
+        <h2 class="i-check"> Methods - TO BE UPDATED SOON</h2>
+        <p>You can use all these methods</p>
+        <pre class="i-code" data-label="Javascript">thegrid.redraw();</pre>
+
+        <h2 class="i-check"> Events - TO BE UPDATED SOON</h2>
+        <p>You can use all these events</p>
+        <pre class="i-code" data-label="Javascript">thegrid.on('init');</pre>
+    </div>
+</body>
+</html>

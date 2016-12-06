@@ -16,19 +16,11 @@
             });
         });
     </script>
+    <link rel="stylesheet" type="text/css" href="../css/demo.css">
     <link rel="stylesheet" type="text/css" href="../css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
-        * {margin: 0;padding: 0;}
-        body {
-            font: 12px roboto, sans-serif;
-            color: #999;
-            padding: 30px;
-        }
-
-        h1 {text-align: center;color: #666;}
-        p {padding: 20px 0 30px;text-align: center;}
-
         .thegrid .cell > div {
             border: 1px solid orange;
             background-image: radial-gradient(circle at top right, yellow, #f06d06);
@@ -36,8 +28,27 @@
     </style>
 </head>
 <body>
+    <div class="topbar-wrapper">
+        <div class="topbar clearfix">
+            <div class="topbar-logo i-thegrid">The Grid</div>
+            <div class="topbar-menu">
+                <ul>
+                    <li><a href="../index.html" class="i-home">home</a></li>
+                    <li>
+                        <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
+                        <ul class="topbar-submenu">
+                            <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
+                            <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
+                            <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
+                        </ul>                        
+                    </li>
+                    <li><a href="../documentation/" class="i-book">Documentation</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <h1>The Grid.</h1>
-    <p>This most basic example has 50 cells and no loading spinner.<br>The cells have absolute positioning percentage wdth and fixed height.</p>
+    <p class="intro">This most basic example has 50 cells and no loading spinner.<br>The cells have absolute positioning percentage wdth and fixed height.</p>
     <div class="thegrid">
         <div class="loading"></div>
         <div class="cell" data-width="1" data-height="4"><div></div></div>

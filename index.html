@@ -33,19 +33,11 @@
             });
         });
     </script>
+    <link rel="stylesheet" type="text/css" href="css/demo.css">
     <link rel="stylesheet" type="text/css" href="css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
-        * {margin: 0;padding: 0;}
-        body {
-            font: 12px roboto, sans-serif;
-            color: #999;
-            padding: 30px;
-        }
-
-        h1 {text-align: center;color: #666;}
-        p {padding: 20px 0 30px;text-align: center;}
-
         .thegrid .cell > div {
             background-image: radial-gradient(circle at top right, #f33, pink);
             display: -ms-flex;
@@ -64,8 +56,27 @@
     </style>
 </head>
 <body>
+    <div class="topbar-wrapper">
+        <div class="topbar clearfix">
+            <div class="topbar-logo i-thegrid">The Grid</div>
+            <div class="topbar-menu">
+                <ul>
+                    <li><a href="index.html" class="i-home">home</a></li>
+                    <li>
+                        <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
+                        <ul class="topbar-submenu">
+                            <li><a href="examples/basic.html" class="i-arr-r">Basic</a></li>
+                            <li><a href="examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
+                            <li><a href="examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
+                        </ul>                        
+                    </li>
+                    <li><a href="documentation/" class="i-book">Documentation</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <h1>This is The Grid.</h1>
-    <p>Yet another ultra light weight (4.3kb) lib to display your cells in a grid in a surely nice way.<br>You can browse the different examples and try it out.</p>
+    <p class="intro">Yet another ultra light weight (4.3 Kb) lib to display your cells in a grid in a surely nice way.<br>You can browse the different examples and try it out.<br><br>Make sure you <code>$ bower install</code> before saying it doesn't work. &#12484;</p>
     <div class="thegrid">
         <div class="loading"></div>
         <div class="cell" data-width="1" data-height="4"><div data-text="0"></div></div>
