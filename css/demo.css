@@ -27,20 +27,23 @@ a:hover {color: #c11;}
     position: relative;
     height: 50px;
     margin-bottom: 90px;
-    z-index: 1;
+    z-index: 2;
 }
 .topbar {
     position: fixed;
-    margin: auto;
-    max-width: 1200px;
     top: 0;
     left: 0;
     right: 0;
     height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
     background-color: rgba(255,255,255,.9);
     border-bottom: 1px solid rgba(200,200,200,.2);
 }
-.topbar {vertical-align: middle;line-height: 50px;}
+.topbar-inner {
+    margin: auto;
+    max-width: 1200px;
+}
 .topbar-logo {float: left;font-size: 140%;height: 100%;}
 .topbar-logo:before {font-size: 200%;padding-right: 20px;color: #ccc;}
 .topbar-menu {float: right;font-size: 130%;}
@@ -84,6 +87,7 @@ li:hover .topbar-submenu {
 .documentation h2:first-child {margin-top: 30px;}
 .documentation h2:before {padding-right: 5px;}
 .documentation p {margin-left: 30px;margin-top: 10px;}
+.documentation h3 {margin-left: 30px;margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
 .documentation pre.i-terminal, .documentation pre.i-code {
     position: relative;
     margin: 10px 0 10px 55px;
@@ -116,8 +120,12 @@ li:hover .topbar-submenu {
 pre .comment {font-style: italic;color: #aaa;}
 pre .comment * {color: #aaa !important;}
 pre .quote {color: #c11;}
+pre .quote * {color: #c11 !important;}
 pre .number {color: #c11;}
 pre .bool {color: #c11;}
+pre .keyword {color: #11c;}
+pre .ponctuation {color: #66c;}
+pre .dollar {color: #f63;}
 /*============================================================================*/
 
 

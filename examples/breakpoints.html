@@ -54,24 +54,23 @@
         }
         .bp1 {left: 1200px;}
         .bp2 {left: 768px;}
-        .breakpointThreshold.bp2 span {top: 150px;}
 
         .bp3 {left: 480px;}
         .breakpointThreshold span {
             position: absolute;
-            top: 15px;
+            top: 65px;
             right: 13px;
             width: 100px;
-            background: #f8f8f8;
+            background: #fafafa;
             padding: 4px;
             display: block;
-            border: 1px solid #ddd;
+            border: 1px solid #eee;
             border-radius: 3px;
             font-size: 92%;
         }
-        .breakpointThreshold span h3 {padding-bottom: 5px;}
+        .breakpointThreshold span h3 {padding-bottom: 5px;color: #bbb;}
         .breakpointThreshold span code {
-            color: #333;
+            color: #666;
         }
         .breakpointThreshold span:before,
         .breakpointThreshold span:after {
@@ -85,12 +84,12 @@
         }
         .breakpointThreshold span:before {
             top: 19px;
-            border-left-color: #ddd;
+            border-left-color: #eee;
         }
         .breakpointThreshold span:after {
             top: 20px;
             border-width: 7px 10px;
-            border-left-color: #f8f8f8;
+            border-left-color: #fafafa;
         }
 
 
@@ -126,20 +125,22 @@
 <body>
     <div class="topbar-wrapper">
         <div class="topbar clearfix">
-            <div class="topbar-logo i-thegrid">The Grid</div>
-            <div class="topbar-menu">
-                <ul>
-                    <li><a href="../index.html" class="i-home">home</a></li>
-                    <li>
-                        <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
-                        <ul class="topbar-submenu">
-                            <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
-                            <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
-                            <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
-                        </ul>                        
-                    </li>
-                    <li><a href="../documentation/" class="i-book">Documentation</a></li>
-                </ul>
+            <div class="topbar-inner">
+                <div class="topbar-logo i-thegrid">The Grid</div>
+                <div class="topbar-menu">
+                    <ul>
+                        <li><a href="../index.html" class="i-home">home</a></li>
+                        <li>
+                            <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
+                            <ul class="topbar-submenu">
+                                <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
+                                <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
+                                <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
+                            </ul>                        
+                        </li>
+                        <li><a href="../documentation/" class="i-book">Documentation</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

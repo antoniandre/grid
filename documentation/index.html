@@ -12,8 +12,12 @@
                 this.innerHTML = this.innerHTML
                                     .replace(/(\/\/.*)/g, '<span class="comment">$1</span>')
                                     .replace(/(\/\*[\s\S]*\*\/)/mg, '<span class="comment">$1</span>')
-                                    .replace(/(\b\d+|null\b)/mg, '<span class="number">$1</span>')
-                                    .replace(/(\btrue|false\b)/mg, '<span class="bool">$1</span>')
+                                    .replace(/(\b\d+|null\b)/g, '<span class="number">$1</span>')
+                                    .replace(/(\btrue|false\b)/g, '<span class="bool">$1</span>')
+                                    .replace(/('[\s\S]*?')/mg, '<span class="quote">$1</span>')
+                                    .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
+                                    .replace(/\$/g, '<span class="dollar">$</span>')
+                                    .replace(/([(){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
             });
         });
     </script>
@@ -25,20 +29,22 @@
 <body>
     <div class="topbar-wrapper">
         <div class="topbar clearfix">
-            <div class="topbar-logo i-thegrid">The Grid</div>
-            <div class="topbar-menu">
-                <ul>
-                    <li><a href="../index.html" class="i-home">home</a></li>
-                    <li>
-                        <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
-                        <ul class="topbar-submenu">
-                            <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
-                            <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
-                            <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
-                        </ul>                        
-                    </li>
-                    <li><span class="i-book">Documentation</span></li>
-                </ul>
+            <div class="topbar-inner">
+                <div class="topbar-logo i-thegrid">The Grid</div>
+                <div class="topbar-menu">
+                    <ul>
+                        <li><a href="../index.html" class="i-home">home</a></li>
+                        <li>
+                            <span class="i-examples">Examples &nbsp; <i class="i-arr-d"></i></span>
+                            <ul class="topbar-submenu">
+                                <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
+                                <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
+                                <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
+                            </ul>                        
+                        </li>
+                        <li><span class="i-book">Documentation</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -53,6 +59,12 @@ git clone git@github.com:antoniandre/grid.git</pre>
         <h2 class="i-check"> Get it working</h2>
         <p>Install dependencies from Bower</p>
         <pre class="i-terminal" data-label="Terminal">bower install</pre>
+        <p>Then use the most basic instanciation to get The Grid running!</p>
+        <pre class="i-code" data-label="Javascript">$(document).ready(function()
+{
+    new gridHandler();
+});</pre>
+        <p>Mmm... I can already guess that it won't be enough to suit your picky needs, so you'd better add a few params.</p>
 
         <h2 class="i-check"> Settings - TO BE UPDATED SOON</h2>
         <p>You can use all these settings</p>
@@ -109,10 +121,31 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
         <h2 class="i-check"> Methods - TO BE UPDATED SOON</h2>
         <p>You can use all these methods</p>
+        
+        <h3>Redraw</h3>
         <pre class="i-code" data-label="Javascript">thegrid.redraw();</pre>
+        
+        <h3>updateParams</h3>
+        <pre class="i-code" data-label="Javascript">thegrid.updateParams(params);</pre>
+        
+        <h3>Filter</h3>
+        <pre class="i-code" data-label="Javascript">thegrid.filter(cellsToToggle, hide, toggleAllOthers);</pre>
+        
+        <h3>resetFilter</h3>
+        <pre class="i-code" data-label="Javascript">thegrid.resetFilter();</pre>
+        
+        <h3>sort</h3>
+        <pre class="i-code" data-label="Javascript">thegrid.sort(sortedCells);</pre>
 
         <h2 class="i-check"> Events - TO BE UPDATED SOON</h2>
         <p>You can use all these events</p>
+        <h3>gridInit on window element</h3>
+        <pre class="i-code" data-label="Javascript">$(window).on('gridInit', function(){...});</pre>
+        
+        <h3>afterResize on window element</h3>
+        <pre class="i-code" data-label="Javascript">$(window).on('afterResize', function(){...});</pre>
+        
+        <h3>breakpointChange on grid element</h3>
         <pre class="i-code" data-label="Javascript">thegrid.on('init');</pre>
     </div>
 </body>

@@ -24,6 +24,7 @@ var gridHandler = function(options)
             useCssTransitions: true,
             animationSpeed: 500,
             animationEasing: 'linear',
+            animationDelay: 0,
 
             updateGridHeight: true,// On each render.
 
@@ -257,7 +258,6 @@ var gridHandler = function(options)
     // Public vars.
     self.options = options;
     self.throttleTimer = null;
-    self.options = options;
     // Uncomment for debugging.
     // self.gridMatrix = gridMatrix;
 
@@ -284,7 +284,7 @@ var gridHandler = function(options)
 
 
     /**
-     * { function_description }
+     * public method to render the grid.
      */
     self.render = function()
     {
@@ -293,25 +293,31 @@ var gridHandler = function(options)
             cell = $(cell);
             // If reduce screen until a cell width doesn't fit grid width then constrain it to the grid width.
             var unitWidth = Math.min(cell.data('width'), options.cellsPerRow) || 1,
-                unitHeight = cell.data('height') || 1;
+                unitHeight = cell.data('height') || 1,
+                newCss =
+                {
+                    width: (cellWidth * unitWidth) + '%',
+                    height: cellHeight * unitHeight,
+                    top: cell[0].matrixPosition.y * cellHeight,
+                    left: (cell[0].matrixPosition.x * 100 / options.cellsPerRow) + '%',
+                };
 
-            cell.stop(true, true).animate(
+            setTimeout(function()
             {
-                width: (cellWidth * unitWidth) + '%',
-                height: cellHeight * unitHeight,
-                top: cell[0].matrixPosition.y * cellHeight,
-                left: (cell[0].matrixPosition.x * 100 / options.cellsPerRow) + '%',
-            }, options.animationSpeed, options.animationEasing);
+                options.useCssTransitions ? cell.css(newCss) : cell.stop(true, true).animate(newCss, options.animationSpeed, options.animationEasing);
+            }, options.animationDelay);
         });
 
         // After the cells positionning the grid height might have changed. Update if updateGridHeight is set to true.
         if (options.updateGridHeight) grid.height(gridMatrix.rows * options.cellHeight);
     };
 
+
     /**
-     * update params.
+     * Update params.
      *
-     * @param      {<type>}  params  The parameters
+     * @param {<type>} params: The parameters.
+     * @return {object} this.
      */
     self.updateParams = function(params)
     {
@@ -320,15 +326,66 @@ var gridHandler = function(options)
 
         cellWidth = 100 / options.cellsPerRow;
         cellHeight = options.cellHeight;
+
+        return this;
     };
 
+
     /**
-     * { function_description }
+     * Show or hide the given collection of cells retaining the given order.
+     *
+     * @param {jQuery Collection or selector string} cellsToToggle: The cells to toggle
+     * @param {boolean} hide: whether to show or hide the collection of cells.
+     * @param {boolean} toggleAllOthers: whether to also toggle all others cells from DOM. Default = false.
+     * @return {object} this.
+     */
+    self.filter = function(cellsToToggle, hide, toggleAllOthers)
+    {
+        // In case you the provide collection is not a jQuery object.
+        cellsToToggle = cellsToToggle instanceof jQuery ? cellsToToggle : $(cellsToToggle),
+        cellsToShow = hide ? (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null) : cellsToToggle,
+        cellsToHide = hide ? cellsToToggle : (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null);
+
+        // If the given selection is to show, keep its specific order in case of prior sorting.
+        if (cellsToShow) cellsToShow.css({top: 0, left: 0}).removeClass('hidden');
+        if (cellsToHide)
+        {
+            cellsToHide.addClass('hidden');
+            setTimeout(function(){cellsToHide.css({top: 0, left: 0})}, options.animationSpeed);
+        }
+
+        cells = cellsToShow;
+        cellsNum = cells.length;
+
+        return this;
+    }
+
+
+    /**
+     *
+     * @return {Object} The current instance.
+     */
+    self.resetFilter = function()
+    {
+        cells = $(options.cells).removeClass('hidden');
+        cellsNum = cells.length;
+
+        return this;
+    }
+
+    /**
+     * Redraw function to:
+     * 1 - recalculate the disposition of cells in grid according to new dimensions and options.
+     * 2 - render the new grid disposition.
+     *
+     * @return {Object} The current instance.
      */
     self.redraw = function()
     {
         self.fillMatrix();
         self.render();
+
+        return this;
     };
 
 
@@ -351,6 +408,8 @@ var gridHandler = function(options)
 
             $(window).on('resize gridInit afterResize', function(e)
             {
+                // If throttling is on exit quickly for better performance.
+                // So keep this first.
                 if (options.throttling)
                 {
                     // If throttling is on and resize event triggered only set a timeout
@@ -369,7 +428,8 @@ var gridHandler = function(options)
                 var params = {},
                     screenWidth = this.innerWidth,
                     tmpBp = [],
-                    newBreakpoint;
+                    newBreakpoint,
+                    breakpointChange = false;
 
                 // Best optimized code possible:
                 // Way faster than for loop on given breakpoints.
@@ -396,41 +456,28 @@ var gridHandler = function(options)
 
                     // Apply params.
                     params = i === breakpointsNum ? initConfig : options.breakpoints[currentBreakpoint];
-                    self.updateParams(params);
-
-                    self.redraw();
+                    
+                    self.updateParams(params).redraw();
                 }
             });
         }
     };
 
+
     /**
-     * Show or hide the given collection of cells
+     * Init the grid.
      *
-     * @param      {jQuery Collection or selector string}   cellsToToggle  The cells to toggle
-     * @param      {boolean}  hide           whether to show or hide the collection of cells.
+     * @access Private.
      */
-    self.filter = function(cellsToToggle, hide, toggleAllOthers)
-    {
-        if (toggleAllOthers) $(cellsToToggle)[hide ? 'hide' : 'show']().siblings(options.cells)[hide ? 'show' : 'hide']();
-        else $(cellsToToggle)[hide ? 'hide' : 'show']();
-
-        options.cells = '.cell:visible';
-        cells = $(options.cells);
-        cellsNum = cells.length;
-    }
-
-    /**
-     * { function_description }
-     */
-    self.init = function()
+    var init = function()
     {
         // Merge default settings and overriding options given as parameter.
         options = $.extend(defaults, options);
 
         // Init the core vars.
         grid = $(options.grid);
-        cells = $(options.cells);
+        // self.gridWidth = grid.width();
+        cells = $(options.cells).not('.hidden');
         cellsNum = cells.length;
         cellWidth = 100 / options.cellsPerRow;
         cellHeight = options.cellHeight;
@@ -448,7 +495,7 @@ var gridHandler = function(options)
         if (!$.isEmptyObject(options.breakpoints)) $(window).trigger('gridInit');
 
         // Trigger init custom event.
-        grid.trigger('init').addClass('thegrid ready' + (options.useCssTransitions ? ' transitions' : ''));
+        grid.trigger('init').addClass('ready' + (options.useCssTransitions ? ' transitions' : ''));
     }();
 },
 
