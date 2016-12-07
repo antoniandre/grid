@@ -1,0 +1,73 @@
+.documentation {margin: auto;max-width: 1200px;}
+h2 {margin-top: 70px;padding-bottom: 10px;margin-bottom: 20px;border-bottom: 1px solid #eee;}
+h2:first-child {margin-top: 30px;}
+h2:before {padding-right: 5px;}
+
+h2 ~ * {margin-left: 30px;}
+h2 {margin-left: 0px;}
+
+p {margin-top: 10px;}
+h3 {margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
+pre {
+    position: relative;
+    margin: 10px 0 10px 55px;
+    border: 1px solid #eee;
+    background-color: #fbfbfb;
+    padding: 8px;
+    border-radius: 4px;
+    color: #444;
+    white-space: pre-wrap;
+}
+pre:before {
+    position: absolute;
+    left: -25px;
+    font-size: 140%;
+    color: #ccc;
+}
+pre:after {
+    content: attr(data-label);
+    position: absolute;
+    right: 10px;
+    bottom: 100%;
+    padding: 3px 8px;
+    font-size: 140%;
+    color: #ccc;
+    background-color: #fbfbfb;
+    border: 1px solid #eee;
+    border-bottom: none;
+    font: 100% roboto, sans-serif;
+}
+
+pre .comment {font-style: italic;color: #aaa;}
+pre .comment * {color: #aaa !important;}
+pre .quote {color: #c11;}
+pre .quote * {color: #c11 !important;}
+pre .number {color: #c11;}
+pre .bool {color: #c11;}
+pre .keyword {color: #11c;}
+pre .ponctuation {color: #66c;}
+pre .dollar {color: #f63;}
+
+@media screen and (max-width: 560px) {
+    pre {
+        margin-left: 30px;
+        overflow: scroll;
+        white-space: pre;
+        padding-top: 16px;
+    }
+    pre:after {
+        right: 0;
+        bottom: auto;
+        top: 0;
+        color: #ccc;
+        background-color: #fbfbfb;
+        border: none;
+    }
+}
+@media screen and (max-width: 480px) {
+h2 ~ *, h2 ~ * {margin-left: 0;}
+pre {margin-left: 0;}
+}
+
+@media screen and (max-width: 350px) {
+}

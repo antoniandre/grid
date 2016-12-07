@@ -4,6 +4,9 @@ body {
     font: 12px roboto, sans-serif;
     color: #999;
     padding: 0 30px 50px;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
 }
 
 .clearfix:before, .clearfix:after {display: table;content: "";clear: both;}
@@ -19,6 +22,10 @@ a {
 }
 a:hover {color: #c11;}
 :before {vertical-align: middle;}
+
+@media screen and (max-width: 560px) {
+    body {padding-left: 10px;padding-right: 10px;}
+}
 /*============================================================================*/
 
 
@@ -45,15 +52,36 @@ a:hover {color: #c11;}
     max-width: 1200px;
 }
 .topbar-logo {float: left;font-size: 140%;height: 100%;}
-.topbar-logo:before {font-size: 200%;padding-right: 20px;color: #ccc;}
+.topbar-logo:before {
+    font-size: 200%;
+    padding-right: 20px;
+    display: inline-block;
+    color: #eee;
+    animation: morph 30s infinite linear;
+}
+
+@-webkit-keyframes morph {
+    0%, 100% {webkit-transform: scaleX(1.5) skewX(-15deg) rotate(5deg);}
+    25% {webkit-transform: scaleX(1.3) skewX(15deg) rotate(-5deg);}
+    50% {webkit-transform: scaleX(1) skew(-5deg, 15deg);}
+    75% {webkit-transform: scaleX(1.2) skewY(-5deg) rotate(5deg);}
+}
+
+@keyframes morph {
+    0%, 100% {transform: scaleX(1.5) skewX(-15deg) rotate(5deg);}
+    25% {transform: scaleX(1.3) skewX(15deg) rotate(-5deg);}
+    50% {transform: scaleX(1) skew(-5deg, 15deg);}
+    75% {transform: scaleX(1.2) skewY(-5deg) rotate(5deg);}
+}
+
 .topbar-menu {float: right;font-size: 130%;}
 .topbar-menu li {
     display: inline-block;
     list-style-type: none;
     position: relative;
 }
-.topbar-menu li a, .topbar-menu li span {padding: 0 10px;margin: 0 5px;color: #f33;}
-.topbar-menu li a:hover, .topbar-menu li span:hover {color: #c11;}
+.topbar-menu li a, .topbar-menu li > span {margin-left: 20px;color: #f33;}
+.topbar-menu li a:hover, .topbar-menu li > span:hover {color: #c11;}
 .topbar-menu :before {font-size: 140%;padding-right: 10px;}
 .topbar-menu .i-arr-d:before {font-size: 100%;padding-right: 0;color: #ccc;}
 
@@ -78,54 +106,20 @@ li:hover .topbar-submenu {
     display: block;
 }
 .topbar-submenu li .i-arr-r:before {font-size: 90%;padding-right: 5px;color: #ccc;}
-/*============================================================================*/
 
-
-/*============================= DOCUMENTATION ================================*/
-.documentation {margin: auto;max-width: 1200px;}
-.documentation h2 {margin-top: 70px;padding-bottom: 10px;margin-bottom: 20px;border-bottom: 1px solid #eee;}
-.documentation h2:first-child {margin-top: 30px;}
-.documentation h2:before {padding-right: 5px;}
-.documentation p {margin-left: 30px;margin-top: 10px;}
-.documentation h3 {margin-left: 30px;margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
-.documentation pre.i-terminal, .documentation pre.i-code {
-    position: relative;
-    margin: 10px 0 10px 55px;
-    border: 1px solid #eee;
-    background-color: #fbfbfb;
-    padding: 8px;
-    border-radius: 4px;
-    color: #444;
+@media screen and (max-width: 1200px) {
+    .topbar-inner {padding-left: 10px;padding-right: 10px;}
 }
-.documentation pre.i-terminal:before, .documentation pre.i-code:before {
-    position: absolute;
-    left: -25px;
-    font-size: 140%;
-    color: #ccc;
+@media screen and (max-width: 560px) {
+    .topbar-menu li :before {padding-right: 0;}
+    .topbar-menu li a, .topbar-menu li > span {padding-left: 40px;margin-left: 0;}
+    .topbar-menu li a span, .topbar-menu li span span {display: none;}
+    .topbar-submenu {left: auto;right: 0;}
 }
-.documentation pre.i-terminal:after, .documentation pre.i-code:after {
-    content: attr(data-label);
-    position: absolute;
-    right: 10px;
-    bottom: 100%;
-    padding: 3px 8px;
-    font-size: 140%;
-    color: #ccc;
-    background-color: #fbfbfb;
-    border: 1px solid #eee;
-    border-bottom: none;
-    font: 100% roboto, sans-serif;
+@media screen and (max-width: 350px) {
+    .topbar-menu li a, .topbar-menu li > span {padding-left: 10px;}
 }
 
-pre .comment {font-style: italic;color: #aaa;}
-pre .comment * {color: #aaa !important;}
-pre .quote {color: #c11;}
-pre .quote * {color: #c11 !important;}
-pre .number {color: #c11;}
-pre .bool {color: #c11;}
-pre .keyword {color: #11c;}
-pre .ponctuation {color: #66c;}
-pre .dollar {color: #f63;}
 /*============================================================================*/
 
 

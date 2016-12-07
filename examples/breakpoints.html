@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
-        .breakpointThreshold {
+        .breakpoint-threshold {
             border-left: 1px solid red;
             position: fixed;
             top: 0;
@@ -56,7 +56,7 @@
         .bp2 {left: 768px;}
 
         .bp3 {left: 480px;}
-        .breakpointThreshold span {
+        .breakpoint-threshold span {
             position: absolute;
             top: 65px;
             right: 13px;
@@ -68,12 +68,12 @@
             border-radius: 3px;
             font-size: 92%;
         }
-        .breakpointThreshold span h3 {padding-bottom: 5px;color: #bbb;}
-        .breakpointThreshold span code {
+        .breakpoint-threshold span h3 {padding-bottom: 5px;color: #bbb;}
+        .breakpoint-threshold span code {
             color: #666;
         }
-        .breakpointThreshold span:before,
-        .breakpointThreshold span:after {
+        .breakpoint-threshold span:before,
+        .breakpoint-threshold span:after {
             content: "";
             width: 0;
             height: 0;
@@ -82,11 +82,11 @@
             border: 12px solid transparent;
             border-width: 8px 12px;
         }
-        .breakpointThreshold span:before {
+        .breakpoint-threshold span:before {
             top: 19px;
             border-left-color: #eee;
         }
-        .breakpointThreshold span:after {
+        .breakpoint-threshold span:after {
             top: 20px;
             border-width: 7px 10px;
             border-left-color: #fafafa;
@@ -146,17 +146,17 @@
     </div>
     <h1>The Grid.</h1>
     <p class="intro">This example has 50 cells and 3 breakpoints - so 4 different configurations.<br>The cells have absolute positioning percentage wdth and fixed height.<br><br>Reduce your screen width to the breakpoint to see the cells reordering with a nice elastic animation.</p>
-    <div class="breakpointThreshold bp1">
+    <div class="breakpoint-threshold bp1">
         <span><h3>Breakpoint 1</h3>
             <code>cellsPerRow: 5,<br>cellHeight: 100</code>
         </span>
     </div>
-    <div class="breakpointThreshold bp2">
+    <div class="breakpoint-threshold bp2">
         <span><h3>Breakpoint 2</h3>
             <code>cellsPerRow: 4,<br>cellHeight: 130</code>
         </span>
     </div>
-    <div class="breakpointThreshold bp3">
+    <div class="breakpoint-threshold bp3">
         <span><h3>Breakpoint 3</h3>
             <code>cellsPerRow: 2,<br>cellHeight: 160</code>
         </span>
