@@ -8,7 +8,10 @@ h2 {margin-left: 0px;}
 
 p {margin-top: 10px;}
 h3 {margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
-pre {
+
+.code-wrapper {position: relative;min-height: 200px;}
+.code-wrapper iframe {width: 100%;border: none;}
+.code-wrapper, pre.no-wrap {
     position: relative;
     margin: 10px 0 10px 55px;
     border: 1px solid #eee;
@@ -18,14 +21,16 @@ pre {
     color: #444;
     white-space: pre-wrap;
 }
-pre:before {
+iframe {}
+.code-wrapper:before, pre.no-wrap:before {
     position: absolute;
     left: -25px;
     font-size: 140%;
     color: #ccc;
 }
-pre:after {
-    content: attr(data-label);
+.code-wrapper:after, pre.no-wrap:after {
+    content: attr(data-type);
+    text-transform: capitalize;
     position: absolute;
     right: 10px;
     bottom: 100%;
@@ -41,12 +46,18 @@ pre:after {
 pre .comment {font-style: italic;color: #aaa;}
 pre .comment * {color: #aaa !important;}
 pre .quote {color: #c11;}
+pre .value {color: #c11;}
 pre .quote * {color: #c11 !important;}
 pre .number {color: #c11;}
 pre .bool {color: #c11;}
 pre .keyword {color: #11c;}
+pre .tag {color: #11c;}
 pre .ponctuation {color: #66c;}
 pre .dollar {color: #f63;}
+pre .attribute {color: #f63;}
+pre[data-type="css"] .attribute {color: #70d;}
+pre[data-type="css"] .keyword {color: #c06;}
+pre .selector {color: #f0d;}
 
 @media screen and (max-width: 560px) {
     pre {

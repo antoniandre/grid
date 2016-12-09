@@ -7,26 +7,115 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
-    <script src="../js/grid.min.js"></script>
     <script>
         $(document).ready(function()
         {
-            $('pre').each(function()
+            var lastTreatedWrapper = null;
+            $('pre').each(function(i)
             {
-                this.innerHTML = this.innerHTML
-                                    .replace(/(\/\/.*)/g, '<span class="comment">$1</span>')
-                                    .replace(/(\/\*[\s\S]*\*\/)/mg, '<span class="comment">$1</span>')
-                                    .replace(/(\b\d+|null\b)/g, '<span class="number">$1</span>')
-                                    .replace(/(\btrue|false\b)/g, '<span class="bool">$1</span>')
-                                    .replace(/('[\s\S]*?')/mg, '<span class="quote">$1</span>')
-                                    .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
-                                    .replace(/\$/g, '<span class="dollar">$</span>')
-                                    .replace(/([(){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
+                var wrapper = $(this).parent().data('result');
+
+                if (wrapper && wrapper !== lastTreatedWrapper)
+                {
+                    lastTreatedWrapper = wrapper;
+
+                    var wrapper = $(this).parent(),
+                        html = wrapper.find('pre[data-type="html"]').html().htmlize(),
+                        js = wrapper.find('pre[data-type="javascript"]').html(),
+                        css = wrapper.find('pre[data-type="css"]').html().htmlize(),
+                        contents = '<html><head><link rel="stylesheet" type="text/css" href="../css/grid.css">'
+                        + '<script src="../bower_components/jquery/dist/jquery.min.js"><\/script>'
+                        + '<script src="../bower_components/jquery.easing/js/jquery.easing.min.js"><\/script>'
+                        + '<script src="../js/grid.js"><\/script>'
+                        + '<style>' + css + '<\/style></head><body>'
+                        + html
+                        + '<script>' + js + '<\/script>'
+                        + '</body></html>';
+                    wrapper.append('<iframe></iframe>');
+                    wrapper.find('iframe')[0].contentDocument.write(contents);
+                }
+
+                var html = '';
+
+                switch ($(this).data('type'))
+                {
+                    case 'html':
+                        html = this.innerHTML.replace(/&lt;(\/?)(\w+) ?(.*?)&gt;/mg, function()
+                        {
+                            var attributes = '';
+
+                            if (arguments[3])
+                            {
+                                var attrs = arguments[3].split(' ');
+                                for (var i = 0, l = attrs.length; i < l; i++)
+                                {
+                                    attributes += ' ' + attrs[i].replace(
+                                        /((?:\w|-)+)=('|"|)(.*?)\2/,
+                                        '<span class="attribute">$1</span>'
+                                        + '<span class="ponctuation">=</span>'
+                                        + '<span class="quote">"$3"</span>');
+                                }
+                            }
+
+                            return '<span class="ponctuation">&lt;' + arguments[1] + '</span>'
+                                   + '<span class="tag">' + arguments[2] + '</span>'
+                                   + attributes + '<span class="ponctuation">&gt;</span>';
+                        });
+                    break;
+                    case 'css':
+                        html = this.innerHTML
+                        .replace(/((?:\/\*\s*))*([^{]+)\s*{\s*([^}]+)\s*}\s*(?:\*\/)*\s*/mg, function()
+                        {
+                            // If commented dont parse inner.
+                            if ((arguments[1]||'').indexOf('/*') > -1)
+                                return '\n<span class="comment">/* '+ arguments[2] + '{\n    ' + arguments[3] + '\n} */</span>';
+
+                            if (arguments[3])
+                            {
+                                var properties = '', props = arguments[3].split(';');
+
+                                for (var i = 0, l = props.length; i < l; i++) if (props[i])
+                                {
+                                    properties += '\n    ' + props[i].replace(
+                                        /\s*([^:]+)\s*:\s*([^;]+)\s*;?\s*/, function()
+                                        {
+                                            return '<span class="attribute">'
+                                                    + arguments[1]
+                                                    + '</span>'
+                                                    + '<span class="ponctuation">: </span>'
+                                                    + '<span class="value">'
+                                                    + arguments[2]
+                                                        .replace(/([(),])/g, '<span class="ponctuation">$1</span>')
+                                                    + '</span><span class="ponctuation">;</span>';
+                                        });
+                                }
+                            }
+
+                            return '\n<span class="selector">' + arguments[2].replace(/(:(?:before|after))/, '<span class="keyword">$1</span>') + '</span>'
+                                +' <span class="ponctuation">{</span>' + properties + '\n<span class="ponctuation">}</span>';
+                        });
+                    break;
+                    case 'javascript':
+                        html = this.innerHTML
+                                .replace(/(\/\/.*)/g, '<span class="ponctuation">$1</span>')
+                                .replace(/(\/\*[\s\S]*\*\/)/mg, '<span class="comment">$1</span>')
+                                .replace(/(\b\d+|null\b)/g, '<span class="number">$1</span>')
+                                .replace(/(\btrue|false\b)/g, '<span class="bool">$1</span>')
+                                .replace(/('[\s\S]*?')/mg, '<span class="quote">$1</span>')
+                                .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
+                                .replace(/\$/g, '<span class="dollar">$</span>')
+                                .replace(/([(){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
+                    break;
+                }
+
+                if (html) this.innerHTML = html;
             });
         });
+        String.prototype.htmlize = function()
+        {
+            return this.replace(/&(l|g)t;/g, function(){return {l: '<', g: '>'}[arguments[1]]});
+        };
     </script>
-    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 </head>
 <body>
     <div class="topbar-wrapper">
@@ -42,7 +131,7 @@
                                 <li><a href="../examples/basic.html" class="i-arr-r">Basic</a></li>
                                 <li><a href="../examples/breakpoints.html" class="i-arr-r">Breakpoints</a></li>
                                 <li><a href="../examples/responsive-images.html" class="i-arr-r">Responsive images</a></li>
-                            </ul>                        
+                            </ul>
                         </li>
                         <li><span class="i-book"><span>Documentation</span></span></li>
                     </ul>
@@ -55,24 +144,53 @@
     <div class="documentation">
         <h2 class="i-check"> Install</h2>
         <p>Clone from GitHub</p>
-        <pre class="i-terminal" data-label="Terminal">cd [where_you_want_it_to_be]
+        <pre class="i-terminal no-wrap" data-type="terminal">cd [where_you_want_it_to_be]
 git clone git@github.com:antoniandre/grid.git</pre>
 
         <h2 class="i-check"> Get it working</h2>
         <p>Install dependencies from Bower</p>
-        <pre class="i-terminal" data-label="Terminal">bower install</pre>
+        <pre class="i-terminal no-wrap" data-type="terminal">bower install</pre>
         <p>Then use the most basic instanciation to get The Grid running!</p>
-        <pre class="i-code" data-label="Javascript">$(document).ready(function()
-{
-    new gridHandler();
-});</pre>
-        <p data-height="350" data-theme-id="0" data-slug-hash="wojpmX" data-default-tab="result" data-user="antoniandre" data-embed-version="2" data-pen-title="grid-basic" class="codepen">See the Pen <a href="http://codepen.io/antoniandre/pen/wojpmX/">grid-basic</a> by antoni (<a href="http://codepen.io/antoniandre">@antoniandre</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        <div class="code-wrapper i-code" data-result="true">
+            <pre data-type="html">
+&lt;div class="thegrid"&gt;
+    &lt;div class="cell" data-width="1" data-height="4"&gt;&lt;div data-text="0"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="1"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="3" data-height="1"&gt;&lt;div data-text="2"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="5" data-height="1"&gt;&lt;div data-text="3"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="4"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="5"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="6"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="3"&gt;&lt;div data-text="7"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="8"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="9"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+            <pre data-type="css">* {margin: 0;padding: 0;}
+.thegrid .cell {padding: 1%;}
+/* .thegrid .cell {padding: 1%;} */
+.thegrid .cell > div {
+    background-image: radial-gradient(circle at top right,#f33,pink);
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+}
+.cell div:after {
+    content: attr(data-text);
+    display: block;
+    text-align: center;
+    width: 100%;
+    color: rgba(255,255,255,.25);
+    font-size: 200%;
+}
+</pre>
+            <pre data-type="javascript">new gridHandler();</pre>
+        </div>
 
         <p>Mmm... I can already guess that it won't be enough to suit your picky needs, so you'd better add a few params.</p>
 
         <h2 class="i-check"> Settings - TO BE UPDATED SOON</h2>
         <p>You can use all these settings</p>
-        <pre class="i-code" data-label="Javascript">{
+        <pre class="i-code no-wrap" data-type="javascript">{
     grid: $('#grid'),// The container of the cells.
     cells: $('.cell'),// The cells to render / place / filter.
     cellsPerRow: 4,
@@ -125,32 +243,32 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
         <h2 class="i-check"> Methods - TO BE UPDATED SOON</h2>
         <p>You can use all these methods</p>
-        
+
         <h3>Redraw</h3>
-        <pre class="i-code" data-label="Javascript">thegrid.redraw();</pre>
-        
+        <pre class="i-code no-wrap" data-type="javascript">thegrid.redraw();</pre>
+
         <h3>updateParams</h3>
-        <pre class="i-code" data-label="Javascript">thegrid.updateParams(params);</pre>
-        
+        <pre class="i-code no-wrap" data-type="javascript">thegrid.updateParams(params);</pre>
+
         <h3>Filter</h3>
-        <pre class="i-code" data-label="Javascript">thegrid.filter(cellsToToggle, hide, toggleAllOthers);</pre>
-        
+        <pre class="i-code no-wrap" data-type="javascript">thegrid.filter(cellsToToggle, hide, toggleAllOthers);</pre>
+
         <h3>resetFilter</h3>
-        <pre class="i-code" data-label="Javascript">thegrid.resetFilter();</pre>
-        
+        <pre class="i-code no-wrap" data-type="javascript">thegrid.resetFilter();</pre>
+
         <h3>sort</h3>
-        <pre class="i-code" data-label="Javascript">thegrid.sort(sortedCells);</pre>
+        <pre class="i-code no-wrap" data-type="javascript">thegrid.sort(sortedCells);</pre>
 
         <h2 class="i-check"> Events - TO BE UPDATED SOON</h2>
         <p>You can use all these events</p>
         <h3>gridInit on window element</h3>
-        <pre class="i-code" data-label="Javascript">$(window).on('gridInit', function(){...});</pre>
-        
+        <pre class="i-code no-wrap" data-type="javascript">$(window).on('gridInit', function(){...});</pre>
+
         <h3>afterResize on window element</h3>
-        <pre class="i-code" data-label="Javascript">$(window).on('afterResize', function(){...});</pre>
-        
+        <pre class="i-code no-wrap" data-type="javascript">$(window).on('afterResize', function(){...});</pre>
+
         <h3>breakpointChange on grid element</h3>
-        <pre class="i-code" data-label="Javascript">thegrid.on('init');</pre>
+        <pre class="i-code no-wrap" data-type="javascript">thegrid.on('init');</pre>
     </div>
 </body>
 </html>
