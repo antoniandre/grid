@@ -13,15 +13,17 @@ var gridHandler = function(options)
                             // But be aware that it will be much more costy (you may opt for throttling).
 
             // Animations.
-            // Doing this you have to handle cell transition and easing in css:
-            // the class "transition" will be added to the grid so you can add transition like:
-            // .grid.transitions .cell {
+            // By default the cells animation will be handled via CSS transitions as it is known to be smoother and
+            // of better performances. however if you want some fancy easing effects (e.g. elastic or bounce) you may
+            // want to switch to javascript animations. If so just turn useJsTransitions to true and provide the easing
+            // speed and curve that you want.
+            // You can also override the default CSS transitions in a custom CSS like:
+            // .thegrid.transitions .cell {
             //     -webkit-transition: .3s ease-in-out;
             //     -o-transition: .3s ease-in-out;
             //     transition: .3s ease-in-out;
             // }
-            // If you want some fancy easing like elastic or bounce, you can use jQuery animation instead.
-            useCssTransitions: true,
+            useJsTransitions: false,
             animationSpeed: 500,
             animationEasing: 'linear',
             animationDelay: 0,
@@ -304,7 +306,8 @@ var gridHandler = function(options)
 
             setTimeout(function()
             {
-                options.useCssTransitions ? cell.css(newCss) : cell.stop(true, true).animate(newCss, options.animationSpeed, options.animationEasing);
+                options.useJsTransitions ? cell.stop(true, true).animate(newCss, options.animationSpeed, options.animationEasing)
+                                         : cell.css(newCss);
             }, options.animationDelay);
         });
 
@@ -335,16 +338,20 @@ var gridHandler = function(options)
      * Show or hide the given collection of cells retaining the given order.
      *
      * @param {jQuery Collection or selector string} cellsToToggle: The cells to toggle
-     * @param {boolean} hide: whether to show or hide the collection of cells.
+     * @param {boolean} hide: whether to show or hide the collection of cells. Default = false.
      * @param {boolean} toggleAllOthers: whether to also toggle all others cells from DOM. Default = false.
      * @return {object} this.
      */
     self.filter = function(cellsToToggle, hide, toggleAllOthers)
     {
+        hide            = hide !== undefined ? hide : false;
+        toggleAllOthers = toggleAllOthers !== undefined ? toggleAllOthers : false;
         // In case you the provide collection is not a jQuery object.
-        cellsToToggle = cellsToToggle instanceof jQuery ? cellsToToggle : $(cellsToToggle),
-        cellsToShow = hide ? (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null) : cellsToToggle,
-        cellsToHide = hide ? cellsToToggle : (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null);
+        cellsToToggle   = cellsToToggle instanceof jQuery ? cellsToToggle : $(cellsToToggle);
+        cellsToShow     = hide ? (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null) : cellsToToggle;
+        cellsToHide     = hide ? cellsToToggle : (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null);
+
+        console.log(cellsToHide, cellsToShow);
 
         // If the given selection is to show, keep its specific order in case of prior sorting.
         if (cellsToShow) cellsToShow.css({top: 0, left: 0}).removeClass('hidden');
@@ -456,7 +463,7 @@ var gridHandler = function(options)
 
                     // Apply params.
                     params = i === breakpointsNum ? initConfig : options.breakpoints[currentBreakpoint];
-                    
+
                     self.updateParams(params).redraw();
                 }
             });
@@ -495,7 +502,7 @@ var gridHandler = function(options)
         if (!$.isEmptyObject(options.breakpoints)) $(window).trigger('gridInit');
 
         // Trigger init custom event.
-        grid.trigger('init').addClass('ready' + (options.useCssTransitions ? ' transitions' : ''));
+        grid.trigger('init').addClass('ready' + (options.useJsTransitions ? '' : ' transitions'));
     }();
 },
 
