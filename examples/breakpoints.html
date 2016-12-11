@@ -1,44 +1,6 @@
 <html>
 <head>
     <title>The Grid - Example with responsive images</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="../js/grid.js"></script>
-    <script>
-        $(document).ready(function()
-        {
-            setTimeout(function()
-            {
-                var gh = new gridHandler(
-                {
-                    grid: '.thegrid',
-                    cells: '.cell',
-                    cellHeight: 100,
-                    cellsPerRow: 7,
-                    animationSpeed: 1200,
-                    animationEasing: 'easeOutElastic',
-                    breakpoints:
-                    {
-                        1199:
-                        {
-                            cellsPerRow: 5,
-                            cellHeight: 100
-                        },
-                        767:
-                        {
-                            cellsPerRow: 4,
-                            cellHeight: 130
-                        },
-                        479:
-                        {
-                            cellsPerRow: 2,
-                            cellHeight: 160
-                        },
-                    }
-                });
-            }, 2000);
-        });
-    </script>
     <link rel="stylesheet" type="text/css" href="../css/demo.css">
     <link rel="stylesheet" type="text/css" href="../css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -121,6 +83,45 @@
             opacity: 1;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="../js/grid.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            setTimeout(function()
+            {
+                var gh = new gridHandler(
+                {
+                    grid: '.thegrid',
+                    cells: '.cell',
+                    cellHeight: 100,
+                    cellsPerRow: 7,
+                    useJsTransitions: true,
+                    animationSpeed: 1200,
+                    animationEasing: 'easeOutElastic',
+                    breakpoints:
+                    {
+                        1199:
+                        {
+                            cellsPerRow: 5,
+                            cellHeight: 100
+                        },
+                        767:
+                        {
+                            cellsPerRow: 4,
+                            cellHeight: 130
+                        },
+                        479:
+                        {
+                            cellsPerRow: 2,
+                            cellHeight: 160
+                        },
+                    }
+                });
+            }, 2000);
+        });
+    </script>
 </head>
 <body>
     <div class="topbar-wrapper">
@@ -137,6 +138,7 @@
                                 <li><a href="../examples/basic.html" class="i-arr-l">Basic</a></li>
                                 <li><a href="../examples/breakpoints.html" class="i-arr-l active">Breakpoints</a></li>
                                 <li><a href="../examples/responsive-images.html" class="i-arr-l">Responsive images</a></li>
+                                <li><a href="../examples/filters.html" class="i-arr-l">Filters</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -164,33 +166,32 @@
 
     <div class="thegrid">
         <div class="loading"></div>
-        <div class="cell" data-width="1" data-height="4"><div data-text="0"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="1"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="2"></div></div>
+        <div class="cell" data-width="1" data-height="4"><div data-text="1"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="2"></div></div>
         <div class="cell" data-width="2" data-height="1"><div data-text="3"></div></div>
         <div class="cell" data-width="2" data-height="1"><div data-text="4"></div></div>
         <div class="cell" data-width="2" data-height="1"><div data-text="5"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="6"></div></div>
-        <div class="cell" data-width="1" data-height="3"><div data-text="7"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="8"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="9"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="10"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="11"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="6"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="7"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="8"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="9"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="10"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="11"></div></div>
         <div class="cell" data-width="1" data-height="2"><div data-text="12"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="13"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="14"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="13"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="14"></div></div>
         <div class="cell" data-width="1" data-height="2"><div data-text="15"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="16"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="16"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="17"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="18"></div></div>
-        <div class="cell" data-width="4" data-height="1"><div data-text="19"></div></div>
-        <div class="cell" data-width="1" data-height="3"><div data-text="20"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="21"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="22"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="19"></div></div>
+        <div class="cell" data-width="4" data-height="1"><div data-text="20"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="21"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="22"></div></div>
         <div class="cell" data-width="2" data-height="1"><div data-text="23"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="24"></div></div>
-        <div class="cell" data-width="2" data-height="1"><div data-text="25"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="26"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="24"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="25"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="26"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="27"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="28"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="29"></div></div>
@@ -199,8 +200,8 @@
         <div class="cell" data-width="1" data-height="1"><div data-text="32"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="33"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="34"></div></div>
-        <div class="cell" data-width="3" data-height="1"><div data-text="35"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="36"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="35"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="36"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="37"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="38"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="39"></div></div>
@@ -208,12 +209,13 @@
         <div class="cell" data-width="1" data-height="1"><div data-text="41"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="42"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="43"></div></div>
-        <div class="cell" data-width="1" data-height="2"><div data-text="44"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="44"></div></div>
         <div class="cell" data-width="1" data-height="2"><div data-text="45"></div></div>
         <div class="cell" data-width="1" data-height="2"><div data-text="46"></div></div>
-        <div class="cell" data-width="1" data-height="1"><div data-text="47"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="47"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="48"></div></div>
         <div class="cell" data-width="1" data-height="1"><div data-text="49"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="50"></div></div>
     </div>
 </body>
 </html>
