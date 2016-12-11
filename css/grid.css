@@ -10,13 +10,25 @@
     box-sizing: border-box;
     padding: 10px;
 }
+.thegrid.transitions .cell {
+    -webkit-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+}
 .thegrid .cell.hidden {
     z-index: -1;
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    -ms-opacity: 0;
-    -o-opacity: 0;
     opacity: 0;
+    filter: alpha(opacity=0);
+}
+.thegrid.transitions .cell.hidden {
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
 }
 .cell > div {
     position: relative;

@@ -1,0 +1,152 @@
+<html>
+<head>
+    <title>The Grid - Basic example</title>
+    <link rel="stylesheet" type="text/css" href="../css/demo.css">
+    <link rel="stylesheet" type="text/css" href="../css/grid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
+    <style>
+        .filter-checkbox {position: fixed;top: -1em;left: -1em;z-index: -1;}
+        .filter {
+            border: 1px solid #ccc;
+            color: #fff;
+            text-align: center;
+            line-height: 2;
+            font-size: 110%;
+            border-radius: 20px;
+            padding: 0 15px 0 20px;
+            text-indent: -.4em;
+            outline: none;
+            cursor: pointer;
+            text-shadow: 0 0 2px rgba(0,0,0,.2);
+            display: inline-block;
+            position: relative;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+        .filter:before {
+            font-family: "the-grid" !important;
+            speak: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: "\63";
+            font-size: 130%;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 2px;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+        :checked + .filter:before {
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+        .thegrid .cell > div {
+            border: 1px solid;
+        }
+        .thegrid .cell[data-color="blue"] > div,
+        .filter.blue {
+            border-color: #4a8de0;
+            background-image: radial-gradient(circle at top right, #bed3fd, #4a8de0);
+        }
+        .thegrid .cell[data-color="pink"] > div,
+        .filter.pink {
+            border-color: #ff54a3;
+            background-image: radial-gradient(circle at top right, #ffb1cb, #ff54a3);
+        }
+        .thegrid .cell[data-color="green"] > div,
+        .filter.green {
+            border-color: #69bf46;
+            background-image: radial-gradient(circle at top right, #c5ff99, #69bf46);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="../js/grid.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            var g1 = new gridHandler(
+                {
+                    cellsPerRow: 5
+                }),
+                activeFilters = {blue: true, green: true, pink: true};
+
+            $('.filter-checkbox').on('change', function()
+            {
+                var isActive = $(this).is(':checked'),
+                    color = $(this).data('color'),
+                    filteredCells = [];
+
+                activeFilters[color] = isActive;
+
+                for (var color in activeFilters) if (activeFilters[color])
+                {
+                    filteredCells.push('.cell[data-color="' + color + '"]');
+                }
+
+                g1.filter($(filteredCells.join(',')), false, true)
+                g1.redraw();
+            })
+        });
+    </script>
+</head>
+<body>
+    <div class="topbar-wrapper">
+        <div class="topbar clearfix">
+            <div class="topbar-inner">
+                <div class="topbar-logo i-thegrid">The Grid</div>
+                <div class="topbar-menu">
+                    <ul>
+                        <li><a href="../index.html" class="i-home"><span>home</span></a></li>
+                        <li><a href="../documentation/" class="i-book"><span>Documentation</span></a></li>
+                        <li>
+                            <span class="i-examples"><span>Examples &nbsp; <i class="i-arr-d"></i></span></span>
+                            <ul class="topbar-submenu">
+                                <li><a href="../examples/basic.html" class="i-arr-l">Basic</a></li>
+                                <li><a href="../examples/breakpoints.html" class="i-arr-l">Breakpoints</a></li>
+                                <li><a href="../examples/responsive-images.html" class="i-arr-l">Responsive images</a></li>
+                                <li><a href="../examples/filters.html" class="i-arr-l active">Filters</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>The Grid.</h1>
+    <p class="intro">
+        This basic example has 20 cells.<br>The cells have absolute positioning percentage width and fixed height.<br><br>
+        <input type="checkbox" id="checkbox1" class="filter-checkbox" data-color="blue" checked><label class="filter blue" for="checkbox1">Filter blue</label> &nbsp;
+        <input type="checkbox" id="checkbox2" class="filter-checkbox" data-color="green" checked><label class="filter green" for="checkbox2">Filter green</label> &nbsp;
+        <input type="checkbox" id="checkbox3" class="filter-checkbox" data-color="pink" checked><label class="filter pink" for="checkbox3">Filter pink</label>
+    </p>
+    <div class="thegrid">
+        <div class="cell" data-color="blue" data-width="1" data-height="4"><div data-text="1"></div></div>
+        <div class="cell" data-color="green" data-width="1" data-height="1"><div data-text="2"></div></div>
+        <div class="cell" data-color="green" data-width="2" data-height="1"><div data-text="3"></div></div>
+        <div class="cell" data-color="pink" data-width="2" data-height="1"><div data-text="4"></div></div>
+        <div class="cell" data-color="pink" data-width="2" data-height="1"><div data-text="5"></div></div>
+        <div class="cell" data-color="blue" data-width="2" data-height="1"><div data-text="6"></div></div>
+        <div class="cell" data-color="green" data-width="3" data-height="1"><div data-text="7"></div></div>
+        <div class="cell" data-color="green" data-width="1" data-height="3"><div data-text="8"></div></div>
+        <div class="cell" data-color="blue" data-width="2" data-height="1"><div data-text="9"></div></div>
+        <div class="cell" data-color="blue" data-width="1" data-height="2"><div data-text="10"></div></div>
+        <div class="cell" data-color="pink" data-width="1" data-height="1"><div data-text="11"></div></div>
+        <div class="cell" data-color="pink" data-width="1" data-height="2"><div data-text="12"></div></div>
+        <div class="cell" data-color="pink" data-width="1" data-height="2"><div data-text="13"></div></div>
+        <div class="cell" data-color="green" data-width="3" data-height="1"><div data-text="14"></div></div>
+        <div class="cell" data-color="green" data-width="1" data-height="2"><div data-text="15"></div></div>
+        <div class="cell" data-color="blue" data-width="1" data-height="2"><div data-text="16"></div></div>
+        <div class="cell" data-color="green" data-width="1" data-height="1"><div data-text="17"></div></div>
+        <div class="cell" data-color="green" data-width="1" data-height="1"><div data-text="18"></div></div>
+        <div class="cell" data-color="blue" data-width="4" data-height="1"><div data-text="19"></div></div>
+        <div class="cell" data-color="green" data-width="2" data-height="1"><div data-text="20"></div></div>
+    </div>
+</body>
+</html>
