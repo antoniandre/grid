@@ -34,7 +34,7 @@ a:hover {color: #c11;}
     position: relative;
     height: 50px;
     margin-bottom: 90px;
-    z-index: 2;
+    z-index: 10;
 }
 .topbar {
     position: fixed;
@@ -55,6 +55,7 @@ a:hover {color: #c11;}
 .topbar-logo:before {
     font-size: 200%;
     padding-right: 20px;
+    padding-left: 5px;
     display: inline-block;
     color: #eee;
     animation: morph 30s infinite linear;
@@ -89,23 +90,63 @@ a:hover {color: #c11;}
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
-    line-height: 1.8em;
+    right: 0;
+    margin-right: -8px;
     background-color: rgba(255,255,255,.95);
     border: 1px solid rgba(200,200,200,.2);
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.1);
     box-shadow: 0 5px 10px rgba(0,0,0,.1);
     font-size: 90%;
-    padding: 10px 0;
 }
 li:hover .topbar-submenu {
     display: block;
 }
 .topbar-submenu li {
-    white-space: nowrap;
+    position: relative;
+    text-align: right;
     display: block;
 }
-.topbar-submenu li .i-arr-r:before {font-size: 90%;padding-right: 5px;color: #ccc;}
+.topbar-submenu li a {
+    white-space: nowrap;
+    padding-left: 20px;
+    padding-right: 35px;
+    margin: 0;
+    line-height: 2.2em;
+    font-size: 95%;
+    display: block;
+    border-right: 3px solid transparent;
+}
+.topbar-submenu li a.active {border-right-color: #f33;}
+.topbar-submenu li a.active:before {opacity: .5;}
+.topbar-submenu li a:hover {
+    background-color: #f8f8f8;
+    border-right-color: #f33;
+    padding-left: 30px;
+    padding-right: 25px;
+}
+.topbar-submenu li a:hover:before {
+    opacity: 0;
+    -webkit-transform: translateX(5px);
+    -ms-transform: translateX(5px);
+    -o-transform: translateX(5px);
+    transform: translateX(5px);
+}
+.topbar-submenu li a:before {
+    font-size: 90%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    line-height: inherit;
+    right: 0;
+    color: #ccc;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+    -webkit-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+}
 
 @media screen and (max-width: 1200px) {
     .topbar-inner {padding-left: 10px;padding-right: 10px;}
@@ -113,8 +154,10 @@ li:hover .topbar-submenu {
 @media screen and (max-width: 560px) {
     .topbar-menu li :before {padding-right: 0;}
     .topbar-menu li a, .topbar-menu li > span {padding-left: 40px;margin-left: 0;}
+    .topbar-menu li a {padding-left: 20px;}
     .topbar-menu li a span, .topbar-menu li span span {display: none;}
     .topbar-submenu {left: auto;right: 0;}
+    .topbar-submenu li a:before {right: 10px;}
 }
 @media screen and (max-width: 350px) {
     .topbar-menu li a, .topbar-menu li > span {padding-left: 10px;}
