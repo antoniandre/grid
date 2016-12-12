@@ -6,8 +6,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
-        .breakpoints .topbar-wrapper {margin-bottom: 90px;}
-        .breakpoints .code-section {z-index: 1;position: relative;}
+        .topbar-wrapper {margin-bottom: 90px;}
+        .code-section, h1, .intro, #see-the-code + label {z-index: 1;position: relative;}
+        #see-the-code + label {z-index: 2;}
+        .code-section, h1, .intro, #see-the-code + label {background-color: rgba(255,255,255,.9);}
 
         .breakpoint-threshold {
             border-left: 1px solid red;
