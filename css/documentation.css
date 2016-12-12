@@ -8,6 +8,7 @@ h2 {margin-left: 0px;}
 
 p {margin-top: 10px;}
 h3 {margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
+h3:before {content: '#';color: #ddd;padding-right: 10px;}
 
 .code-wrapper {
     position: relative;
@@ -98,7 +99,6 @@ h3 {margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
 .code-wrapper.no-tabs pre {position: static;height: auto;padding: 0;}
 .code-wrapper iframe {width: 100%;border: none;}
 
-
 pre .comment {font-style: italic;color: #aaa;}
 pre .comment * {color: #aaa !important;}
 pre .quote {color: #c11;}
@@ -114,6 +114,13 @@ pre .attribute {color: #f63;}
 pre[data-type="css"] .attribute {color: #70d;}
 pre[data-type="css"] .keyword {color: #c06;}
 pre .selector {color: #f0d;}
+
+
+
+.param span {color: #f33;}
+.param em {color: #ccc;}
+.param code {font-weight: bold;}
+
 
 @media screen and (max-width: 560px) {
     .code-wrapper {margin-left: 30px;}

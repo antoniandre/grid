@@ -114,7 +114,7 @@
                                 .replace(/('[\s\S]*?')/mg, '<span class="quote">$1</span>')
                                 .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
                                 .replace(/\$/g, '<span class="dollar">$</span>')
-                                .replace(/([(){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
+                                .replace(/([\[\](){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
                     break;
                 }
 
@@ -199,7 +199,7 @@ git clone git@github.com:antoniandre/grid.git</pre>
     font-size: 200%;
 }
 </pre>
-            <pre data-type="javascript" data-default>new gridHandler();</pre>
+            <pre data-type="javascript" data-default>new thegrid();</pre>
         </div>
 
         <p>Mmm... I can already guess that it won't be enough to suit your picky needs, so you'd better add a few params.</p>
@@ -261,13 +261,19 @@ git clone git@github.com:antoniandre/grid.git</pre>
         <p>You can use all these methods</p>
 
         <h3>Redraw</h3>
+        <p>This is the most usefull method of all. You will have to call it every time you made a change to the grid configuration or grid cells collection.<br>As easy to use as:</p>
         <pre class="i-code" data-type="javascript">thegrid.redraw();</pre>
+        <p class="info i-info">This function is not internally called from each function like .filter() or updateParams() for better performance.<br>So you can chain multiple changes and redraw only once.</p>
 
         <h3>updateParams</h3>
         <pre class="i-code" data-type="javascript">thegrid.updateParams(params);</pre>
 
         <h3>Filter</h3>
-        <pre class="i-code" data-type="javascript">thegrid.filter(cellsToToggle, hide, toggleAllOthers);</pre>
+        <p>To filter the cells you can call the <code>.filter()</code> method with the collection of cells you want to show or hide.</p>
+        <pre class="i-code" data-type="javascript">thegrid.filter(cellsToToggle [, hide = false] [, toggleAllOthers = false]);</pre>
+        <p class="param"><span>@param</span> <code>cellsToToggle</code><br>either a css selector to match a collection of cells or a jQuery collection.</p>
+        <p class="param"><span>@param</span> <code>hide</code> <em> &nbsp; true, false. Default: false.</em><br> whether you want to show or hide the given collection of cells.</p>
+        <p class="param"><span>@param</span> <code>toggleAllOthers</code> <em> &nbsp; true, false. Default: false.</em><br> whether to show or hide all the other cells that are not in the given collection.</p>
 
         <h3>resetFilter</h3>
         <pre class="i-code" data-type="javascript">thegrid.resetFilter();</pre>
@@ -275,15 +281,18 @@ git clone git@github.com:antoniandre/grid.git</pre>
         <h3>sort</h3>
         <pre class="i-code" data-type="javascript">thegrid.sort(sortedCells);</pre>
 
+
+
+
         <h2 class="i-check"> Events - TO BE UPDATED SOON</h2>
         <p>You can use all these events</p>
-        <h3>gridInit on window element</h3>
+        <h3>gridInit - on window element</h3>
         <pre class="i-code" data-type="javascript">$(window).on('gridInit', function(){...});</pre>
 
-        <h3>afterResize on window element</h3>
+        <h3>afterResize - on window element</h3>
         <pre class="i-code" data-type="javascript">$(window).on('afterResize', function(){...});</pre>
 
-        <h3>breakpointChange on grid element</h3>
+        <h3>breakpointChange - on grid element</h3>
         <pre class="i-code" data-type="javascript">thegrid.on('init');</pre>
     </div>
 </body>
