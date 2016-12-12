@@ -1,4 +1,4 @@
-var gridHandler = function(options)
+var thegrid = function(options)
 {
     // Private vars.
     var self = this, grid, cells, cellsNum, cellWidth, cellHeight,
@@ -337,9 +337,12 @@ var gridHandler = function(options)
     /**
      * Show or hide the given collection of cells retaining the given order.
      *
-     * @param {jQuery Collection or selector string} cellsToToggle: The cells to toggle
-     * @param {boolean} hide: whether to show or hide the collection of cells. Default = false.
-     * @param {boolean} toggleAllOthers: whether to also toggle all others cells from DOM. Default = false.
+     * @param {jQuery Collection or selector string} cellsToToggle: either a css selector to match a collection of cells
+     *                                                              or a jQuery collection of cells to toggle.
+     * @param {boolean} hide: whether to show or hide the given collection of cells.
+                              Default: false.
+     * @param {boolean} toggleAllOthers: whether to show or hide all the other cells that are not in the given collection.
+                                         Default: false.
      * @return {object} this.
      */
     self.filter = function(cellsToToggle, hide, toggleAllOthers)
@@ -350,8 +353,6 @@ var gridHandler = function(options)
         cellsToToggle   = cellsToToggle instanceof jQuery ? cellsToToggle : $(cellsToToggle);
         cellsToShow     = hide ? (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null) : cellsToToggle;
         cellsToHide     = hide ? cellsToToggle : (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null);
-
-        console.log(cellsToHide, cellsToShow);
 
         // If the given selection is to show, keep its specific order in case of prior sorting.
         if (cellsToShow) cellsToShow.css({top: 0, left: 0}).removeClass('hidden');
@@ -369,6 +370,7 @@ var gridHandler = function(options)
 
 
     /**
+     * Reset all the applied filters and go back to the original cells collection from the DOM.
      *
      * @return {Object} The current instance.
      */
@@ -396,6 +398,9 @@ var gridHandler = function(options)
     };
 
 
+    /**
+     * @return void.
+     */
     self.bindEvents = function()
     {
         if (!$.isEmptyObject(options.breakpoints))
@@ -534,7 +539,7 @@ matrix = function(cols, rows, defaultValue)
 $.fn.grid = function(options)
 {
     options.grid = this.selector;
-    new gridHandler(options);
+    new thegrid(options);
 
     return this;
 };
