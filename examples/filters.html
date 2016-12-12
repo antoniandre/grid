@@ -6,7 +6,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
-        .filter-checkbox {position: fixed;top: -1em;left: -1em;z-index: -1;}
         .filter {
             border: 1px solid #ccc;
             color: #fff;
@@ -65,9 +64,12 @@
             background-image: radial-gradient(circle at top right, #c5ff99, #69bf46);
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
     <script src="../js/grid.js"></script>
+    <script src="../js/demo.js"></script>
     <script>
         $(document).ready(function()
         {
@@ -77,7 +79,7 @@
                 }),
                 activeFilters = {blue: true, green: true, pink: true};
 
-            $('.filter-checkbox').on('change', function()
+            $('input.toggle').on('change', function()
             {
                 var isActive = $(this).is(':checked'),
                     color = $(this).data('color'),
@@ -122,10 +124,11 @@
     <h1>The Grid.</h1>
     <p class="intro">
         This basic example has 20 cells.<br>The cells have absolute positioning percentage width and fixed height.<br><br>
-        <input type="checkbox" id="checkbox1" class="filter-checkbox" data-color="blue" checked><label class="filter blue" for="checkbox1">Filter blue</label> &nbsp;
-        <input type="checkbox" id="checkbox2" class="filter-checkbox" data-color="green" checked><label class="filter green" for="checkbox2">Filter green</label> &nbsp;
-        <input type="checkbox" id="checkbox3" class="filter-checkbox" data-color="pink" checked><label class="filter pink" for="checkbox3">Filter pink</label>
+        <input type="checkbox" id="checkbox1" class="toggle" data-color="blue" checked><label class="filter blue" for="checkbox1">Filter blue</label> &nbsp;
+        <input type="checkbox" id="checkbox2" class="toggle" data-color="green" checked><label class="filter green" for="checkbox2">Filter green</label> &nbsp;
+        <input type="checkbox" id="checkbox3" class="toggle" data-color="pink" checked><label class="filter pink" for="checkbox3">Filter pink</label>
     </p>
+
     <div class="thegrid">
         <div class="cell" data-color="blue" data-width="1" data-height="4"><div data-text="1"></div></div>
         <div class="cell" data-color="green" data-width="1" data-height="1"><div data-text="2"></div></div>
