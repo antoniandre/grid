@@ -73,9 +73,10 @@
     <script>
         $(document).ready(function()
         {
-            var activeFilters = {blue: true, green: true, pink: true};
+            var activeFilters = {blue: true, green: true, pink: true},
+                gridElement = $('.thegrid');
 
-            $('.thegrid').grid(
+            gridElement.grid(
             {
                 cellsPerRow: 5
             });
@@ -93,9 +94,10 @@
                     filteredCells.push('.cell[data-color="' + color + '"]');
                 }
 
-                $('.thegrid').grid('filter', $(filteredCells.join(',')), false, true);
-                $('.thegrid').grid('redraw');
-            })
+                gridElement
+                    .grid('filter', $(filteredCells.join(',')), false, true)
+                    .grid('redraw');
+            });
         });
     </script>
 </head>
@@ -212,7 +214,35 @@
     border-color: #69bf46;
     background-image: radial-gradient(circle at top right, #c5ff99, #69bf46);
 }</pre>
-            <pre class="i-code" data-type="javascript">var g1 = new thegrid(
+            <pre class="i-code" data-type="javascript">var activeFilters = {blue: true, green: true, pink: true},
+    gridElement = $('.thegrid');
+
+gridElement.grid(
+{
+    cellsPerRow: 5
+});
+
+$('input.toggle').on('change', function()
+{
+    var isActive = $(this).is(':checked'),
+        color = $(this).data('color'),
+        filteredCells = [];
+
+    activeFilters[color] = isActive;
+
+    for (var color in activeFilters) if (activeFilters[color])
+    {
+        filteredCells.push('.cell[data-color="' + color + '"]');
+    }
+
+    gridElement
+        .grid('filter', $(filteredCells.join(',')), false, true)
+        .grid('redraw');
+})
+
+// Alternatively you can do the same like this:
+/*
+var g1 = new thegrid(
 {
     cellsPerRow: 5
 }),
@@ -233,7 +263,8 @@ $('input.toggle').on('change', function()
 
     g1.filter($(filteredCells.join(',')), false, true)
     g1.redraw();
-})</pre>
+})
+*/</pre>
         </div>
     </div>
 
