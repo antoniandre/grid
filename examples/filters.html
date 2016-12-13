@@ -73,11 +73,12 @@
     <script>
         $(document).ready(function()
         {
-            var g1 = new thegrid(
-                {
-                    cellsPerRow: 5
-                }),
-                activeFilters = {blue: true, green: true, pink: true};
+            var activeFilters = {blue: true, green: true, pink: true};
+
+            $('.thegrid').grid(
+            {
+                cellsPerRow: 5
+            });
 
             $('input.toggle').on('change', function()
             {
@@ -92,8 +93,8 @@
                     filteredCells.push('.cell[data-color="' + color + '"]');
                 }
 
-                g1.filter($(filteredCells.join(',')), false, true)
-                g1.redraw();
+                $('.thegrid').grid('filter', $(filteredCells.join(',')), false, true);
+                $('.thegrid').grid('redraw');
             })
         });
     </script>
@@ -128,6 +129,113 @@
         <input type="checkbox" id="checkbox2" class="toggle" data-color="green" checked><label class="filter green" for="checkbox2">Filter green</label> &nbsp;
         <input type="checkbox" id="checkbox3" class="toggle" data-color="pink" checked><label class="filter pink" for="checkbox3">Filter pink</label>
     </p>
+    <input type="checkbox" class="toggle" id="see-the-code">
+    <label for="see-the-code" class="i-plus">Check the code</label>
+    <div class="code-section">
+        <div class="code-wrapper">
+            <pre class="i-code" data-type="html">&lt;div class="thegrid"&gt;
+    &lt;div class="cell" data-color="blue" data-width="1" data-height="4"&gt;&lt;div data-text="1"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="1" data-height="1"&gt;&lt;div data-text="2"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="2" data-height="1"&gt;&lt;div data-text="3"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="pink" data-width="2" data-height="1"&gt;&lt;div data-text="4"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="pink" data-width="2" data-height="1"&gt;&lt;div data-text="5"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="blue" data-width="2" data-height="1"&gt;&lt;div data-text="6"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="3" data-height="1"&gt;&lt;div data-text="7"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="1" data-height="3"&gt;&lt;div data-text="8"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="blue" data-width="2" data-height="1"&gt;&lt;div data-text="9"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="blue" data-width="1" data-height="2"&gt;&lt;div data-text="10"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="pink" data-width="1" data-height="1"&gt;&lt;div data-text="11"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="pink" data-width="1" data-height="2"&gt;&lt;div data-text="12"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="pink" data-width="1" data-height="2"&gt;&lt;div data-text="13"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="3" data-height="1"&gt;&lt;div data-text="14"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="1" data-height="2"&gt;&lt;div data-text="15"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="blue" data-width="1" data-height="2"&gt;&lt;div data-text="16"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="1" data-height="1"&gt;&lt;div data-text="17"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="1" data-height="1"&gt;&lt;div data-text="18"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="blue" data-width="4" data-height="1"&gt;&lt;div data-text="19"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-color="green" data-width="2" data-height="1"&gt;&lt;div data-text="20"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+            <pre class="i-code" data-type="css">.filter {
+    border: 1px solid #ccc;
+    color: #fff;
+    text-align: center;
+    line-height: 2;
+    font-size: 110%;
+    border-radius: 20px;
+    padding: 0 15px 0 20px;
+    text-indent: -.4em;
+    outline: none;
+    cursor: pointer;
+    text-shadow: 0 0 2px rgba(0,0,0,.2);
+    display: inline-block;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+.filter:before {
+    font-family: "the-grid" !important;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\63";
+    font-size: 130%;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    margin-top: -2px;
+    margin-right: 2px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+:checked + .filter:before {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+.thegrid .cell > div {
+    border: 1px solid;
+}
+.thegrid .cell[data-color="blue"] > div,
+.filter.blue {
+    border-color: #4a8de0;
+    background-image: radial-gradient(circle at top right, #bed3fd, #4a8de0);
+}
+.thegrid .cell[data-color="pink"] > div,
+.filter.pink {
+    border-color: #ff54a3;
+    background-image: radial-gradient(circle at top right, #ffb1cb, #ff54a3);
+}
+.thegrid .cell[data-color="green"] > div,
+.filter.green {
+    border-color: #69bf46;
+    background-image: radial-gradient(circle at top right, #c5ff99, #69bf46);
+}</pre>
+            <pre class="i-code" data-type="javascript">var g1 = new thegrid(
+{
+    cellsPerRow: 5
+}),
+activeFilters = {blue: true, green: true, pink: true};
+
+$('input.toggle').on('change', function()
+{
+    var isActive = $(this).is(':checked'),
+        color = $(this).data('color'),
+        filteredCells = [];
+
+    activeFilters[color] = isActive;
+
+    for (var color in activeFilters) if (activeFilters[color])
+    {
+        filteredCells.push('.cell[data-color="' + color + '"]');
+    }
+
+    g1.filter($(filteredCells.join(',')), false, true)
+    g1.redraw();
+})</pre>
+        </div>
+    </div>
 
     <div class="thegrid">
         <div class="cell" data-color="blue" data-width="1" data-height="4"><div data-text="1"></div></div>
