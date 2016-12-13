@@ -226,13 +226,14 @@ li:hover .topbar-submenu {
 }
 #see-the-code + label:hover,
 #see-the-code + label:hover:before {color: #999;border-color: #999;}
-#see-the-code ~ .code-section {
+
+.code-section {
     height: 0px;
     overflow: hidden;
+    position: relative;
     background-color: #f8f8f8;
     margin: 40px -30px 30px;
     padding: 0px 30px;
-    box-shadow: 0 0 5px rgba(0,0,0,.1) inset;
     -webkit-transition: .9s ease-in-out;
     -o-transition: .9s ease-in-out;
     transition: .9s ease-in-out;
@@ -243,6 +244,15 @@ li:hover .topbar-submenu {
     margin-bottom: 50px;
     padding-top: 35px;
     padding-bottom: 15px;
+}
+.code-section:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -2em;
+    right: -2em;
+    bottom: 0;
+    box-shadow: 0 0 5px rgba(0,0,0,.1) inset;
 }
 .code-wrapper {
     position: relative;
