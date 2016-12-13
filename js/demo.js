@@ -105,6 +105,9 @@ $(document).ready(function()
                         .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
                         .replace(/\$/g, '<span class="dollar">$</span>')
                         .replace(/([\[\](){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
+                        // Following will wrap '=' THAT ARE NOT INSIDE HTML TAG (e.g. <span class="ponctuation">).
+                        // Javascript regex does not support lookbehinds. (T_T)
+                        .replace(/(?!(?:.(?=[^<]))*>)=/g, '<span class="ponctuation">=</span>')
             break;
         }
 
