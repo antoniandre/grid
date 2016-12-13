@@ -536,10 +536,30 @@ matrix = function(cols, rows, defaultValue)
 
 
 // Make it a jQuery plugin.
-$.fn.grid = function(options)
+// FirstArg can hold either a method name or an object of parameters for init.
+$.fn.grid = function(firstArg)
 {
-    options.grid = this.selector;
-    new thegrid(options);
+    // The DOM element on which we call the grid plugin.
+    var gridElement = this[0];
+
+    // Call a grid method (with params) from its name as a string.
+    // E.g. $('.thegrid').grid('filter', [cellsToToggle, hide, toggleAllOthers]);
+    // First check method exists before calling it.
+    if (typeof firstArg === 'string' && typeof gridElement.grid[firstArg] === 'function')
+    {
+        // Extract rest arguments from built-in 'arguments' pseudo-array (no array method avail on arguments).
+        var args = [].slice.call(arguments, 1);
+
+        // Call the object method with given args.
+        gridElement.grid[firstArg].apply(this, args);
+    }
+    else if (typeof firstArg === 'object' || !firstArg)
+    {
+        firstArg.grid = gridElement;
+        this[0].grid = new thegrid(firstArg);
+        console.log('2 - init', this);
+    }
+    else console.log('Ignoring grid call with wrong params.')
 
     return this;
 };
