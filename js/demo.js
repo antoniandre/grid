@@ -1,5 +1,28 @@
 $(document).ready(function()
 {
+    $(window).on('keyup', function(e)
+    {
+        // Pressed escape key.
+        if (e.which === 27 && $('#see-the-code').is(':checked'))
+        {
+            $('#see-the-code').prop('checked', false);
+            return false;
+        }
+    });
+
+
+    if ($('pre').length) syntaxHighlighter();
+});
+
+
+
+String.prototype.htmlize = function()
+{
+    return this.replace(/&(l|g)t;/g, function(){return {l: '<', g: '>'}[arguments[1]]});
+};
+
+var syntaxHighlighter = function()
+{
     var lastTreatedWrapper = 0, wrapperIndex = -1;
     $('pre').each(function(i)
     {
@@ -118,9 +141,4 @@ $(document).ready(function()
             + '" id="pre' + radioId + '"' + checked + '><label for="pre' + radioId + '">' + type + '</label>');
         else {pre.wrap('<div class="code-wrapper no-tabs ' + pre.attr('class') + '" data-type="' + type + '"/>')}
     });
-});
-
-String.prototype.htmlize = function()
-{
-    return this.replace(/&(l|g)t;/g, function(){return {l: '<', g: '>'}[arguments[1]]});
 };
