@@ -228,22 +228,25 @@ li:hover .topbar-submenu {
 #see-the-code + label:hover:before {color: #999;border-color: #999;}
 
 .code-section {
-    height: 0px;
+    max-height: 0px;
     overflow: hidden;
     position: relative;
     background-color: #f8f8f8;
     margin: 40px -30px 30px;
     padding: 0px 30px;
-    -webkit-transition: .9s ease-in-out;
-    -o-transition: .9s ease-in-out;
-    transition: .9s ease-in-out;
+    -webkit-transition: 1.5s cubic-bezier(0, 1, 0, 1);
+    -o-transition: 1.5s cubic-bezier(0, 1, 0, 1);
+    transition: 1.5s cubic-bezier(0, 1, 0, 1);
 }
 #see-the-code:checked ~ .code-section {
-    height: 150px;
+    max-height: 550px;
     margin-top: 10px;
     margin-bottom: 50px;
     padding-top: 35px;
     padding-bottom: 15px;
+    -webkit-transition: .9s ease-in-out;
+    -o-transition: .9s ease-in-out;
+    transition: .9s ease-in-out;
 }
 .code-section:before {
     content: '';
