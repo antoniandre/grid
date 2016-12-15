@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>The Grid - Example with responsive images</title>
+    <title>The Grid - Responsive images example</title>
     <link rel="stylesheet" type="text/css" href="../css/demo.css">
     <link rel="stylesheet" type="text/css" href="../css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -106,12 +106,13 @@
             </div>
         </div>
     </div>
-    <h1>The Grid.</h1>
+    <h1>Responsive images.</h1>
     <p class="intro">This example has 90 cells and a loading spinner.<br>The grid load is defered of 2 seconds so you can see it.<br>The cells have absolute positioning percentage width and fixed height.</p>
     <input type="checkbox" class="toggle" id="see-the-code">
     <label for="see-the-code" class="i-plus">Check the code</label>
     <div class="code-section">
-        <pre class="i-code" data-type="javascript">$('.thegrid').grid(
+        <pre class="i-code" data-type="javascript">//When DOM ready.
+$('.thegrid').grid(
 {
     grid: '.thegrid',
     cells: '.cell',

@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-    <h1>The Grid - Documentation.</h1>
+    <h1>Documentation.</h1>
     <p class="intro">The Grid is an ultra light weight (4.3 Kb) library that displays your cells in a surely nice grid layout way.<br>You can browse the different examples and try it out. &#12484;</p>
     <div class="documentation">
         <h2 class="i-check"> Install</h2>
@@ -163,15 +163,15 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
 
         <h2 class="i-check"> Events - TO BE UPDATED SOON</h2>
-        <p>You can use all these events</p>
-        <h3>gridInit - on window element</h3>
-        <pre class="i-code" data-type="javascript">$(window).on('gridInit', function(){...});</pre>
-
-        <h3>afterResize - on window element</h3>
-        <pre class="i-code" data-type="javascript">$(window).on('afterResize', function(){...});</pre>
+        <p>The following events are triggered on the grid DOM element. You can use them like a standard event.</p>
+        <h3>ready</h3>
+        <pre class="i-code" data-type="javascript">$('.thegrid').on('ready', function(){...});</pre>
 
         <h3>breakpointChange - on grid element</h3>
         <pre class="i-code" data-type="javascript">thegrid.on('init');</pre>
+
+        <h3>redraw</h3>
+        <pre class="i-code" data-type="javascript">$('.thegrid').on('redraw', function(){...});</pre>
     </div>
 </body>
 </html>

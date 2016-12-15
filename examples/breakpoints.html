@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>The Grid - Example with responsive images</title>
+    <title>The Grid - Breakpoints example</title>
     <link rel="stylesheet" type="text/css" href="../css/demo.css">
     <link rel="stylesheet" type="text/css" href="../css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -169,12 +169,13 @@
             <code>cellsPerRow: 2,<br>cellHeight: 160</code>
         </span>
     </div>
-    <h1>The Grid.</h1>
+    <h1>Breakpoints.</h1>
     <p class="intro">This example has 50 cells and 3 breakpoints - so 4 different layouts.<br>The cells have absolute positioning percentage wdth and fixed height.<br><br>Reduce your screen width to the breakpoint to see the cells reordering with a nice elastic animation.</p>
     <input type="checkbox" class="toggle" id="see-the-code">
     <label for="see-the-code" class="i-plus">Check the code</label>
     <div class="code-section">
-        <pre class="i-code" data-type="javascript">$('.thegrid').grid(
+        <pre class="i-code" data-type="javascript">//When DOM ready.
+$('.thegrid').grid(
 {
     grid: '.thegrid',
     cells: '.cell',

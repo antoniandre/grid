@@ -25,7 +25,7 @@
         .over-lines {
             padding: 10px;
             margin: auto;
-            max-width: 350px;
+            max-width: 400px;
         }
         .over-lines:after {
             z-index: -1;
@@ -178,12 +178,13 @@
     </div>
     <div class="over-lines">
         <h1>Event callbacks.</h1>
-        <p class="intro">This most basic example has 50 cells.<br>The cells have absolute positioning percentage width and fixed height.</p>
+        <p class="intro">This simple example shows how to use the events available from the grid.<br>Resize your browser to the different breakpoints and check the code bellow to understand.</p>
     </div>
     <input type="checkbox" class="toggle" id="see-the-code">
     <label for="see-the-code" class="i-plus">Check the code</label>
     <div class="code-section">
-        <pre class="i-code" data-type="javascript">var timeoutId;
+        <pre class="i-code" data-type="javascript">//When DOM ready.
+var timeoutId;
 $('.thegrid')
     .on('ready', function()
     {

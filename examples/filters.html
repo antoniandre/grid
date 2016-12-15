@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>The Grid - Basic example</title>
+    <title>The Grid - Fitlers example</title>
     <link rel="stylesheet" type="text/css" href="../css/demo.css">
     <link rel="stylesheet" type="text/css" href="../css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -125,7 +125,7 @@
             </div>
         </div>
     </div>
-    <h1>The Grid.</h1>
+    <h1>Filters.</h1>
     <p class="intro">
         This basic example has 20 cells.<br>The cells have absolute positioning percentage width and fixed height.<br><br>
         <input type="checkbox" id="checkbox1" class="toggle" data-color="blue" checked><label class="filter blue" for="checkbox1">Filter blue</label> &nbsp;
@@ -215,7 +215,8 @@
     border-color: #69bf46;
     background-image: radial-gradient(circle at top right, #c5ff99, #69bf46);
 }</pre>
-            <pre class="i-code" data-type="javascript">var activeFilters = {blue: true, green: true, pink: true},
+            <pre class="i-code" data-type="javascript">//When DOM ready.
+var activeFilters = {blue: true, green: true, pink: true},
     gridElement = $('.thegrid');
 
 gridElement.grid(
