@@ -424,6 +424,7 @@ var thegrid = function(options)
             // event has to be meaningful.
             initialConfigIndex = breakpointsArray[breakpointsNum - 1] + '++';
             self.options.breakpoints[initialConfigIndex] = JSON.parse(JSON.stringify(self.options));
+            delete self.options.breakpoints[initialConfigIndex].breakpoints;// Don't need to keep this.
             breakpointsArray.push(initialConfigIndex);
             breakpointsNum++;
 
@@ -468,6 +469,7 @@ var thegrid = function(options)
                 // just reapply initial config.
                 newBreakpoint = breakpointsArray[i];
                 breakpointChange = newBreakpoint !== currentBreakpoint;
+                console.log(i, tmpBp, breakpointChange, self.options.breakpoints)
 
 
                 // Only redraw if current breakpoint has changed or if we want to recalculate height at each step..
