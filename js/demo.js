@@ -1,5 +1,6 @@
 $(document).ready(function()
 {
+    // Close an open code-section on escape key press.
     $(window).on('keyup', function(e)
     {
         // Pressed escape key.
@@ -10,17 +11,29 @@ $(document).ready(function()
         }
     });
 
-
     if ($('pre').length) syntaxHighlighter();
 });
 
 
-
+/**
+ * Re-htmlize a string. So replace every '&lt;' and '&gt;' with '<' and '>'.
+ *
+ * @return string: html content.
+ */
 String.prototype.htmlize = function()
 {
     return this.replace(/&(l|g)t;/g, function(){return {l: '<', g: '>'}[arguments[1]]});
 };
 
+
+/**
+ * Home made simple syntax highlighter for JS, CSS and HTML.
+ * Just cz it's fun to do. :)
+ * Will parse content in every <pre> tag that has a known data-type (so html, css, js only)
+ * to wrap chars and words with spans.
+ *
+ * @return void.
+ */
 var syntaxHighlighter = function()
 {
     var lastTreatedWrapper = 0, wrapperIndex = -1;
@@ -28,7 +41,6 @@ var syntaxHighlighter = function()
     {
         var pre = $(this),
             wrapper = pre.parents('.code-wrapper'),
-
             type = pre.data('type');
 
         if (wrapper.length && wrapperIndex !== lastTreatedWrapper)
@@ -89,7 +101,7 @@ var syntaxHighlighter = function()
                 html = this.innerHTML
                 .replace(/((?:\/\*\s*))*([^{]+)\s*{\s*([^}]+)\s*}\s*(?:\*\/)*\s*/mg, function()
                 {
-                    // If commented dont parse inner.
+                    // If commented don't parse inner.
                     if ((arguments[1]||'').indexOf('/*') > -1)
                         return '\n<span class="comment">/* '+ arguments[2] + '{\n    ' + arguments[3] + '\n} */</span>';
 
@@ -121,6 +133,7 @@ var syntaxHighlighter = function()
                     return '\n<span class="selector">' + arguments[2].trim().replace(/(:(?:before|after))/, '<span class="keyword">$1</span>') + '</span>'
                         +' <span class="ponctuation">{</span>' + properties + '\n<span class="ponctuation">}</span>';
                 })
+                // Wrap extra comments.
                 .replace(/(\/\*\s*(?:.(?!<[^>]+>))*?\s*\*\/\s*)/mg, '\n<span class="comment">$1</span>').trim();
             break;
             case 'javascript':
