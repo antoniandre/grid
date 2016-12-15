@@ -403,26 +403,35 @@ var thegrid = function(options)
      */
     self.bindEvents = function()
     {
-        if (!$.isEmptyObject(options.breakpoints))
+        if (!$.isEmptyObject(self.options.breakpoints))
         {
-            var initConfig = options,
-                currentBreakpoint,
+            var currentBreakpoint,
                 breakpointsArray = [],
-                breakpointsNum;
+                breakpointsNum,
+                initialConfigIndex = 0;
 
             // Convert to breakpoints object an array for sorting.
-            for (var breakpoint in options.breakpoints) breakpointsArray.push(breakpoint * 1);
+            for (var breakpoint in self.options.breakpoints) breakpointsArray.push(breakpoint * 1);
             breakpointsNum = breakpointsArray.length;
 
-            // NATURAL numeric ascendant sorting.
-            breakpointsArray.sort(function(a, b){return a - b});
 
+            // NATURAL numeric ascendant sorting (*1 is shorthand for parseInt()).
+            breakpointsArray.sort(function(a, b){return a*1 - b*1});
+
+            // Add the initial config (i.e. 'widest') into the breakpoints object and breakpoints array.
+            // E.g. [479, 767, 1199, "1199++"].
+            // It would be easier to have all integers but outputting breakpoint number to the end user through the 6breakpointChange
+            // event has to be meaningful.
+            initialConfigIndex = breakpointsArray[breakpointsNum - 1] + '++';
+            self.options.breakpoints[initialConfigIndex] = JSON.parse(JSON.stringify(self.options));
+            breakpointsArray.push(initialConfigIndex);
+            breakpointsNum++;
 
             $(window).on('resize gridInit afterResize', function(e)
             {
                 // If throttling is on exit quickly for better performance.
                 // So keep this first.
-                if (options.throttling)
+                if (self.options.throttling)
                 {
                     // If throttling is on and resize event triggered only set a timeout
                     // (to trigger a custom afterResize event) and return.
@@ -433,7 +442,7 @@ var thegrid = function(options)
                             clearTimeout(self.throttleTimer);
                             self.throttleTimer = null;
                             $(window).trigger('afterResize');
-                        }, options.throttlingDelay);
+                        }, self.options.throttlingDelay);
                         return true;
                     }
                 }
@@ -450,24 +459,27 @@ var thegrid = function(options)
                 // Then locate the position of the screenWidth in array and get the breakpoint just above to get its config.
                 tmpBp = breakpointsArray.slice(0);// Clone array.
                 tmpBp.push(screenWidth);// Add screenWidth to the array.
-                tmpBp.sort(function(a, b){return a - b});// Sort NATURAL numbers ASC.
-                var i = tmpBp.indexOf(screenWidth);// Get the position of screenWidth.
 
-                // If position is last, breakpointsArray[i] won't exist => just take the initial config.
-                newBreakpoint = i === breakpointsNum ? 'largest' : breakpointsArray[i];
+                // Sort NATURAL ASC and always put '++' (for init config) at the end (e.g. [479, 767, 790, 1199, "1199++"]).
+                tmpBp.sort(function(a, b){return (typeof a === 'string' && a.indexOf('++') > -1) || a*1 - b*1});
+                var i = tmpBp.indexOf(screenWidth);// Get the position of screenWidth in the breakpoints array.
 
+                // If the index is the last one (initial and widest screen config), breakpointsArray[i] won't exist so
+                // just reapply initial config.
+                newBreakpoint = breakpointsArray[i];
                 breakpointChange = newBreakpoint !== currentBreakpoint;
 
 
                 // Only redraw if current breakpoint has changed or if we want to recalculate height at each step..
-                if (breakpointChange || typeof options.cellHeight === 'function')
+                if (breakpointChange || typeof self.options.cellHeight === 'function')
                 {
                     currentBreakpoint = newBreakpoint;
 
-                    if (breakpointChange) grid.trigger('breakpointChange', [currentBreakpoint]);
+                    // Trigger the breakpointChange event but skip the init one.
+                    if (e.type !== 'gridInit' && breakpointChange) grid.trigger('breakpointChange', [currentBreakpoint]);
 
                     // Apply params.
-                    params = i === breakpointsNum ? initConfig : options.breakpoints[currentBreakpoint];
+                    params = self.options.breakpoints[currentBreakpoint];
 
                     self.updateParams(params).redraw();
                 }
@@ -506,8 +518,8 @@ var thegrid = function(options)
         // Force check current breakpoint at init.
         if (!$.isEmptyObject(options.breakpoints)) $(window).trigger('gridInit');
 
-        // Trigger init custom event.
-        grid.trigger('init').addClass('ready' + (options.useJsTransitions ? '' : ' transitions'));
+        // Trigger ready custom event.
+        grid.trigger('ready').addClass('ready' + (options.useJsTransitions ? '' : ' transitions'));
     }();
 },
 
@@ -542,10 +554,28 @@ $.fn.grid = function(firstArg)
     // The DOM element on which we call the grid plugin.
     var gridElement = this[0];
 
+    if (!gridElement || gridElement === undefined)
+    {
+        console.error('Can\'t instanciate The Grid on an empty jQuery collection.');
+        return;
+    }
+    if (['object', 'undefined', 'string'].indexOf(typeof firstArg) === -1)
+    {
+        console.warn('Ignoring grid call with wrong params.');
+        return;
+    }
+
+    // Instanciate The Grid.
+    if (typeof firstArg === 'object' || firstArg === undefined)
+    {
+        (firstArg || {grid: null}).grid = gridElement;
+        gridElement.grid = new thegrid(firstArg);
+    }
+
     // Call a grid method (with params) from its name as a string.
     // E.g. $('.thegrid').grid('filter', [cellsToToggle, hide, toggleAllOthers]);
     // First check method exists before calling it.
-    if (typeof firstArg === 'string' && typeof gridElement.grid[firstArg] === 'function')
+    else if (typeof firstArg === 'string' && gridElement !== undefined && typeof (gridElement).grid[firstArg] === 'function')
     {
         // Extract rest arguments from built-in 'arguments' pseudo-array (no array method avail on arguments).
         var args = [].slice.call(arguments, 1);
@@ -553,13 +583,6 @@ $.fn.grid = function(firstArg)
         // Call the object method with given args.
         gridElement.grid[firstArg].apply(this, args);
     }
-    else if (typeof firstArg === 'object' || !firstArg)
-    {
-        firstArg.grid = gridElement;
-        this[0].grid = new thegrid(firstArg);
-        console.log('2 - init', this);
-    }
-    else console.log('Ignoring grid call with wrong params.')
 
     return this;
 };
