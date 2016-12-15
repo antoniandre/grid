@@ -81,14 +81,14 @@ var thegrid = function(options)
             init: function()
             {
                 this.emptyCells = [];
-                this.cols = options.cellsPerRow;
+                this.cols = self.options.cellsPerRow;
                 this.rows = Math.ceil(cellsNum / this.cols);
                 this.matrix = matrix(this.cols, this.rows, null);
 
                 // First index the whole matrix cells in this.emptyCells array as every cell is empty.
                 // Indexing the empty cells for optimization.
                 for (var row = 0; row < this.rows; row++) {
-                    for (var col = 0; col < options.cellsPerRow; col++) {
+                    for (var col = 0; col < self.options.cellsPerRow; col++) {
                         this.emptyCells.push(row + "." + col);// Creating decimal format to benefit from the simple numeric sorting.
                     }
                 }
@@ -103,7 +103,7 @@ var thegrid = function(options)
             addEmptyCell: function(position)
             {
                 this.emptyCells.push(position[1] + '.' + position[0]);
-                this.emptyCells.sort(function(a,b){return a-b});
+                this.emptyCells.sort(function(a, b){return a - b});
             },
 
             /**
@@ -120,7 +120,7 @@ var thegrid = function(options)
                 // Modern browsers:
                 var index = this.emptyCells.indexOf(position[1] + '.' + position[0]);
                 if (index > -1) this.emptyCells.splice(index, 1);
-                this.emptyCells.sort(function(a,b){return a-b});
+                this.emptyCells.sort(function(a, b){return a - b});
             },
 
             /**
@@ -258,7 +258,6 @@ var thegrid = function(options)
 
 
     // Public vars.
-    self.options = options;
     self.throttleTimer = null;
     // Uncomment for debugging.
     // self.gridMatrix = gridMatrix;
@@ -270,14 +269,14 @@ var thegrid = function(options)
     self.fillMatrix = function()
     {
         // Create the matrix to the specified dimensions.
-        gridMatrix.init(options.cellsPerRow, Math.ceil(cellsNum / options.cellsPerRow), null);
+        gridMatrix.init(self.options.cellsPerRow, Math.ceil(cellsNum / self.options.cellsPerRow), null);
 
         cells.each(function(i, cell)
         {
             cell = $(cell);
-            var unitWidth = Math.min(cell.data('width'), options.cellsPerRow) || 1,
+            var unitWidth = Math.min(cell.data('width'), self.options.cellsPerRow) || 1,
                 unitHeight = cell.data('height') || 1,
-                matrixPosition = gridMatrix.inject(i, [Math.min(unitWidth, options.cellsPerRow), unitHeight]);
+                matrixPosition = gridMatrix.inject(i, [Math.min(unitWidth, self.options.cellsPerRow), unitHeight]);
 
             // Remember the matrix position in DOM pure js element itself.
             cell[0].matrixPosition = {x: matrixPosition[0], y: matrixPosition[1]};
@@ -294,25 +293,25 @@ var thegrid = function(options)
         {
             cell = $(cell);
             // If reduce screen until a cell width doesn't fit grid width then constrain it to the grid width.
-            var unitWidth = Math.min(cell.data('width'), options.cellsPerRow) || 1,
+            var unitWidth = Math.min(cell.data('width'), self.options.cellsPerRow) || 1,
                 unitHeight = cell.data('height') || 1,
                 newCss =
                 {
                     width: (cellWidth * unitWidth) + '%',
                     height: cellHeight * unitHeight,
                     top: cell[0].matrixPosition.y * cellHeight,
-                    left: (cell[0].matrixPosition.x * 100 / options.cellsPerRow) + '%',
+                    left: (cell[0].matrixPosition.x * 100 / self.options.cellsPerRow) + '%',
                 };
 
             setTimeout(function()
             {
-                options.useJsTransitions ? cell.stop(true, true).animate(newCss, options.animationSpeed, options.animationEasing)
+                self.options.useJsTransitions ? cell.stop(true, true).animate(newCss, self.options.animationSpeed, self.options.animationEasing)
                                          : cell.css(newCss);
-            }, options.animationDelay);
+            }, self.options.animationDelay);
         });
 
         // After the cells positionning the grid height might have changed. Update if updateGridHeight is set to true.
-        if (options.updateGridHeight) grid.height(gridMatrix.rows * options.cellHeight);
+        if (self.options.updateGridHeight) grid.height(gridMatrix.rows * self.options.cellHeight);
     };
 
 
@@ -325,10 +324,10 @@ var thegrid = function(options)
     self.updateParams = function(params)
     {
         // Merge current settings and overriding new ones given as parameter.
-        options = $.extend(options, params);
+        self.options = $.extend(options, params);
 
-        cellWidth = 100 / options.cellsPerRow;
-        cellHeight = options.cellHeight;
+        cellWidth = 100 / self.options.cellsPerRow;
+        cellHeight = self.options.cellHeight;
 
         return this;
     };
@@ -351,15 +350,15 @@ var thegrid = function(options)
         toggleAllOthers = toggleAllOthers !== undefined ? toggleAllOthers : false;
         // In case you the provide collection is not a jQuery object.
         cellsToToggle   = cellsToToggle instanceof jQuery ? cellsToToggle : $(cellsToToggle);
-        cellsToShow     = hide ? (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null) : cellsToToggle;
-        cellsToHide     = hide ? cellsToToggle : (toggleAllOthers ? $(options.cells).not(cellsToToggle) : null);
+        cellsToShow     = hide ? (toggleAllOthers ? $(self.options.cells).not(cellsToToggle) : null) : cellsToToggle;
+        cellsToHide     = hide ? cellsToToggle : (toggleAllOthers ? $(self.options.cells).not(cellsToToggle) : null);
 
         // If the given selection is to show, keep its specific order in case of prior sorting.
         if (cellsToShow) cellsToShow.css({top: 0, left: 0}).removeClass('hidden');
         if (cellsToHide)
         {
             cellsToHide.addClass('hidden');
-            setTimeout(function(){cellsToHide.css({top: 0, left: 0})}, options.animationSpeed);
+            setTimeout(function(){cellsToHide.css({top: 0, left: 0})}, self.options.animationSpeed);
         }
 
         cells = cellsToShow;
@@ -376,7 +375,7 @@ var thegrid = function(options)
      */
     self.resetFilter = function()
     {
-        cells = $(options.cells).removeClass('hidden');
+        cells = $(self.options.cells).removeClass('hidden');
         cellsNum = cells.length;
 
         return this;
@@ -498,19 +497,19 @@ var thegrid = function(options)
     var init = function()
     {
         // Merge default settings and overriding options given as parameter.
-        options = $.extend(defaults, options);
+        self.options = $.extend(defaults, options);
 
         // Init the core vars.
-        grid = $(options.grid);
+        grid = $(self.options.grid);
         // self.gridWidth = grid.width();
-        cells = $(options.cells).not('.hidden');
+        cells = $(self.options.cells).not('.hidden');
         cellsNum = cells.length;
-        cellWidth = 100 / options.cellsPerRow;
-        cellHeight = options.cellHeight;
+        cellWidth = 100 / self.options.cellsPerRow;
+        cellHeight = self.options.cellHeight;
 
         // First set the grid approximate height before calculating the cells position.
         // After the cells placing the grid height will probably be different.
-        grid.css('height', Math.ceil(cellsNum / options.cellsPerRow) * options.cellHeight);
+        grid.css('height', Math.ceil(cellsNum / self.options.cellsPerRow) * self.options.cellHeight);
 
 
         self.bindEvents();
@@ -518,10 +517,10 @@ var thegrid = function(options)
         self.render();
 
         // Force check current breakpoint at init.
-        if (!$.isEmptyObject(options.breakpoints)) $(window).trigger('gridInit');
+        if (!$.isEmptyObject(self.options.breakpoints)) $(window).trigger('gridInit');
 
         // Trigger ready custom event.
-        grid.trigger('ready').addClass('ready' + (options.useJsTransitions ? '' : ' transitions'));
+        grid.trigger('ready').addClass('ready' + (self.options.useJsTransitions ? '' : ' transitions'));
     }();
 },
 
