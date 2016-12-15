@@ -36,15 +36,15 @@
     <h1>Documentation.</h1>
     <p class="intro">The Grid is an ultra light weight (4.3 Kb) library that displays your cells in a surely nice grid layout way.<br>You can browse the different examples and try it out. &#12484;</p>
     <div class="documentation">
-        <h2 class="i-check"> Install</h2>
-        <p>Clone from GitHub</p>
+        <h2 class="i-check"><a name="install"></a> Install</h2>
+        <p>Clone from GitHub or download zip archive.</p>
         <pre class="i-terminal" data-type="terminal">cd [where_you_want_it_to_be]
 git clone git@github.com:antoniandre/grid.git</pre>
 
-        <h2 class="i-check"> Get it working</h2>
-        <p>Install dependencies from Bower</p>
+        <h2 class="i-check"><a name="get-it-working"></a> Get it working</h2>
+        <p>Install dependencies from <em>Bower</em> or uncomment the &lt;script&gt; tags from <em>cdnjs.cloudflare.com</em>.</p>
         <pre class="i-terminal" data-type="terminal">bower install</pre>
-        <p>Then use the most basic instanciation to get The Grid running!</p>
+        <p>Then use the most basic instantiation to get The Grid running!</p>
         <div class="code-wrapper i-code" data-result="true">
             <pre data-type="html">
 &lt;div class="thegrid"&gt;
@@ -77,12 +77,17 @@ git clone git@github.com:antoniandre/grid.git</pre>
     font-size: 200%;
 }
 </pre>
-            <pre data-type="javascript" data-default>new thegrid();</pre>
+            <pre data-type="javascript" data-default>$('.thegrid').grid();
+
+// Alternatively you can call it this way:
+// var grid1 = new thegrid();
+// Then you can access grid methods like:
+// grid1.redraw();</pre>
         </div>
 
         <p>Mmm... I can already guess that it won't be enough to suit your picky needs, so you'd better add a few params.</p>
 
-        <h2 class="i-check"> Settings - TO BE UPDATED SOON</h2>
+        <h2 class="i-check"><a name="settings"></a> Settings - TO BE UPDATED SOON</h2>
         <p>You can use all these settings</p>
         <pre class="i-code" data-type="javascript">{
     grid: $('#grid'),// The container of the cells.
@@ -135,16 +140,19 @@ git clone git@github.com:antoniandre/grid.git</pre>
     breakpoints: {}
 }</pre>
 
-        <h2 class="i-check"> Methods - TO BE UPDATED SOON</h2>
+        <h2 class="i-check"><a name="methods"></a> Methods - TO BE UPDATED SOON</h2>
         <p>You can use all these methods</p>
 
         <h3>Redraw</h3>
-        <p>This is the most usefull method of all. You will have to call it every time you made a change to the grid configuration or grid cells collection.<br>As easy to use as:</p>
+        <p>This is the most useful method of all. You will have to call it every time you made a change to the grid configuration or grid cells collection.<br>As easy to use as:</p>
         <pre class="i-code" data-type="javascript">thegrid.redraw();</pre>
         <p class="info i-info">This function is not internally called from each function like .filter() or updateParams() for better performance.<br>So you can chain multiple changes and redraw only once.</p>
 
         <h3>updateParams</h3>
-        <pre class="i-code" data-type="javascript">thegrid.updateParams(params);</pre>
+        <pre class="i-code" data-type="javascript">$('.thegrid').grid('updateParams', params);
+
+// Alternatively you can do it this way (after var grid1 = new thegrid();):
+// grid1.updateParams(params);</pre>
 
         <h3>Filter</h3>
         <p>To filter the cells you can call the <code>.filter()</code> method with the collection of cells you want to show or hide.</p>
@@ -162,15 +170,19 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
 
 
-        <h2 class="i-check"> Events - TO BE UPDATED SOON</h2>
+        <h2 class="i-check"><a name="events"></a> Events</h2>
         <p>The following events are triggered on the grid DOM element. You can use them like a standard event.</p>
+        <p class="warning"><span>Caution!</span> Do the event binding first before initializing the grid. Otherwise the ultra fast init will be complete before the event is bound.</p>
         <h3>ready</h3>
+        <p>The ready event happens very fast.</p>
         <pre class="i-code" data-type="javascript">$('.thegrid').on('ready', function(){...});</pre>
 
         <h3>breakpointChange - on grid element</h3>
-        <pre class="i-code" data-type="javascript">thegrid.on('init');</pre>
+        <p>This event is triggered when the browser is resized.</p>
+        <pre class="i-code" data-type="javascript">$('.thegrid').on('breakpointChange');</pre>
 
         <h3>redraw</h3>
+        <p>This event is triggered when The Grid has just finished redrawing the grid. Meaning recalculating the position of each cell and displaying them.</p>
         <pre class="i-code" data-type="javascript">$('.thegrid').on('redraw', function(){...});</pre>
     </div>
 </body>

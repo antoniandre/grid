@@ -11,7 +11,7 @@ body {
 
 .clearfix:before, .clearfix:after {display: table;content: "";clear: both;}
 h1 {text-align: center;color: #666;}
-h2 {color: #666;margin: 30px 0 10px;}
+h2 {color: #666;margin: 30px 0 10px;position: relative;}
 
 p.intro {margin: 0;padding: 20px 0 30px;text-align: center;}
 
@@ -23,6 +23,7 @@ a {
     transition: .4s ease-out;
 }
 a:hover {color: #c11;}
+a[name] {position: absolute;top: -60px;/* When accessing an anchor from url hash, give enough space for sticky bar. */}
 :before {vertical-align: middle;}
 input.toggle {position: fixed;top: -1em;left: -1em;z-index: -1;}
 
@@ -180,6 +181,8 @@ li:hover .topbar-submenu {
 .documentation p {margin-top: 10px;}
 .documentation h3 {margin-top: 30px;font-size: 140%;font-weight: normal;color: #888;}
 .documentation h3:before {content: '#';color: #ddd;padding-right: 10px;}
+.warning {background-color: #fee;border: 1px solid #fdd;padding: 10px;}
+.warning span {color: #f66;display: inline-block;padding-right: 10px;}
 /*============================================================================*/
 
 
