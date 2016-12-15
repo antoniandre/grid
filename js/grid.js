@@ -468,8 +468,6 @@ var thegrid = function(options)
                 // just reapply initial config.
                 newBreakpoint = breakpointsArray[i];
                 breakpointChange = newBreakpoint !== currentBreakpoint;
-                console.log(i, tmpBp, breakpointChange, self.options.breakpoints)
-
 
                 // Only redraw if current breakpoint has changed or if we want to recalculate height at each step..
                 if (breakpointChange || typeof self.options.cellHeight === 'function')
