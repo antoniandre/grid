@@ -9,29 +9,28 @@
         .topbar-wrapper {margin-bottom: 90px;}
         .code-section, h1, .intro, #see-the-code + label {z-index: 1;position: relative;}
         #see-the-code + label {z-index: 2;}
-        .code-section, h1, .intro, #see-the-code + label {background-color: rgba(255,255,255,.9);}
+        h1, .intro, #see-the-code + label {background-color: rgba(255,255,255,.9);}
 
         .breakpoint-threshold {
-            border-left: 1px solid red;
+            border-left: 1px solid rgba(255,0,0,.5);
             position: fixed;
-            top: 0;
+            top: 50px;
             bottom: 0;
             width: 0;
             z-index: 1;
         }
         .bp1 {left: 1200px;}
         .bp2 {left: 768px;}
-
         .bp3 {left: 480px;}
         .breakpoint-threshold span {
             position: absolute;
-            top: 65px;
+            top: 15px;
             right: 13px;
             width: 100px;
             background: #fafafa;
             padding: 4px;
             display: block;
-            border: 1px solid #eee;
+            border: 1px solid #f2f2f2;
             border-radius: 3px;
             font-size: 92%;
         }
@@ -51,7 +50,7 @@
         }
         .breakpoint-threshold span:before {
             top: 19px;
-            border-left-color: #eee;
+            border-left-color: #f2f2f2;
         }
         .breakpoint-threshold span:after {
             top: 20px;
