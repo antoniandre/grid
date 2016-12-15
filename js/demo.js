@@ -95,28 +95,33 @@ var syntaxHighlighter = function()
 
                     if (arguments[3])
                     {
-                        var properties = '', props = arguments[3].split(';');
+                        var properties = '', props = arguments[3].replace(/^;+?(.*).+?$/, '$1').split(';');
 
-                        for (var i = 0, l = props.length; i < l; i++) if (props[i])
+                        for (var i = 0, l = props.length; i < l; i++)
                         {
-                            properties += '\n    ' + props[i].replace(
-                                /\s*([^:]+)\s*:\s*([^;]+)\s*;?\s*/, function()
-                                {
-                                    return '<span class="attribute">'
-                                            + arguments[1]
-                                            + '</span>'
-                                            + '<span class="ponctuation">: </span>'
-                                            + '<span class="value">'
-                                            + arguments[2]
-                                                .replace(/([(),])/g, '<span class="ponctuation">$1</span>')
-                                            + '</span><span class="ponctuation">;</span>';
-                                });
+                            var prop = props[i].trim();
+                            if (prop)
+                            {
+                                properties += '\n    ' + prop.replace(
+                                    /\s*([^:]+)\s*:\s*([^;]+)\s*;?\s*/, function()
+                                    {
+                                        return '<span class="attribute">'
+                                                + arguments[1]
+                                                + '</span>'
+                                                + '<span class="ponctuation">: </span>'
+                                                + '<span class="value">'
+                                                + arguments[2]
+                                                    .replace(/([(),])/g, '<span class="ponctuation">$1</span>')
+                                                + '</span><span class="ponctuation">;</span>';
+                                    });
+                            }
                         }
                     }
 
-                    return '\n<span class="selector">' + arguments[2].replace(/(:(?:before|after))/, '<span class="keyword">$1</span>') + '</span>'
+                    return '\n<span class="selector">' + arguments[2].trim().replace(/(:(?:before|after))/, '<span class="keyword">$1</span>') + '</span>'
                         +' <span class="ponctuation">{</span>' + properties + '\n<span class="ponctuation">}</span>';
-                });
+                })
+                .replace(/(\/\*\s*(?:.(?!<[^>]+>))*?\s*\*\/\s*)/mg, '\n<span class="comment">$1</span>').trim();
             break;
             case 'javascript':
                 html = this.innerHTML
@@ -126,7 +131,7 @@ var syntaxHighlighter = function()
                         .replace(/(\b\d+|null\b)/g, '<span class="number">$1</span>')
                         .replace(/(\btrue|false\b)/g, '<span class="bool">$1</span>')
                         .replace(/('[\s\S]*?')/mg, '<span class="quote">$1</span>')
-                        .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
+                        .replace(/(new|$|function|document|window|var|(?:clear|set)(?:Timeout|Interval))/g, '<span class="keyword">$1</span>')
                         .replace(/\$/g, '<span class="dollar">$</span>')
                         .replace(/([\[\](){}.:,+\-?;])/g, '<span class="ponctuation">$1</span>')
                         // Following will wrap '=' THAT ARE NOT INSIDE HTML TAG (e.g. <span class="ponctuation">).
