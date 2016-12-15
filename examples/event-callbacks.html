@@ -183,14 +183,57 @@
     <input type="checkbox" class="toggle" id="see-the-code">
     <label for="see-the-code" class="i-plus">Check the code</label>
     <div class="code-section">
-        <pre class="i-code" data-type="javascript">//When DOM ready.
+        <div class="code-wrapper" style="height: 500px">
+            <pre class="i-code" data-type="html">&lt;div class="thegrid"&gt;
+    &lt;div class="loading"&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="4"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="3" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="3"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="3" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+            <pre class="i-code" data-type="css">.thegrid .cell > div {
+        border: 1px solid orange;
+        background-image: radial-gradient(circle at top right, yellow, #f06d06);
+    }
+    .message {
+        background: #ffb;
+        color: #666;
+        padding: 15px;
+        margin: 30px 0;
+        display: none;
+    }
+    /* And the rest is irrelevant. */</pre>
+            <pre class="i-code" data-type="javascript" data-default>// When DOM is ready.
+
+// Just to clear timeout that hides message if playing fast around breakpoint.
 var timeoutId;
+
+// Do the event binding first before init the grid. Otherwise the library is so lightweight
+// that the init will be complete before you even bind the event.
 $('.thegrid')
-    .on('ready', function()
+    // The callback receives 1 param: e, the event object.
+    .on('ready', function(e)
     {
         $(this).before('<div class="message">The Grid is ready.</div>');
         $('.message').slideDown(1200, 'easeOutElastic');
     })
+    // The callback receives 2 params: e is the event object, bp is the current breakpoint value.
     .on('breakpointChange', function(e, bp)
     {
         $('.message').html(
@@ -201,6 +244,7 @@ $('.thegrid')
         $('.message').stop(true, true).slideDown(700, 'easeOutCirc');
         timeoutId = setTimeout(function(){$('.message').stop(true, true).slideUp(400, 'easeOutCirc')}, 3000);
     })
+    // Now init the grid.
     .grid({
         cellHeight: 100,
         cellsPerRow: 7,
@@ -222,8 +266,8 @@ $('.thegrid')
                 cellHeight: 160
             },
         }
-    });
-</pre>
+    });</pre>
+        </div>
     </div>
 
     <div class="thegrid">
@@ -248,7 +292,6 @@ $('.thegrid')
         <div class="cell" data-width="1" data-height="1"><div></div></div>
         <div class="cell" data-width="1" data-height="1"><div></div></div>
         <div class="cell" data-width="2" data-height="1"><div></div></div>
-
     </div>
 </body>
 </html>
