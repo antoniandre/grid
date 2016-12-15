@@ -245,7 +245,8 @@ $('.thegrid')
         timeoutId = setTimeout(function(){$('.message').stop(true, true).slideUp(400, 'easeOutCirc')}, 3000);
     })
     // Now init the grid.
-    .grid({
+    .grid(
+    {
         cellHeight: 100,
         cellsPerRow: 7,
         breakpoints:
