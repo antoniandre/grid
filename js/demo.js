@@ -120,6 +120,7 @@ var syntaxHighlighter = function()
             break;
             case 'javascript':
                 html = this.innerHTML
+                        .replace(/([<>])/g, '<span class="ponctuation">$1</span>')
                         .replace(/(\/\/.*)/g, '<span class="comment">$1</span>')
                         .replace(/(\/\*[\s\S]*\*\/)/mg, '<span class="comment">$1</span>')
                         .replace(/(\b\d+|null\b)/g, '<span class="number">$1</span>')
@@ -127,7 +128,7 @@ var syntaxHighlighter = function()
                         .replace(/('[\s\S]*?')/mg, '<span class="quote">$1</span>')
                         .replace(/(new|$|function|document|window)/g, '<span class="keyword">$1</span>')
                         .replace(/\$/g, '<span class="dollar">$</span>')
-                        .replace(/([\[\](){}.;:,+\-?])/g, '<span class="ponctuation">$1</span>')
+                        .replace(/([\[\](){}.:,+\-?;])/g, '<span class="ponctuation">$1</span>')
                         // Following will wrap '=' THAT ARE NOT INSIDE HTML TAG (e.g. <span class="ponctuation">).
                         // Javascript regex does not support lookbehinds. (T_T)
                         .replace(/(?!(?:.(?=[^<]))*>)=/g, '<span class="ponctuation">=</span>')
