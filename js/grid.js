@@ -72,12 +72,13 @@ var thegrid = function(options)
 
         /**
          * Internal matrix class to handle all the calculations.
-         * Don't forget the optimization is very important as we trigger the redraw() function on resize.
          * Represent the grid as a matrix like:
          * [0 0 0 0
          *  0 0 0 0
          *  0 0 0 0
          *  0 0 0 0].
+         * Don't forget the optimization is very important as we trigger the redraw() function on resize event.
+         * The inject() method will inject the given cell at a given position providing cell dimension in units.
          *
          * @access Private.
          */
@@ -92,6 +93,7 @@ var thegrid = function(options)
              * Creates the matrix with the specified dimensions.
              * And fill each cell with Null to represent cell availability.
              *
+             * @access Public.
              * @return {Object} The current instance.
              */
             init: function()
@@ -114,6 +116,7 @@ var thegrid = function(options)
             /**
              * Adds an empty cell to the quick index array - for optimization.
              *
+             * @access Public.
              * @param {String} position: The [x, y] coordinates in matrix.
              */
             addEmptyCell: function(position)
@@ -125,6 +128,7 @@ var thegrid = function(options)
             /**
              * Removes an empty cell.
              *
+             * @access Public.
              * @param {String} position: The [x, y] coordinates in matrix.
              */
             removeEmptyCell: function(position)
@@ -143,6 +147,7 @@ var thegrid = function(options)
              * Inject the cell content in matrix.
              * The matrix here won't contain any HTML it will only hold the given DOM cell index.
              *
+             * @access Public.
              * @param {String} cellContent: The cell content
              * @param {String} dimension: The dimension
              * @param {String} position: The [x, y] coordinates in matrix.
@@ -189,6 +194,7 @@ var thegrid = function(options)
             /**
              * Gets the next empty cell.
              *
+             * @access Public.
              * @return {Array} The next empty cell [x, y] coordinates in matrix.
              */
             getNextEmptyCell: function()
@@ -204,6 +210,7 @@ var thegrid = function(options)
             /**
              * Gets the next cell whether it is empty or not.
              *
+             * @access Public.
              * @param {Array} position: The [x, y] coordinates in matrix.
              * @return {Array} The next cell [x, y] coordinates in matrix.
              */
@@ -220,6 +227,7 @@ var thegrid = function(options)
             /**
              * Adds a new row to the matrix.
              *
+             * @access Public.
              * @return {Array} The [x, y] coordinates in matrix of the first cell of the new row.
              */
             addNewRow: function()
@@ -232,8 +240,9 @@ var thegrid = function(options)
             },
 
             /**
-             * Determines if cell is empty.
+             * Determines if cell is empty at the given position.
              *
+             * @access Public.
              * @param {Array} position: The [x, y] coordinates in matrix.
              * @return {Boolean} True if cell is empty, False otherwise.
              */
@@ -251,6 +260,7 @@ var thegrid = function(options)
             /**
              * Determines the ability to fit the given cell in matrix at a given position.
              *
+             * @access Public.
              * @param {Array} dimension: The dimension (in units) of the cell you want to put in matrix [width, height].
              * @param {Array} position: The [x, y] coordinates where to place the cell in matrix.
              * @return {Boolean} True if able to fit, False otherwise.
@@ -282,10 +292,11 @@ var thegrid = function(options)
 
     /**
      * Loop through each DOM element in the 'cells' collection and place them in the created matrix according to availability.
+     * Called internally by init() and redraw().
      *
-     * @public
+     * @access Private.
      */
-    self.fillMatrix = function()
+    var fillMatrix = function()
     {
         // Create the matrix to the specified dimensions.
         gridMatrix.init(self.options.cellsPerRow, Math.ceil(cellsNum / self.options.cellsPerRow), null);
@@ -305,10 +316,11 @@ var thegrid = function(options)
 
     /**
      * Render the grid.
+     * Called internally by init() and redraw().
      *
-     * @public
+     * @access Private.
      */
-    self.render = function()
+    var render = function()
     {
         cells.each(function(i, cell)
         {
@@ -327,7 +339,7 @@ var thegrid = function(options)
             setTimeout(function()
             {
                 self.options.useJsTransitions ? cell.stop(true, true).animate(newCss, self.options.animationSpeed, self.options.animationEasing)
-                                         : cell.css(newCss);
+                                              : cell.css(newCss);
             }, self.options.animationDelay);
         });
 
@@ -339,7 +351,8 @@ var thegrid = function(options)
     /**
      * Update parameters.
      *
-     * @param {Object} params: The parameters.
+     * @access Public.
+     * @param {Object} params: The parameters to update. Will be overriding the current parameters.
      * @return {Object} The current instance.
      */
     self.updateParams = function(params)
@@ -357,6 +370,7 @@ var thegrid = function(options)
     /**
      * Show or hide the given collection of cells retaining the given order.
      *
+     * @access Public.
      * @param {jQuery Collection or selector string} cellsToToggle: either a css selector to match a collection of cells
      *                                                              or a jQuery collection of cells to toggle.
      * @param {Boolean} hide: whether to show or hide the given collection of cells.
@@ -392,6 +406,7 @@ var thegrid = function(options)
     /**
      * Reset all the applied filters and go back to the original cells collection from the DOM.
      *
+     * @access Public.
      * @return {Object} The current instance.
      */
     self.resetFilter = function()
@@ -402,26 +417,34 @@ var thegrid = function(options)
         return this;
     }
 
+
     /**
      * Redraw function to:
      * 1 - recalculate the disposition of cells in grid according to new dimensions and options.
      * 2 - render the new grid disposition.
+     * Then trigger the redraw event.
      *
+     * @access Public.
      * @return {Object} The current instance.
      */
     self.redraw = function()
     {
-        self.fillMatrix();
-        self.render();
+        fillMatrix();
+        render();
+
+        grid.trigger('redraw');
 
         return this;
     };
 
 
     /**
+     * Bind the grid related events on grid init.
+     *
+     * @access Private.
      * @return void.
      */
-    self.bindEvents = function()
+    var bindEvents = function()
     {
         if (!$.isEmptyObject(self.options.breakpoints))
         {
@@ -498,7 +521,7 @@ var thegrid = function(options)
                     // Trigger the breakpointChange event but skip the init one.
                     if (e.type !== 'gridInit' && breakpointChange) grid.trigger('breakpointChange', [currentBreakpoint]);
 
-                    // Apply params.
+                    // Apply settings of the detected breakpoint config.
                     params = self.options.breakpoints[currentBreakpoint];
 
                     self.updateParams(params).redraw();
@@ -509,7 +532,10 @@ var thegrid = function(options)
 
 
     /**
-     * Init the grid.
+     * Init the grid, only once. This is the entry point and self-called.
+     * Set the grid options from parameters,
+     * bind the grid events,
+     * fill the matrix with cells in DOM and render for the first time.
      *
      * @access Private.
      */
@@ -531,14 +557,14 @@ var thegrid = function(options)
         grid.css('height', Math.ceil(cellsNum / self.options.cellsPerRow) * self.options.cellHeight);
 
 
-        self.bindEvents();
-        self.fillMatrix();
-        self.render();
+        bindEvents();
+        fillMatrix();
+        render();
 
         // Force check current breakpoint at init.
         if (!$.isEmptyObject(self.options.breakpoints)) $(window).trigger('gridInit');
 
-        // Trigger ready custom event.
+        // Trigger ready custom event available for external use.
         grid.trigger('ready').addClass('ready' + (self.options.useJsTransitions ? '' : ' transitions'));
     }();
 },
@@ -547,10 +573,10 @@ var thegrid = function(options)
  * Helper function.
  * Creates a matrix of the given size and fill each cell with a default value.
  *
- * @param      {number}  cols          The columns number.
- * @param      {number}  rows          The rows number.
- * @param      {mixed}   defaultValue  The default value for each cell.
- * @return     {Array}   the generated matrix.
+ * @param {number} cols The columns number.
+ * @param {number} rows The rows number.
+ * @param {mixed} defaultValue The default value for each cell.
+ * @return {Array} the generated matrix.
  */
 matrix = function(cols, rows, defaultValue)
 {
@@ -566,9 +592,12 @@ matrix = function(cols, rows, defaultValue)
 
 
 
-
-// Make it a jQuery plugin.
-// FirstArg can hold either a method name or an object of parameters for init.
+/**
+ * Eventually make the jQuery plugin wrapper.
+ *
+ * @param  {Object|String} firstArg: can hold either a method name or an object of parameters for init.
+ * @return {Object} The current instance.
+ */
 $.fn.grid = function(firstArg)
 {
     // The DOM element on which we call the grid plugin.
