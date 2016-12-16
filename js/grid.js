@@ -1,6 +1,20 @@
+/**
+ * The grid.
+ *
+ * @author    Antoni André. http://antoniandre.me
+ * @see       http://github.com/antoniandre/grid
+ * @version   1.0
+ * @since     2016-10-21
+ * @license   MIT
+ */
 var thegrid = function(options)
 {
-    // Private vars.
+    /**
+     * Private vars.
+     * We don't want to mess them up from outside the class.
+     *
+     * @access private.
+     */
     var self = this, grid, cells, cellsNum, cellWidth, cellHeight,
         defaults =
         {
@@ -64,6 +78,8 @@ var thegrid = function(options)
          *  0 0 0 0
          *  0 0 0 0
          *  0 0 0 0].
+         *
+         * @access Private.
          */
         gridMatrix =
         {
@@ -76,7 +92,7 @@ var thegrid = function(options)
              * Creates the matrix with the specified dimensions.
              * And fill each cell with Null to represent cell availability.
              *
-             * @return     {Object}  { description_of_the_return_value }
+             * @return {Object} The current instance.
              */
             init: function()
             {
@@ -98,7 +114,7 @@ var thegrid = function(options)
             /**
              * Adds an empty cell to the quick index array - for optimization.
              *
-             * @param {string}  position:  The [x, y] coordinates in matrix.
+             * @param {String} position: The [x, y] coordinates in matrix.
              */
             addEmptyCell: function(position)
             {
@@ -109,7 +125,7 @@ var thegrid = function(options)
             /**
              * Removes an empty cell.
              *
-             * @param {string}  position:  The [x, y] coordinates in matrix.
+             * @param {String} position: The [x, y] coordinates in matrix.
              */
             removeEmptyCell: function(position)
             {
@@ -127,10 +143,10 @@ var thegrid = function(options)
              * Inject the cell content in matrix.
              * The matrix here won't contain any HTML it will only hold the given DOM cell index.
              *
-             * @param  {string}  cellContent:  The cell content
-             * @param  {string}  dimension:    The dimension
-             * @param  {string}  position:     The [x, y] coordinates in matrix.
-             * @return {string}  { description_of_the_return_value }
+             * @param {String} cellContent: The cell content
+             * @param {String} dimension: The dimension
+             * @param {String} position: The [x, y] coordinates in matrix.
+             * @return {Array} The [x, y] coordinates in matrix.
              */
             inject: function(cellContent, dimension, position)
             {
@@ -173,7 +189,7 @@ var thegrid = function(options)
             /**
              * Gets the next empty cell.
              *
-             * @return {Array}  The next empty cell [x, y] coordinates in matrix.
+             * @return {Array} The next empty cell [x, y] coordinates in matrix.
              */
             getNextEmptyCell: function()
             {
@@ -188,8 +204,8 @@ var thegrid = function(options)
             /**
              * Gets the next cell whether it is empty or not.
              *
-             * @param  {Array}   position:  The [x, y] coordinates in matrix.
-             * @return {Array}  The next cell [x, y] coordinates in matrix.
+             * @param {Array} position: The [x, y] coordinates in matrix.
+             * @return {Array} The next cell [x, y] coordinates in matrix.
              */
             getNextCell: function(position)
             {
@@ -203,6 +219,8 @@ var thegrid = function(options)
 
             /**
              * Adds a new row to the matrix.
+             *
+             * @return {Array} The [x, y] coordinates in matrix of the first cell of the new row.
              */
             addNewRow: function()
             {
@@ -210,15 +228,14 @@ var thegrid = function(options)
                 this.rows++;
                 for (var i = 0; i < this.cols; i++) this.addEmptyCell([i, this.rows - 1]);
 
-                // console.log('adding a new row.', this.emptyCells, this.rows)
                 return [0, this.rows - 1];
             },
 
             /**
              * Determines if cell is empty.
              *
-             * @param  {Array}    position:  The [x, y] coordinates in matrix.
-             * @return     {boolean}  True if cell is empty, False otherwise.
+             * @param {Array} position: The [x, y] coordinates in matrix.
+             * @return {Boolean} True if cell is empty, False otherwise.
              */
             isCellEmpty: function(position)
             {
@@ -232,11 +249,11 @@ var thegrid = function(options)
             },
 
             /**
-             * Determines ability to fit.
+             * Determines the ability to fit the given cell in matrix at a given position.
              *
-             * @param      {number}   dimension  The dimension
-             * @param      {Array}  position:  The [x, y] coordinates in matrix.
-             * @return     {boolean}  True if able to fit, False otherwise.
+             * @param {Array} dimension: The dimension (in units) of the cell you want to put in matrix [width, height].
+             * @param {Array} position: The [x, y] coordinates where to place the cell in matrix.
+             * @return {Boolean} True if able to fit, False otherwise.
              */
             canFit: function(dimension, position)
             {
@@ -265,6 +282,8 @@ var thegrid = function(options)
 
     /**
      * Loop through each DOM element in the 'cells' collection and place them in the created matrix according to availability.
+     *
+     * @public
      */
     self.fillMatrix = function()
     {
@@ -285,7 +304,9 @@ var thegrid = function(options)
 
 
     /**
-     * public method to render the grid.
+     * Render the grid.
+     *
+     * @public
      */
     self.render = function()
     {
@@ -316,10 +337,10 @@ var thegrid = function(options)
 
 
     /**
-     * Update params.
+     * Update parameters.
      *
-     * @param {<type>} params: The parameters.
-     * @return {object} this.
+     * @param {Object} params: The parameters.
+     * @return {Object} The current instance.
      */
     self.updateParams = function(params)
     {
@@ -338,11 +359,11 @@ var thegrid = function(options)
      *
      * @param {jQuery Collection or selector string} cellsToToggle: either a css selector to match a collection of cells
      *                                                              or a jQuery collection of cells to toggle.
-     * @param {boolean} hide: whether to show or hide the given collection of cells.
+     * @param {Boolean} hide: whether to show or hide the given collection of cells.
                               Default: false.
-     * @param {boolean} toggleAllOthers: whether to show or hide all the other cells that are not in the given collection.
+     * @param {Boolean} toggleAllOthers: whether to show or hide all the other cells that are not in the given collection.
                                          Default: false.
-     * @return {object} this.
+     * @return {Object} The current instance.
      */
     self.filter = function(cellsToToggle, hide, toggleAllOthers)
     {

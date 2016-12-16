@@ -271,7 +271,8 @@ li:hover .topbar-submenu {
     min-height: 200px;
     max-height: 100%;
 }
-.code-wrapper.no-tabs {min-height: 0;}
+.code-wrapper.no-tabs {min-height: 0;max-height: none;}
+.code-wrapper.no-tabs pre {max-height: none;}
 .code-wrapper:before {
     position: absolute;
     left: -25px;
