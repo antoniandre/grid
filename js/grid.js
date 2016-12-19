@@ -29,7 +29,7 @@ var thegrid = function(options)
             // Animations.
             // By default the cells animation will be handled via CSS transitions as it is known to be smoother and
             // of better performances. however if you want some fancy easing effects (e.g. elastic or bounce) you may
-            // want to switch to javascript animations. If so just turn useJsTransitions to true and provide the easing
+            // want to switch to javascript animations. If so just turn animationPlatform to 'js' and provide the easing
             // speed and curve that you want.
             // You can also override the default CSS transitions in a custom CSS like:
             // .thegrid.transitions .cell {
@@ -37,9 +37,9 @@ var thegrid = function(options)
             //     -o-transition: .3s ease-in-out;
             //     transition: .3s ease-in-out;
             // }
-            useJsTransitions: false,
-            animationSpeed: 500,
+            animationPlatform: 'css',// 'css' or 'js'.
             animationEasing: 'linear',
+            animationSpeed: 500,
             animationDelay: 0,
 
             updateGridHeight: true,// On each render.
@@ -338,7 +338,7 @@ var thegrid = function(options)
 
             setTimeout(function()
             {
-                self.options.useJsTransitions ? cell.stop(true, true).animate(newCss, self.options.animationSpeed, self.options.animationEasing)
+                self.options.animationPlatform === 'js' ? cell.stop(true, true).animate(newCss, self.options.animationSpeed, self.options.animationEasing)
                                               : cell.css(newCss);
             }, self.options.animationDelay);
         });
@@ -565,7 +565,7 @@ var thegrid = function(options)
         if (!$.isEmptyObject(self.options.breakpoints)) $(window).trigger('gridInit');
 
         // Trigger ready custom event available for external use.
-        grid.trigger('ready').addClass('ready' + (self.options.useJsTransitions ? '' : ' transitions'));
+        grid.trigger('ready').addClass('ready' + (self.options.animationPlatform === 'js' ? '' : ' transitions'));
     }();
 },
 
