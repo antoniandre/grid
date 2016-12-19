@@ -5,7 +5,6 @@
     <link rel="stylesheet" type="text/css" href="../css/grid.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../js/demo.js"></script>
 </head>
@@ -42,8 +41,24 @@
 git clone git@github.com:antoniandre/grid.git</pre>
 
         <h2 class="i-check"><a name="get-it-working"></a> Get it working</h2>
-        <p>Install dependencies from <em>Bower</em> or uncomment the &lt;script&gt; tags from <em>cdnjs.cloudflare.com</em>.</p>
+        <h3>1. Include dependencies</h3>
+        <p>Install dependencies from <em>Bower</em>.</p>
         <pre class="i-terminal" data-type="terminal">bower install</pre>
+
+        <p>Then include jQuery script and grid script + minimum style in header:</p>
+        <pre class="i-code" data-type="html">&lt;link rel="stylesheet" type="text/css" href="../css/grid.css"&gt;
+&lt;script src="../bower_components/jquery/dist/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="../bower_components/jquery.easing/js/jquery.easing.min.js"&gt;&lt;/script&gt;
+&lt;script src="../js/grid.js"&gt;&lt;/script&gt;
+        </pre>
+        <p><strong>Alternatively, if you don't want to mess with <em>Bower</em></strong> you can use <em>cdnjs.cloudflare.com</em> versions instead:</p>
+        <pre class="i-code" data-type="html">&lt;link rel="stylesheet" type="text/css" href="../css/grid.css"&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"&gt;&lt;/script&gt;
+&lt;script src="../js/grid.js"&gt;&lt;/script&gt;
+        </pre>
+
+        <h3>2. Instantiate The Grid</h3>
         <p>Then use the most basic instantiation to get The Grid running!</p>
         <div class="code-wrapper i-code" data-result="true">
             <pre data-type="html">
@@ -101,7 +116,7 @@ git clone git@github.com:antoniandre/grid.git</pre>
     // Animations.
     // By default the cells animation will be handled via CSS transitions as it is known to be smoother and
     // of better performances. however if you want some fancy easing effects (e.g. elastic or bounce) you may
-    // want to switch to javascript animations. If so just turn useJsTransitions to true and provide the easing
+    // want to switch to javascript animations. If so just turn animationPlatform to 'js' and provide the easing
     // speed and curve that you want.
     // You can also override the default CSS transitions in a custom CSS like:
     // .thegrid.transitions .cell {
@@ -109,7 +124,7 @@ git clone git@github.com:antoniandre/grid.git</pre>
     //     -o-transition: .3s ease-in-out;
     //     transition: .3s ease-in-out;
     // }
-    useJsTransitions: false,
+    animationPlatform: 'css',// 'css' or 'js'.
     animationSpeed: 500,
     animationEasing: 'linear',
     animationDelay: 0,
