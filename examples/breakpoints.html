@@ -7,9 +7,25 @@
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
         .topbar-wrapper {margin-bottom: 90px;}
-        .code-section, h1, .intro, #see-the-code + label {z-index: 1;position: relative;}
+        .over-lines, .code-section {position: relative;z-index: 1;}
         #see-the-code + label {z-index: 2;}
-        h1, .intro, #see-the-code + label {background-color: rgba(255,255,255,.9);}
+
+        .over-lines {
+            padding: 10px;
+            margin: auto;
+            max-width: 400px;
+        }
+        .over-lines:after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: -60px;
+            background-color: rgba(255,255,255,.9);
+            box-shadow: 0 0 50px #fff, 0 0 50px #fff, 0 0 50px #fff, 0 0 50px #fff;
+        }
 
         .breakpoint-threshold {
             border-left: 1px solid rgba(255,0,0,.5);
@@ -167,8 +183,10 @@
             <code>cellsPerRow: 2,<br>cellHeight: 160</code>
         </span>
     </div>
-    <h1>Breakpoints.</h1>
-    <p class="intro">This example has 50 cells and 3 breakpoints - so 4 different layouts.<br>The cells have absolute positioning percentage wdth and fixed height.<br><br>Reduce your screen width to the breakpoint to see the cells reordering with a nice elastic animation.</p>
+    <div class="over-lines">
+        <h1>Breakpoints.</h1>
+        <p class="intro">This example has 50 cells and 3 breakpoints - so 4 different layouts.<br>The cells have absolute positioning percentage wdth and fixed height.<br><br>Reduce your screen width to the breakpoint to see the cells reordering with a nice elastic animation.</p>
+    </div>
     <input type="checkbox" class="toggle" id="see-the-code">
     <label for="see-the-code" class="i-plus">Check the code</label>
     <div class="code-section">
