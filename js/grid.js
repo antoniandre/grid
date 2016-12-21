@@ -38,7 +38,7 @@ var thegrid = function(options)
             //     transition: .3s ease-in-out;
             // }
             animationPlatform: 'css',// 'css' or 'js'.
-            animationEasing: 'linear',
+            animationEasing: 'swing',// jQuery built-in easings are 'swing', 'linear'. the jquery.easing plugin can add many more.
             animationSpeed: 500,
             animationDelay: 0,
 
@@ -339,7 +339,7 @@ var thegrid = function(options)
             setTimeout(function()
             {
                 self.options.animationPlatform === 'js' ? cell.stop(true, true).animate(newCss, self.options.animationSpeed, self.options.animationEasing)
-                                              : cell.css(newCss);
+                                                        : cell.css(newCss);
             }, self.options.animationDelay);
         });
 
