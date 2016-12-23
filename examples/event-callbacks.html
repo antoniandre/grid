@@ -87,7 +87,6 @@
         }
     </style>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
     <script src="../js/grid.js"></script>
     <script src="../js/demo.js"></script>
     <script>
@@ -98,7 +97,7 @@
                 .on('ready', function()
                 {
                     $(this).before('<div class="message">The Grid is ready.</div>');
-                    $('.message').slideDown(1200, 'easeOutElastic');
+                    $('.message').slideDown(1200);
                 })
                 .on('breakpointChange', function(e, bp)
                 {
@@ -107,8 +106,8 @@
                         + '    cellsPerRow: ' + $(this)[0].grid.options.breakpoints[bp].cellsPerRow + ',\n'
                         + '    cellHeight: ' + $(this)[0].grid.options.breakpoints[bp].cellHeight + '\n}</pre>');
                     clearTimeout(timeoutId);
-                    $('.message').stop(true, true).slideDown(700, 'easeOutCirc');
-                    timeoutId = setTimeout(function(){$('.message').stop(true, true).slideUp(400, 'easeOutCirc')}, 3000);
+                    $('.message').stop(true, true).slideDown(700);
+                    timeoutId = setTimeout(function(){$('.message').stop(true, true).slideUp(400)}, 3000);
                 })
                 .grid({
                     cellHeight: 100,

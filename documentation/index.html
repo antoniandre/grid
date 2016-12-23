@@ -32,34 +32,38 @@
             </div>
         </div>
     </div>
+
     <h1>Documentation.</h1>
     <p class="intro">The Grid is an ultra light weight (5.3 Kb) library that displays your cells in a surely nice grid layout way.<br>You can browse the different examples and try it out. &#12484;</p>
     <div class="documentation">
-        <h2 class="i-check"><a name="install"></a> Install</h2>
+        <h2 class="i-check"><a name="install"></a> <a href="#install">Install</a></h2>
         <p>Clone from GitHub or download zip archive.</p>
         <pre class="i-terminal" data-type="terminal">cd [where_you_want_it_to_be]
 git clone git@github.com:antoniandre/grid.git</pre>
 
-        <h2 class="i-check"><a name="get-it-working"></a> Get it working</h2>
-        <h3>1. Include dependencies</h3>
+        <h2 class="i-check"><a name="get-it-working"></a> <a href="#get-it-working">Get it working</a></h2>
+        <h3><a name="install.include-dependencies"></a> <a href="#install.include-dependencies">1. Include dependencies</a></h3>
         <p>Install dependencies from <em>Bower</em>.</p>
         <pre class="i-terminal" data-type="terminal">bower install</pre>
 
-        <p>Then include jQuery script and grid script + minimum style in header:</p>
+        <p>Then make sure you include jQuery script and grid script + minimum style in document <code>&lt;head&gt;</code>:</p>
         <pre class="i-code" data-type="html">&lt;link rel="stylesheet" type="text/css" href="../css/grid.css"&gt;
 &lt;script src="../bower_components/jquery/dist/jquery.min.js"&gt;&lt;/script&gt;
 &lt;script src="../js/grid.js"&gt;&lt;/script&gt;</pre>
 
-        <p><strong>Alternatively, if you don't want to mess with <em>Bower</em></strong> you can use <em>cdnjs.cloudflare.com</em> versions instead:</p>
-        <pre class="i-code" data-type="html">&lt;link rel="stylesheet" type="text/css" href="../css/grid.css"&gt;
-&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"&gt;&lt;/script&gt;
-&lt;script src="../js/grid.js"&gt;&lt;/script&gt;</pre>
+        <div class="lighter">
+            <h3><a name="install.alternative"></a> <a href="#install.alternative">1.b. Alternatively</a></h3>
+            <p><strong>Alternatively, if you don't want to mess with <em>Bower</em></strong> you can use <em>cdnjs.cloudflare.com</em> versions instead:</p>
+            <pre class="i-code" data-type="html">&lt;link rel="stylesheet" type="text/css" href="../css/grid.css"&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script src="../js/grid.js"&gt;&lt;/script&gt;</pre>
 
-        <p>By default and in most cases you won't need jquery.easing plugin. But if you really want to have fancy easing like elastic or bounce then you will need to include this script too:</p>
-        <pre class="i-code" data-type="html">// After jquery.min.js.
-&lt;script src="../bower_components/jquery.easing/js/jquery.easing.min.js"&gt;&lt;/script&gt;</pre>
+            <p>By default and in most cases you won't need jquery.easing plugin. But if you really want to have fancy easing like elastic or bounce then you will need to include this script too:</p>
+            <pre class="i-code" data-type="html">// After jquery.min.js.
+    &lt;script src="../bower_components/jquery.easing/js/jquery.easing.min.js"&gt;&lt;/script&gt;</pre>
+        </div>
 
-        <h3>2. Instantiate The Grid</h3>
+        <h3><a name="install.instantiate-the-grid"></a> <a href="#install.instantiate-the-grid">2. Instantiate The Grid</a></h3>
         <p>Then use the most basic instantiation to get The Grid running!</p>
         <div class="code-wrapper i-code" data-result="true">
             <pre data-type="html">
@@ -103,7 +107,7 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
         <p>Hum. I can already guess that it won't be enough to suit your picky needs, so you'd better add a few parameters.</p>
 
-        <h2 class="i-check"><a name="settings"></a> Settings - TO BE UPDATED SOON</h2>
+        <h2 class="i-check"><a name="settings"></a> <a href="#settings">Settings - TO BE UPDATED SOON</a></h2>
         <p>You can use all these settings</p>
         <pre class="i-code" data-type="javascript">{
     grid: $('.thegrid'),// The container of the cells.
@@ -158,48 +162,48 @@ git clone git@github.com:antoniandre/grid.git</pre>
     breakpoints: {}
 }</pre>
 
-        <h2 class="i-check"><a name="methods"></a> Methods - TO BE UPDATED SOON</h2>
+        <h2 class="i-check"><a name="methods"></a> <a href="#methods">Methods - TO BE UPDATED SOON</a></h2>
         <p>You can use all these methods</p>
 
-        <h3>Redraw</h3>
+        <h3><a name="methods.redraw"></a> <a href="#methods.redraw">Redraw</a></h3>
         <p>This is the most useful method of all. You will have to call it every time you made a change to the grid configuration or grid cells collection.<br>As easy to use as:</p>
         <pre class="i-code" data-type="javascript">thegrid.redraw();</pre>
         <p class="info i-info">This function is not internally called from each function like .filter() or updateParams() for better performance.<br>So you can chain multiple changes and redraw only once.</p>
 
-        <h3>updateParams</h3>
+        <h3><a name="methods.update-params"></a> <a href="#methods.update-params">updateParams</a></h3>
         <pre class="i-code" data-type="javascript">$('.thegrid').grid('updateParams', params);
 
 // Alternatively you can do it this way (after var grid1 = new thegrid();):
 // grid1.updateParams(params);</pre>
 
-        <h3>Filter</h3>
+        <h3><a name="methods.filter"></a> <a href="#methods.filter">Filter</a></h3>
         <p>To filter the cells you can call the <code>.filter()</code> method with the collection of cells you want to show or hide.</p>
         <pre class="i-code" data-type="javascript">thegrid.filter(cellsToToggle [, hide = false] [, toggleAllOthers = false]);</pre>
         <p class="param"><span>@param</span> <code>cellsToToggle</code><br>either a css selector to match a collection of cells or a jQuery collection.</p>
         <p class="param"><span>@param</span> <code>hide</code> <em> &nbsp; true, false. Default: false.</em><br> whether you want to show or hide the given collection of cells.</p>
         <p class="param"><span>@param</span> <code>toggleAllOthers</code> <em> &nbsp; true, false. Default: false.</em><br> whether to show or hide all the other cells that are not in the given collection.</p>
 
-        <h3>resetFilter</h3>
+        <h3><a name="methods.reset-filter"></a> <a href="#methods.reset-filter">resetFilter</a></h3>
         <pre class="i-code" data-type="javascript">thegrid.resetFilter();</pre>
 
-        <h3>sort</h3>
+        <h3><a name="methods.sort"></a> <a href="#methods.sort">sort</a></h3>
         <pre class="i-code" data-type="javascript">thegrid.sort(sortedCells);</pre>
 
 
 
 
-        <h2 class="i-check"><a name="events"></a> Events</h2>
+        <h2 class="i-check"><a name="events"></a> <a href="#events">Events</a></h2>
         <p>The following events are triggered on the grid DOM element. You can use them like a standard event.</p>
         <p class="warning"><span>Caution!</span> Do the event binding first before initializing the grid. Otherwise the ultra fast init will be complete before the event is bound.</p>
-        <h3>ready</h3>
+        <h3><a name="events.ready"></a> <a href="#events.ready">ready</a></h3>
         <p>The ready event happens very fast.</p>
         <pre class="i-code" data-type="javascript">$('.thegrid').on('ready', function(){...});</pre>
 
-        <h3>breakpointChange - on grid element</h3>
+        <h3><a name="events.breakpoint-change"></a> <a href="#events.breakpoint-change">breakpointChange - on grid element</a></h3>
         <p>This event is triggered when the browser is resized.</p>
         <pre class="i-code" data-type="javascript">$('.thegrid').on('breakpointChange');</pre>
 
-        <h3>redraw</h3>
+        <h3><a name="events.redraw"></a> <a href="#events.redraw">redraw</a></h3>
         <p>This event is triggered when The Grid has just finished redrawing the grid. Meaning recalculating the position of each cell and displaying them.</p>
         <pre class="i-code" data-type="javascript">$('.thegrid').on('redraw', function(){...});</pre>
     </div>
