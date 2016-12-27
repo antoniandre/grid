@@ -15,7 +15,7 @@ var thegrid = function(options)
      *
      * @access private.
      */
-    var self = this, grid, cells, cellsNum, cellWidth, cellHeight,
+    var self = this, grid, cells, cellsNum, cellWidth, cellHeight, sorting,
         defaults =
         {
             grid: $('.thegrid'),// The container of the cells.
@@ -67,7 +67,8 @@ var thegrid = function(options)
                     cellsPerRow: 3
                 },
             }*/
-            breakpoints: {}
+            breakpoints: {},
+            sortingCriteria: {}
         },
 
         /**
@@ -404,6 +405,83 @@ var thegrid = function(options)
 
 
     /**
+     * Sort the grid cells according to the active sorting from options.sortingCriteria.
+     *
+     * @access Public.
+     * @return {Object} The current instance.
+     */
+    self.sort = function()
+    {
+        var sortedCells = null;
+        for (var criterion in sorting) if (sorting[criterion].active)
+        {
+            sorting[criterion].sorted.sort(function(a, b)
+            {
+                var multiplier = sorting[criterion].order === 'asc' ? 1 : -1, ret;
+                a = a.attributes["data-" + criterion].value || '';
+                b = b.attributes["data-" + criterion].value || '';
+
+                switch(sorting[criterion].type)
+                {
+                    case 'int':
+                    case 'float':
+                        a = parseFloat(a);
+                        b = parseFloat(b);
+                        ret = a - b;
+                        break;
+                    default:
+                        ret = a < b ? -1 : (a > b) ? 1 : 0;
+                        break;
+                }
+
+                return ret * multiplier;
+            });
+
+            sortedCells = sorting[criterion].sorted;
+        }
+        cells = sortedCells || sorting.default;
+
+        return this;
+    }
+
+
+    /**
+     * Initialize the sorting feature if sortingCriteria are given in options.
+     *
+     * @access Private.
+     * @return {Object} The current instance.
+     */
+    var initSort = function()
+    {
+        sorting = {};
+
+        for (var criterion in self.options.sortingCriteria)
+        {
+            sorting[criterion] = self.options.sortingCriteria[criterion];
+            sorting[criterion].sorted = cells;
+        }
+        // Clone the array of cells to make sure their order won't be affected by any later change of cells var.
+        sorting.default = cells.slice(0);
+
+        $('[data-sort]').on('change', function(e)
+        {
+            this.pos = ((this.pos || 0) + 1) % 3;
+
+            var order = ['', 'asc', 'desc'][this.pos];
+                criterion = $(this).data('sort');
+
+            $(this).attr('data-order', order);
+            sorting[criterion].order = order;
+            sorting[criterion].active = this.pos;
+
+            self.sort().redraw();
+        });
+
+        return this;
+    }
+
+
+    /**
      * Reset all the applied filters and go back to the original cells collection from the DOM.
      *
      * @access Public.
@@ -556,7 +634,7 @@ var thegrid = function(options)
         // After the cells placing the grid height will probably be different.
         grid.css('height', Math.ceil(cellsNum / self.options.cellsPerRow) * self.options.cellHeight);
 
-
+        if (self.options.sortingCriteria) initSort();
         bindEvents();
         fillMatrix();
         render();
