@@ -6,7 +6,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
     <style>
-        .sort {
+        .sort,
+        .filter {
             background-color: #cdf;
             color: #66c;
             text-align: center;
@@ -14,8 +15,6 @@
             font-size: 130%;
             border-radius: 20px;
             padding: 0 15px 0 15px;
-            width: 3em;
-            text-indent: -.4em;
             outline: none;
             cursor: pointer;
             display: inline-block;
@@ -25,6 +24,19 @@
             -ms-user-select: none;
             -o-user-select: none;
             user-select: none;
+        }
+        .sort {
+            color: #66c;
+            border-radius: 20px;
+            width: 5em;
+            text-indent: -.4em;
+        }
+        .filter {
+            background-color: #baf;
+            color: #fff;
+            border-radius: 20px;
+            width: 5em;
+            text-indent: -.4em;
         }
         .sort  ~ .sort {background-color: #fdc;color: #f66;}
         .sort:before {
@@ -71,10 +83,30 @@
             -o-transform: rotate(180deg);
             transform: rotate(180deg);
         }
+        .filter:before {
+            font-family: "the-grid" !important;
+            speak: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: "\63";
+            font-size: 130%;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 2px;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+        :checked + .filter:before {
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
 
         .thegrid .cell > div {
             border: 1px solid #def;
             background-image: radial-gradient(circle at top right, #fff, #def);
+            overflow: hidden;
         }
         .thegrid .cell:before {
             content: attr(data-name);
@@ -91,6 +123,25 @@
             z-index: 1;
             color: #66c;
         }
+        .thegrid .cell[data-new] > div:before {
+            content: 'new';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4em;
+            height: 16px;
+            text-align: center;
+            font-variant: small-caps;
+            line-height: 16px;
+            font-size: 140%;
+            color: #fff;
+            background-color: #baf;
+            z-index: 1;
+            -webkit-transform: rotate(45deg) translate(30%, -40%);
+            -ms-transform: rotate(45deg) translate(30%, -40%);
+            -o-transform: rotate(45deg) translate(30%, -40%);
+            transform: rotate(45deg) translate(30%, -40%);
+        }
         .thegrid .cell:after {
             content: '$' attr(data-price);
             position: absolute;
@@ -106,10 +157,7 @@
     <script>
         $(document).ready(function()
         {
-            var //activeFilters = {blue: true, green: true, pink: true},
-                gridElement = $('.thegrid');
-
-            gridElement.grid(
+            $('.thegrid').grid(
             {
                 cellsPerRow: 5,
                 sortingCriteria:
@@ -117,6 +165,17 @@
                     name: {type: 'string'},
                     price: {type: 'int'},
                 }
+            });
+
+            $('input.filter').on('change', function()
+            {
+                var isActive = $(this).is(':checked'),
+                    filterCriterion = $(this).data('filter'),
+                    filteredCells = '.cell' + (isActive ? '[data-' + filterCriterion + ']' : '');
+
+                $('.thegrid')
+                    .grid('filter', filteredCells, false, true)
+                    .grid('redraw');
             });
         });
     </script>
@@ -151,6 +210,7 @@
         This basic example has 20 cells.<br>The cells have absolute positioning percentage width and fixed height.<br><br>
         <input type="checkbox" id="checkbox1" class="toggle" data-sort="name"><label class="sort" for="checkbox1" title="sort by name">A-Z</label>
         <input type="checkbox" id="checkbox2" class="toggle" data-sort="price"><label class="sort" for="checkbox2" title="Sort by price">$$</label> &nbsp;
+        <input type="checkbox" id="checkbox3" class="toggle filter" data-filter="new"><label class="filter" for="checkbox3">Only new</label> &nbsp;
     </p>
     <input type="checkbox" class="toggle" id="see-the-code">
     <label for="see-the-code" class="i-plus">Check the code</label>
@@ -163,35 +223,35 @@
     </div>
 
     <div class="thegrid">
-        <div class="cell" data-width="1" data-height="1" data-name="Lorem" data-price="50"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Ipsum" data-price="5"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Lorem" data-price="50"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Ipsum" data-price="5"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Dolor" data-price="29"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Sit" data-price="81"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Amet" data-price="7"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Consectetur" data-price="89"><div></div></div>
-        <div class="cell" data-width="3" data-height="1" data-name="Adipisicing" data-price="35"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Elit" data-price="81"><div></div></div>
+        <div class="cell" data-width="3" data-height="1" data-new data-name="Adipisicing" data-price="35"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Elit" data-price="81"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Vel" data-price="63"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Quisquam" data-price="52"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Quisquam" data-price="52"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Atque" data-price="6"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Fuga" data-price="1"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Voluptate" data-price="57"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Voluptate" data-price="57"><div></div></div>
         <div class="cell" data-width="3" data-height="1" data-name="Commodi" data-price="17"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Quidem" data-price="64"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Quo" data-price="33"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Repellat" data-price="17"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Repellat" data-price="17"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Doloremque" data-price="61"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Eaque" data-price="92"><div></div></div>
-        <div class="cell" data-width="4" data-height="1" data-name="Deserunt" data-price="37"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Eaque" data-price="92"><div></div></div>
+        <div class="cell" data-width="4" data-height="1" data-new data-name="Deserunt" data-price="37"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Illo" data-price="55"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Architecto" data-price="21"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Architecto" data-price="21"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Ex" data-price="71"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Odit" data-price="93"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Perferendis" data-price="13"><div></div></div>
         <div class="cell" data-width="2" data-height="1" data-name="Praesentium" data-price="94"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Nihil" data-price="77"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Veritatis" data-price="89"><div></div></div>
-        <div class="cell" data-width="1" data-height="1" data-name="Nisi" data-price="40"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Nihil" data-price="77"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Veritatis" data-price="89"><div></div></div>
+        <div class="cell" data-width="1" data-height="1" data-new data-name="Nisi" data-price="40"><div></div></div>
         <div class="cell" data-width="1" data-height="1" data-name="Quos" data-price="76"><div></div></div>
     </div>
 </body>

@@ -400,6 +400,8 @@ var thegrid = function(options)
         cells = cellsToShow;
         cellsNum = cells.length;
 
+        if (sorting) self.sort();
+
         return this;
     }
 
@@ -412,10 +414,12 @@ var thegrid = function(options)
      */
     self.sort = function()
     {
+        if (!sorting) return;
+
         var sortedCells = null;
         for (var criterion in sorting) if (sorting[criterion].active)
         {
-            sorting[criterion].sorted.sort(function(a, b)
+            sortedCells = cells.slice(0).sort(function(a, b)
             {
                 var multiplier = sorting[criterion].order === 'asc' ? 1 : -1, ret;
                 a = a.attributes["data-" + criterion].value || '';
@@ -436,10 +440,8 @@ var thegrid = function(options)
 
                 return ret * multiplier;
             });
-
-            sortedCells = sorting[criterion].sorted;
+            cells = sortedCells || sorting.default;
         }
-        cells = sortedCells || sorting.default;
 
         return this;
     }
@@ -487,10 +489,12 @@ var thegrid = function(options)
      * @access Public.
      * @return {Object} The current instance.
      */
-    self.resetFilter = function()
+    self.resetFilters = function()
     {
         cells = $(self.options.cells).removeClass('hidden');
         cellsNum = cells.length;
+
+        if (sorting) self.sort();
 
         return this;
     }
@@ -624,7 +628,6 @@ var thegrid = function(options)
 
         // Init the core vars.
         grid = $(self.options.grid);
-        // self.gridWidth = grid.width();
         cells = $(self.options.cells).not('.hidden');
         cellsNum = cells.length;
         cellWidth = 100 / self.options.cellsPerRow;
@@ -651,9 +654,9 @@ var thegrid = function(options)
  * Helper function.
  * Creates a matrix of the given size and fill each cell with a default value.
  *
- * @param {number} cols The columns number.
- * @param {number} rows The rows number.
- * @param {mixed} defaultValue The default value for each cell.
+ * @param {number} cols: The columns number.
+ * @param {number} rows: The rows number.
+ * @param {mixed} defaultValue: The default value for each cell.
  * @return {Array} the generated matrix.
  */
 matrix = function(cols, rows, defaultValue)
@@ -679,21 +682,25 @@ matrix = function(cols, rows, defaultValue)
 $.fn.grid = function(firstArg)
 {
     // The DOM element on which we call the grid plugin.
-    var gridElement = this[0];
+    var gridElement = this[0], warn, error;
 
-    if (!gridElement || gridElement === undefined)
+    // Handle errors and incorrect grid calls.
+    switch (true)
     {
-        console.error('Can\'t instanciate The Grid on an empty jQuery collection.');
-        return;
+        case (!gridElement || gridElement === undefined):
+            error = 'Can\'t instanciate The Grid on an empty jQuery collection.';
+            break;
+        case (['object', 'undefined', 'string'].indexOf(typeof firstArg) === -1):
+            warn = 'Ignoring grid call with wrong params.';
+            break;
+        case (typeof firstArg === 'string' && typeof (gridElement).grid[firstArg] !== 'function'):
+            warn = 'Ignoring unknown Grid method call "' + firstArg + '".';
+            break;
     }
-    if (['object', 'undefined', 'string'].indexOf(typeof firstArg) === -1)
-    {
-        console.warn('Ignoring grid call with wrong params.');
-        return;
-    }
+    if (warn || error) console[error ? 'error' : 'warn'](warn || error);
 
     // Instanciate The Grid.
-    if (typeof firstArg === 'object' || firstArg === undefined)
+    else if (typeof firstArg === 'object' || firstArg === undefined)
     {
         (firstArg || {grid: null}).grid = gridElement;
         gridElement.grid = new thegrid(firstArg);
