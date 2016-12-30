@@ -26,49 +26,63 @@ var thegrid = function(options)
                             // function(gh){return ((gh.gridWidth / gh.options.cellsPerRow) * 262 / 400) + 100};
                             // But be aware that it will be much more costy (you may opt for throttling).
 
-            // Animations.
+            //========= Animations =========//
             // By default the cells animation will be handled via CSS transitions as it is known to be smoother and
             // of better performances. however if you want some fancy easing effects (e.g. elastic or bounce) you may
             // want to switch to javascript animations. If so just turn animationPlatform to 'js' and provide the easing
             // speed and curve that you want.
             // You can also override the default CSS transitions in a custom CSS like:
-            // .thegrid.transitions .cell {
-            //     -webkit-transition: .3s ease-in-out;
-            //     -o-transition: .3s ease-in-out;
-            //     transition: .3s ease-in-out;
-            // }
+            //     .thegrid.transitions .cell {
+            //         -webkit-transition: .3s ease-in-out;
+            //         -o-transition: .3s ease-in-out;
+            //         transition: .3s ease-in-out;
+            //     }
             animationPlatform: 'css',// 'css' or 'js'.
-            animationEasing: 'swing',// jQuery built-in easings are 'swing', 'linear'. the jquery.easing plugin can add many more.
+            animationEasing: 'swing',// jQuery built-in easings are 'swing', 'linear'. the jquery.easing plug-in can add many more.
             animationSpeed: 500,
             animationDelay: 0,
 
             updateGridHeight: true,// On each render.
 
-            // Responsiveness.
+            //========= Responsiveness =========//
             // Only if breakpoints are set the redraw() function is triggered on each resize event.
             // You can throttle the redraw to alight the resizing event.
             // (while resizing the redraw() function is exec every throttlingDelay milliseconds)
             throttling: false,
             throttlingDelay: 300,// in ms.
-            /* Breakpoints (from desktop to mobile) to have a different behavior according to the device screen width.
-            Example of use:
-            breakpoints:
-            {
-                1199:
-                {
-                    cellsPerRow: 5
-                },
-                767:
-                {
-                    cellsPerRow: 4
-                },
-                479:
-                {
-                    cellsPerRow: 3
-                },
-            }*/
+
+            //========= Breakpoints =========//
+            // (from desktop to mobile).
+            // Use it to allow a different behavior according to the device screen width.
+            // Example of use:
+            //     breakpoints:
+            //     {
+            //         1199:
+            //         {
+            //             cellsPerRow: 5
+            //         },
+            //         767:
+            //         {
+            //             cellsPerRow: 4
+            //         },
+            //         479:
+            //         {
+            //             cellsPerRow: 3
+            //         },
+            //     }
             breakpoints: {},
-            sortingCriteria: {}
+
+            //========= Sorting =========//
+            // If you want to apply sorting on The Grid cells.
+            // Each criterion that you use for sorting can apply a numeric or string sorting.
+            // This allows to sort naturally: numeric to [1, 3, 11], or string to ['1a', '11a', '3a'].
+            // Note that for performance concerns this is set as a parameter and not as a native guess.
+            // Example of use:
+            //     sortingCriteria:
+            //     {
+            //         name: {type: 'string'},
+            //         price: {type: 'int'},
+            //     }
         },
 
         /**
@@ -674,7 +688,7 @@ matrix = function(cols, rows, defaultValue)
 
 
 /**
- * Eventually make the jQuery plugin wrapper.
+ * Eventually make the jQuery plug-in wrapper.
  *
  * @param  {Object|String} firstArg: can hold either a method name or an object of parameters for init.
  * @return {Object} The current instance.
