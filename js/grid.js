@@ -601,7 +601,7 @@ var thegrid = function(options)
                 tmpBp.push(screenWidth);// Add screenWidth to the array.
 
                 // Sort NATURAL ASC and always put '++' (for init config) at the end (e.g. [479, 767, 790, 1199, "1199++"]).
-                tmpBp.sort(function(a, b){return (typeof a === 'string' && a.indexOf('++') > -1) || a*1 - b*1});
+                tmpBp.sort(function(a, b){return (typeof a === 'string' && a.indexOf('++') > -1) || parseInt(a) - parseInt(b)});
                 var i = tmpBp.indexOf(screenWidth);// Get the position of screenWidth in the breakpoints array.
 
                 // If the index is the last one (initial and widest screen config), breakpointsArray[i] won't exist so
