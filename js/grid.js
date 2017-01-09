@@ -19,6 +19,8 @@ var thegrid = function(options)
         defaults =
         {
             grid: $('.thegrid'),// The container of the cells.
+                                // This var will be removed after init to avoid circular error due to recursion.
+                                // It is stored in public var 'grid' instead.
             cells: $('.cell'),// The cells to render / place / filter.
             cellsPerRow: 7,
             cellHeight: 100,// Cell height in pixels.
@@ -642,6 +644,7 @@ var thegrid = function(options)
 
         // Init the core vars.
         grid = $(self.options.grid);
+        delete self.options.grid;//!\\ Avoid circular error due to recursion.
         cells = $(self.options.cells).not('.hidden');
         cellsNum = cells.length;
         cellWidth = 100 / self.options.cellsPerRow;
@@ -702,7 +705,7 @@ $.fn.grid = function(firstArg)
     switch (true)
     {
         case (!gridElement || gridElement === undefined):
-            error = 'Can\'t instanciate The Grid on an empty jQuery collection.';
+            error = 'Can\'t instantiate The Grid on an empty jQuery collection.';
             break;
         case (['object', 'undefined', 'string'].indexOf(typeof firstArg) === -1):
             warn = 'Ignoring grid call with wrong params.';
@@ -713,7 +716,7 @@ $.fn.grid = function(firstArg)
     }
     if (warn || error) console[error ? 'error' : 'warn'](warn || error);
 
-    // Instanciate The Grid.
+    // Instantiate The Grid.
     else if (typeof firstArg === 'object' || firstArg === undefined)
     {
         (firstArg || {grid: null}).grid = gridElement;
