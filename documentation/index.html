@@ -179,16 +179,16 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
         <h3><a name="methods.filter"></a> <a href="#methods.filter">Filter</a></h3>
         <p>To filter the cells you can call the <code>.filter()</code> method with the collection of cells you want to show or hide.</p>
-        <pre class="i-code" data-type="javascript">thegrid.filter(cellsToToggle [, hide = false] [, toggleAllOthers = false]);</pre>
+        <pre class="i-code" data-type="javascript">$('.thegrid').grid('filter', cellsToToggle [, hide = false] [, toggleAllOthers = false]);</pre>
         <p class="param"><span>@param</span> <code>cellsToToggle</code><br>either a css selector to match a collection of cells or a jQuery collection.</p>
         <p class="param"><span>@param</span> <code>hide</code> <em> &nbsp; true, false. Default: false.</em><br> whether you want to show or hide the given collection of cells.</p>
         <p class="param"><span>@param</span> <code>toggleAllOthers</code> <em> &nbsp; true, false. Default: false.</em><br> whether to show or hide all the other cells that are not in the given collection.</p>
 
-        <h3><a name="methods.reset-filter"></a> <a href="#methods.reset-filter">resetFilter</a></h3>
-        <pre class="i-code" data-type="javascript">thegrid.resetFilter();</pre>
+        <h3><a name="methods.reset-filters"></a> <a href="#methods.reset-filters">resetFilters</a></h3>
+        <pre class="i-code" data-type="javascript">$('.thegrid').grid('resetFilters');</pre>
 
         <h3><a name="methods.sort"></a> <a href="#methods.sort">sort</a></h3>
-        <pre class="i-code" data-type="javascript">thegrid.sort(sortedCells);</pre>
+        <pre class="i-code" data-type="javascript">$('.thegrid').grid('sort', sortedCells);</pre>
 
 
 
