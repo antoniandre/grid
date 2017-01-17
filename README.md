@@ -2,7 +2,7 @@
 
 
 ## What is it?
-he Grid is an ultra light weight (6.19 Kb) jQuery plugin that displays your cells in a surely nice grid layout way.
+The Grid is an ultra light weight (6.19 Kb) jQuery plugin that displays your cells in a nice grid layout.
 Cells may have different dimensions but The Grid will rearrange the order to avoid the blanks.
 
 
