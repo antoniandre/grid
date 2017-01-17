@@ -1,2 +1,31 @@
+# WINDOWS
+# -------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+
+# OSX
+# ---
 .DS_Store
-/bower_components/
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+
+# BOWER & NODE
+# ------------
+bower_components/
+node_modules/
+
+
+# GITHUB
+# ------
+gh-pages/
