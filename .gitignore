@@ -22,10 +22,4 @@ $RECYCLE.BIN/
 
 # BOWER & NODE
 # ------------
-bower_components/
 node_modules/
-
-
-# GITHUB
-# ------
-gh-pages/
