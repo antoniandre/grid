@@ -1,0 +1,20 @@
+{
+  "name": "The Grid",
+  "authors": [
+    "Antoni Andre <antoniandre.web@gmail.com>"
+  ],
+  "description": "The Grid is an extra light weight (6.19 Kb) jQuery plugin that displays your cells in a nice grid layout.",
+  "keywords": [
+    "grid", "jquery plugin", "js"
+  ],
+  "main": "js/grid.min.js",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery.easing": "^1.3.1",
+    "jquery": "^3.1.1"
+  }
+}

@@ -1,0 +1,238 @@
+<html>
+<head>
+    <title>The Grid - Responsive images example</title>
+    <link rel="stylesheet" type="text/css" href="../css/demo.css">
+    <link rel="stylesheet" type="text/css" href="../css/grid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
+    <style>
+        .cell > div {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 1px solid orange;
+            background: url(https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png) no-repeat center center;
+            -webkit-background-size: contain;
+            background-size: contain;
+            display: block;
+        }
+        .cell div:after {
+            content: attr(data-text);
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: rgba(255,255,255, .3);
+            background: rgba(0,0,0,.4);
+            padding: 4px;
+            font: normal 130% arial;
+        }
+
+        .thegrid .cell {
+            opacity: 0;
+            -webkit-transition: opacity .5s;
+            -o-transition: opacity .5s;
+            transition: opacity .5s;
+        }
+        .thegrid.ready .cell {
+            opacity: 1;
+        }
+    </style>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+    <script src="../js/grid.js"></script>
+    <script src="../js/demo.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            setTimeout(function()
+            {
+                $('.thegrid').grid(
+                {
+                    grid: '.thegrid',
+                    cells: '.cell',
+                    cellHeight: 100,
+                    cellsPerRow: 7,
+                    animationPlatform: 'js',
+                    animationSpeed: 1200,
+                    animationEasing: 'easeOutElastic',
+                    breakpoints:
+                    {
+                        1199:
+                        {
+                            cellsPerRow: 5,
+                            cellHeight: 100
+                        },
+                        767:
+                        {
+                            cellsPerRow: 4,
+                            cellHeight: 130
+                        },
+                        479:
+                        {
+                            cellsPerRow: 2,
+                            cellHeight: 160
+                        },
+                    }
+                });
+            }, 2000);
+        });
+    </script>
+</head>
+<body>
+    <div class="topbar-wrapper">
+        <div class="topbar clearfix">
+            <div class="topbar-inner">
+                <div class="topbar-logo i-thegrid">The Grid</div>
+                <div class="topbar-menu">
+                    <ul>
+                        <li><a href="../index.html" class="i-home"><span>home</span></a></li>
+                        <li><a href="../documentation/" class="i-book"><span>Documentation</span></a></li>
+                        <li>
+                            <span class="i-examples"><span>Examples &nbsp; <i class="i-arr-d"></i></span></span>
+                            <ul class="topbar-submenu">
+                                <li><a href="../examples/basic.html" class="i-arr-l">Basic</a></li>
+                                <li><a href="../examples/breakpoints.html" class="i-arr-l">Breakpoints</a></li>
+                                <li><a href="../examples/responsive-images.html" class="i-arr-l active">Responsive images</a></li>
+                                <li><a href="../examples/event-callbacks.html" class="i-arr-l">Event callbacks</a></li>
+                                <li><a href="../examples/filters.html" class="i-arr-l">Filters</a></li>
+                                <li><a href="../examples/sorting.html" class="i-arr-l">Sorting</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>Responsive images.</h1>
+    <p class="intro">This example has 90 cells and a loading spinner.<br>The grid load is defered of 2 seconds so you can see it.<br>The cells have absolute positioning percentage width and fixed height.</p>
+    <input type="checkbox" class="toggle" id="see-the-code">
+    <label for="see-the-code" class="i-plus">Check the code</label>
+    <div class="code-section">
+        <pre class="i-code" data-type="javascript">// When DOM is ready.
+$('.thegrid').grid(
+{
+    grid: '.thegrid',
+    cells: '.cell',
+    cellHeight: 100,
+    cellsPerRow: 7,
+    animationPlatform: 'js',
+    animationSpeed: 1200,
+    animationEasing: 'easeOutElastic',
+    breakpoints:
+    {
+        1199:
+        {
+            cellsPerRow: 5,
+            cellHeight: 100
+        },
+        767:
+        {
+            cellsPerRow: 4,
+            cellHeight: 130
+        },
+        479:
+        {
+            cellsPerRow: 2,
+            cellHeight: 160
+        },
+    }
+});</pre>
+    </div>
+
+    <div class="thegrid">
+        <div class="loading"></div>
+        <div class="cell" data-width="1" data-height="4"><div data-text="1"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="2"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="3"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="4"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="5"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="6"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="7"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="8"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="9"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="10"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="11"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="12"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="13"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="14"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="15"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="16"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="17"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="18"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="19"></div></div>
+        <div class="cell" data-width="4" data-height="1"><div data-text="20"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="21"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="22"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="23"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="24"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="25"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="26"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="27"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="28"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="29"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="30"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="31"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="32"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="33"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="34"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="35"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="36"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="37"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="38"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="39"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="40"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="41"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="42"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="43"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="44"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="45"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="46"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="47"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="48"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="49"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="50"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="51"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="52"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="53"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="54"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="55"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="56"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="57"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="58"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="59"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="60"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="61"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="62"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="63"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="64"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="65"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="66"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="67"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="68"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="69"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="70"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="71"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="72"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="73"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="74"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="75"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="76"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="77"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="78"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="79"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="80"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="81"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="82"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="83"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="84"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="85"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="86"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="87"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="88"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="89"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="90"></div></div>
+    </div>
+</body>
+</html>
