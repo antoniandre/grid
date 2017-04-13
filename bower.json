@@ -7,7 +7,7 @@
   "keywords": [
     "grid", "jquery plugin", "js"
   ],
-  "main": "",
+  "main": "js/grid.min.js",
   "license": "MIT",
   "homepage": "",
   "ignore": [
