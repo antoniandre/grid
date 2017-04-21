@@ -15,7 +15,7 @@ var thegrid = function(options)
      *
      * @access private.
      */
-    var self = this, grid, cells, cellsNum, cellWidth, cellHeight, sorting,
+    var self = this, grid, cells, cellsNum, cellWidth, cellHeight, sorting, hasBreakpoints, breakpointsArray,
         defaults =
         {
             grid: $('.thegrid'),// The container of the cells.
@@ -339,6 +339,13 @@ var thegrid = function(options)
      */
     var render = function()
     {
+        // On each render, call the cellHeight function if it is defined and update the cell height.
+        if (typeof self.options.cellHeight === 'function')
+        {
+            self.gridWidth = gridWidth = grid.width();
+            cellHeight = self.options.cellHeight(self);
+        }
+
         cells.each(function(i, cell)
         {
             cell = $(cell);
@@ -544,88 +551,113 @@ var thegrid = function(options)
      */
     var bindEvents = function()
     {
-        if (!$.isEmptyObject(self.options.breakpoints))
+        if (hasBreakpoints || typeof self.options.cellHeight === 'function')
         {
-            var currentBreakpoint,
-                breakpointsArray = [],
-                breakpointsNum,
-                initialConfigIndex = 0;
-
-            // Convert to breakpoints object an array for sorting.
-            for (var breakpoint in self.options.breakpoints) breakpointsArray.push(breakpoint * 1);
-            breakpointsNum = breakpointsArray.length;
-
-
-            // NATURAL numeric ascendant sorting (*1 is shorthand for parseInt()).
-            breakpointsArray.sort(function(a, b){return a*1 - b*1});
-
-            // Add the initial config (i.e. 'widest') into the breakpoints object and breakpoints array.
-            // E.g. [479, 767, 1199, "1199++"].
-            // It would be easier to have all integers but outputting breakpoint number to the end user through the 6breakpointChange
-            // event has to be meaningful.
-            initialConfigIndex = breakpointsArray[breakpointsNum - 1] + '++';
-            self.options.breakpoints[initialConfigIndex] = JSON.parse(JSON.stringify(self.options));
-            delete self.options.breakpoints[initialConfigIndex].breakpoints;// Don't need to keep this.
-            breakpointsArray.push(initialConfigIndex);
-            breakpointsNum++;
-
             $(window).on('resize gridInit afterResize', function(e)
             {
-                // If throttling is on exit quickly for better performance.
+                // On resize, if throttling is on, exit quickly for better performance.
                 // So keep this first.
-                if (self.options.throttling)
+                if (self.options.throttling && e.type === 'resize')
                 {
-                    // If throttling is on and resize event triggered only set a timeout
-                    // (to trigger a custom afterResize event) and return.
-                    if (e.type === 'resize')
+                    // Only trigger a custom 'afterResize' callback event and return.
+                    // So that, we recalculate at most once every options.throttlingDelay seconds.
+                    self.throttleTimer = setTimeout(function()
                     {
-                        self.throttleTimer = setTimeout(function()
-                        {
-                            clearTimeout(self.throttleTimer);
-                            self.throttleTimer = null;
-                            $(window).trigger('afterResize');
-                        }, self.options.throttlingDelay);
-                        return true;
-                    }
+                        clearTimeout(self.throttleTimer);
+                        self.throttleTimer = null;
+                        $(window).trigger('afterResize');
+                    }, self.options.throttlingDelay);
+
+                    return true;
                 }
-                var params = {},
-                    screenWidth = this.innerWidth,
-                    tmpBp = [],
-                    newBreakpoint,
-                    breakpointChange = false;
 
-                // Best optimized code possible:
-                // Way faster than for loop on given breakpoints.
-                // Also faster than a series of if / else if.
-                // The idea is to have an array of breakpoints and add the current screenWidth in it and ASC sort the array.
-                // Then locate the position of the screenWidth in array and get the breakpoint just above to get its config.
-                tmpBp = breakpointsArray.slice(0);// Clone array.
-                tmpBp.push(screenWidth);// Add screenWidth to the array.
+                // Watch breakpoints and apply new config if a set of breakpoints is defined.
+                var breakpointChange = hasBreakpoints ? watchBreakpoints() : false;
 
-                // Sort NATURAL ASC and always put '++' (for init config) at the end (e.g. [479, 767, 790, 1199, "1199++"]).
-                tmpBp.sort(function(a, b){return (typeof a === 'string' && a.indexOf('++') > -1) || parseInt(a) - parseInt(b)});
-                var i = tmpBp.indexOf(screenWidth);// Get the position of screenWidth in the breakpoints array.
-
-                // If the index is the last one (initial and widest screen config), breakpointsArray[i] won't exist so
-                // just reapply initial config.
-                newBreakpoint = breakpointsArray[i];
-                breakpointChange = newBreakpoint !== currentBreakpoint;
-
-                // Only redraw if current breakpoint has changed or if we want to recalculate height at each step..
-                if (breakpointChange || typeof self.options.cellHeight === 'function')
-                {
-                    currentBreakpoint = newBreakpoint;
-
-                    // Trigger the breakpointChange event but skip the init one.
-                    if (e.type !== 'gridInit' && breakpointChange) grid.trigger('breakpointChange', [currentBreakpoint]);
-
-                    // Apply settings of the detected breakpoint config.
-                    params = self.options.breakpoints[currentBreakpoint];
-
-                    self.updateParams(params).redraw();
-                }
+                // Only redraw if current breakpoint has changed or if we want to recalculate height at each step.
+                if (breakpointChange || typeof self.options.cellHeight === 'function') self.redraw();
             });
         }
+    };
+
+
+    /**
+     * On window resize, gridInit and afterResize events, watch if the screen width reaches a breakpoint
+     * and update the configuration accordingly by applying the new breakpoint's config over the current one.
+     *
+     * @access Private.
+     * @return {boolean} true if the breakpoint has changed, false otherwise.
+     */
+    var watchBreakpoints = function()
+    {
+        var params = {},
+            screenWidth = this.innerWidth,
+            tmpBp = [],
+            currentBreakpoint,
+            newBreakpoint,
+            breakpointChange = false;
+
+        // Best optimized code possible:
+        // Way faster than for loop on given breakpoints.
+        // Also faster than a series of if / else if.
+        // The idea is to have an array of breakpoints and add the current screenWidth in it and ASC sort the array.
+        // Then locate the position of the screenWidth in array and get the breakpoint just above to get its config.
+        tmpBp = breakpointsArray.slice(0);// Clone array.
+        tmpBp.push(screenWidth);// Add screenWidth to the array.
+
+        // Sort NATURAL ASC and always put '++' (for init config) at the end (e.g. [479, 767, 790, 1199, "1199++"]).
+        tmpBp.sort(function(a, b){return (typeof a === 'string' && a.indexOf('++') > -1) || parseInt(a) - parseInt(b)});
+        var i = tmpBp.indexOf(screenWidth);// Get the position of screenWidth in the breakpoints array.
+
+        // If the index is the last one (initial and widest screen config), breakpointsArray[i] won't exist so
+        // just reapply initial config.
+        newBreakpoint = breakpointsArray[i];
+        breakpointChange = newBreakpoint !== currentBreakpoint;
+
+        if (breakpointChange)
+        {
+            currentBreakpoint = newBreakpoint;
+
+            // Trigger the breakpointChange event but skip the init one.
+            if (e.type !== 'gridInit') grid.trigger('breakpointChange', [currentBreakpoint]);
+
+            // Apply the settings of the detected breakpoint config before redrawing grid.
+            params = self.options.breakpoints[currentBreakpoint];
+            self.updateParams(params);
+        }
+
+        return breakpointChange;
+    }
+
+
+    /**
+     * If breakpoints are defined, parse the different specific configs and optimize/cache all configs and
+     * breakpoints values into a breakpointsArray for the best performances possible in resize event loop.
+     *
+     * @access Private.
+     * @return void.
+     */
+    var initBreakpoints = function()
+    {
+        var breakpointsNum, initialConfigIndex = 0;
+        hasBreakpoints = true;// Update private class var for convenient/meaningful use in different methods.
+        breakpointsArray = [];
+
+        // Convert to breakpoints object an array for sorting.
+        for (var breakpoint in self.options.breakpoints) breakpointsArray.push(breakpoint * 1);
+        breakpointsNum = breakpointsArray.length;
+
+        // NATURAL numeric ascendant sorting (*1 is shorthand for parseInt()).
+        breakpointsArray.sort(function(a, b){return a*1 - b*1});
+
+        // Add the initial config (i.e. 'widest') into the breakpoints object and breakpoints array.
+        // E.g. [479, 767, 1199, "1199++"].
+        // It would be easier to have all integers but outputting breakpoint number to the end user through the breakpointChange
+        // event has to be meaningful.
+        initialConfigIndex = breakpointsArray[breakpointsNum - 1] + '++';
+        self.options.breakpoints[initialConfigIndex] = JSON.parse(JSON.stringify(self.options));
+        delete self.options.breakpoints[initialConfigIndex].breakpoints;// Don't need to keep this.
+        breakpointsArray.push(initialConfigIndex);
     };
 
 
@@ -636,6 +668,7 @@ var thegrid = function(options)
      * fill the matrix with cells in DOM and render for the first time.
      *
      * @access Private.
+     * @return void.
      */
     var init = function()
     {
@@ -655,6 +688,9 @@ var thegrid = function(options)
         grid.css('height', Math.ceil(cellsNum / self.options.cellsPerRow) * self.options.cellHeight);
 
         if (self.options.sortingCriteria) initSort();
+
+        if (!$.isEmptyObject(self.options.breakpoints)) initBreakpoints();
+
         bindEvents();
         fillMatrix();
         render();
