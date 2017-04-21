@@ -36,17 +36,17 @@ String.prototype.htmlize = function()
  */
 var syntaxHighlighter = function()
 {
-    var lastTreatedWrapper = 0, wrapperIndex = -1;
+    var lastTreatedWrapper = null, wrapperIndex = -1;
     $('pre').each(function(i)
     {
         var pre = $(this),
             wrapper = pre.parents('.code-wrapper'),
             type = pre.data('type');
 
-        if (wrapper.length && wrapperIndex !== lastTreatedWrapper)
+        if (wrapper.length && !wrapper.is(lastTreatedWrapper))
         {
             wrapperIndex++;
-            lastTreatedWrapper = wrapperIndex;
+            lastTreatedWrapper = wrapper;
 
             if (wrapper.data('result'))
             {

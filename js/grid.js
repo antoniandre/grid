@@ -85,6 +85,7 @@ var thegrid = function(options)
             //         name: {type: 'string'},
             //         price: {type: 'int'},
             //     }
+            sortingCriteria: {}
         },
 
         /**
@@ -687,7 +688,7 @@ var thegrid = function(options)
         // After the cells placing the grid height will probably be different.
         grid.css('height', Math.ceil(cellsNum / self.options.cellsPerRow) * self.options.cellHeight);
 
-        if (self.options.sortingCriteria) initSort();
+        if (!$.isEmptyObject(self.options.sortingCriteria)) initSort();
 
         if (!$.isEmptyObject(self.options.breakpoints)) initBreakpoints();
 
