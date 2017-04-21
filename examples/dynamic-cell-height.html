@@ -22,6 +22,7 @@
             width: 100%;
             color: rgba(255,255,255, .5);
             font-size: 200%;
+            font-size: 4vw;
         }
     </style>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -30,12 +31,17 @@
     <script>
         $(document).ready(function()
         {
-            var ratio = 16 / 9;
+            var ratio = 16 / 9;// Any ratio you want to maintain on the grid cells.
 
             $('.thegrid').grid(
             {
                 cellsPerRow: 5,
-                cellHeight: function(g){console.log(g.gridWidth / g.options.cellsPerRow);return g.gridWidth / (g.options.cellsPerRow * ratio)}
+
+                // Optionnally, to lighten the resize event job.
+                // throttling: 500,
+
+                // The grid instance is passed as a parameter to the function so you can access public variables.
+                cellHeight: function(g){return g.gridWidth / (g.options.cellsPerRow * ratio)}
             });
         });
     </script>
@@ -116,13 +122,20 @@
     width: 100%;
     color: rgba(255,255,255, .5);
     font-size: 200%;
+    font-size: 4vw;
 }</pre>
             <pre class="i-code" data-type="javascript" data-default>// When DOM is ready.
-var ratio = 16 / 9;
+
+var ratio = 16 / 9;// Any ratio you want to maintain on the grid cells.
 
 $('.thegrid').grid(
 {
     cellsPerRow: 5,
+
+    // Optionnally, to lighten the resize event job.
+    // throttling: 500,
+
+    // The grid instance is passed as a parameter to the function so you can access public variables.
     cellHeight: function(g){return g.gridWidth / (g.options.cellsPerRow * ratio)}
 });
 </pre>
