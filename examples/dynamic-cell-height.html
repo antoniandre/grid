@@ -1,0 +1,155 @@
+<html>
+<head>
+    <title>The Grid - Dynamic cell height example</title>
+    <link rel="stylesheet" type="text/css" href="../css/demo.css">
+    <link rel="stylesheet" type="text/css" href="../css/grid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://file.myfontastic.com/9fJpDPqRSrcYHeVVDECbmi/icons.css" rel="stylesheet">
+    <style>
+        .intro code {background-color: #eee;font-style: normal;color: #333;}
+        .thegrid .cell > div {
+            border: 1px solid #e9f;
+            background-image: radial-gradient(circle at top right, #e9f, #fdf);
+
+            /* To center text vertically. */
+            display: flex;
+            align-items: center;
+        }
+        .cell div:after {
+            content: attr(data-text);
+            display: block;
+            text-align: center;
+            width: 100%;
+            color: rgba(255,255,255, .5);
+            font-size: 200%;
+        }
+    </style>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../js/grid.js"></script>
+    <script src="../js/demo.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            var ratio = 16 / 9;
+
+            $('.thegrid').grid(
+            {
+                cellsPerRow: 5,
+                cellHeight: function(g){console.log(g.gridWidth / g.options.cellsPerRow);return g.gridWidth / (g.options.cellsPerRow * ratio)}
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="topbar-wrapper">
+        <div class="topbar clearfix">
+            <div class="topbar-inner">
+                <div class="topbar-logo i-thegrid">The Grid</div>
+                <div class="topbar-menu">
+                    <ul>
+                        <li><a href="../index.html" class="i-home"><span>home</span></a></li>
+                        <li><a href="../documentation/" class="i-book"><span>Documentation</span></a></li>
+                        <li>
+                            <span class="i-examples"><span>Examples &nbsp; <i class="i-arr-d"></i></span></span>
+                            <ul class="topbar-submenu">
+                                <li><a href="../examples/basic.html" class="i-arr-l">Basic</a></li>
+                                <li><a href="../examples/breakpoints.html" class="i-arr-l">Breakpoints</a></li>
+                                <li><a href="../examples/responsive-images.html" class="i-arr-l">Responsive images</a></li>
+                                <li><a href="../examples/event-callbacks.html" class="i-arr-l">Event callbacks</a></li>
+                                <li><a href="../examples/filters.html" class="i-arr-l">Filters</a></li>
+                                <li><a href="../examples/sorting.html" class="i-arr-l">Sorting</a></li>
+                                <li><a href="../examples/dynamic-cell-height.html" class="i-arr-l active">Dynamic cell height</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>Dynamic cell height.</h1>
+    <p class="intro">
+        This example has 20 cells with a given aspect ratio. The height of each cell is recalculated every time its width changes
+        by resizing the window.<br>
+        As this option is far less performant it is best to enable the throttling option to skip some resizing steps.<br><br>
+
+        <em><strong>Note:</strong> even with dynamic height, the same height will be applied to every cell with the <code>data-height</code> multiplier.<br>
+        <strong>This allows the grid cells to always be aligned vertically.</strong></em>
+    </p>
+    <input type="checkbox" class="toggle" id="see-the-code">
+    <label for="see-the-code" class="i-plus">Check the code</label>
+    <div class="code-section">
+        <div class="code-wrapper" style="height: 500px;">
+            <pre class="i-code" data-type="html">&lt;div class="thegrid"&gt;
+    &lt;div class="cell" data-width="1" data-height="4"&gt;&lt;div data-text="1"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="2"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="3"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="4"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="5"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="6"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="3" data-height="1"&gt;&lt;div data-text="7"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="3"&gt;&lt;div data-text="8"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="9"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="10"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="11"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="12"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="13"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="3" data-height="1"&gt;&lt;div data-text="14"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="15"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="16"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="17"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="18"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="4" data-height="1"&gt;&lt;div data-text="19"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="20"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+            <pre class="i-code" data-type="css">.thegrid .cell > div {
+    border: 1px solid #e9f;
+    background-image: radial-gradient(circle at top right, #e9f, #fdf);
+
+    /* To center text vertically. */
+    display: flex;
+    align-items: center;
+}
+.cell div:after {
+    content: attr(data-text);
+    display: block;
+    text-align: center;
+    width: 100%;
+    color: rgba(255,255,255, .5);
+    font-size: 200%;
+}</pre>
+            <pre class="i-code" data-type="javascript" data-default>// When DOM is ready.
+var ratio = 16 / 9;
+
+$('.thegrid').grid(
+{
+    cellsPerRow: 5,
+    cellHeight: function(g){return g.gridWidth / (g.options.cellsPerRow * ratio)}
+});
+</pre>
+        </div>
+    </div>
+
+    <div class="thegrid">
+        <div class="cell" data-width="1" data-height="4"><div data-text="1"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="2"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="3"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="4"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="5"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="6"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="7"></div></div>
+        <div class="cell" data-width="1" data-height="3"><div data-text="8"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="9"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="10"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="11"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="12"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="13"></div></div>
+        <div class="cell" data-width="3" data-height="1"><div data-text="14"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="15"></div></div>
+        <div class="cell" data-width="1" data-height="2"><div data-text="16"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="17"></div></div>
+        <div class="cell" data-width="1" data-height="1"><div data-text="18"></div></div>
+        <div class="cell" data-width="4" data-height="1"><div data-text="19"></div></div>
+        <div class="cell" data-width="2" data-height="1"><div data-text="20"></div></div>
+    </div>
+</body>
+</html>
