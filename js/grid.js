@@ -19,7 +19,7 @@ var thegrid = function(options)
         defaults =
         {
             grid: $('.thegrid'),// The container of the cells.
-                                // This var will be removed after init to avoid circular error due to recursion.
+                                // This var will be removed after init() to avoid circular error due to recursion.
                                 // It is stored in public var 'grid' instead.
             cells: $('.cell'),// The cells to render / place / filter.
             cellsPerRow: 7,
@@ -123,10 +123,10 @@ var thegrid = function(options)
 
                 // First index the whole matrix cells in this.emptyCells array as every cell is empty.
                 // Indexing the empty cells for optimization.
-                for (var row = 0; row < this.rows; row++) {
-                    for (var col = 0; col < self.options.cellsPerRow; col++) {
-                        this.emptyCells.push(row + "." + col);// Creating decimal format to benefit from the simple numeric sorting.
-                    }
+                for (var row = 0; row < this.rows; row++)
+                {
+                    // Creating decimal format to benefit from the simple numeric sorting.
+                    for (var col = 0; col < self.options.cellsPerRow; col++) this.emptyCells.push(row + "." + col);
                 }
                 return this;
             },
