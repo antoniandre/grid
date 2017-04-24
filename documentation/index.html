@@ -26,6 +26,7 @@
                                 <li><a href="../examples/event-callbacks.html" class="i-arr-l">Event callbacks</a></li>
                                 <li><a href="../examples/filters.html" class="i-arr-l">Filters</a></li>
                                 <li><a href="../examples/sorting.html" class="i-arr-l">Sorting</a></li>
+                                <li><a href="../examples/dynamic-cell-height.html" class="i-arr-l">Dynamic cell height</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -80,9 +81,8 @@ git clone git@github.com:antoniandre/grid.git</pre>
     &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="9"&gt;&lt;/div&gt;&lt;/div&gt;
     &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="10"&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;</pre>
-            <pre data-type="css">* {margin: 0;padding: 0;font-family: sans-serif;}
+            <pre data-type="css">
 .thegrid .cell {padding: 1%;}
-/* .thegrid .cell {padding: 1%;} */
 .thegrid .cell > div {
     background-image: radial-gradient(circle at top right,#f33,pink);
     display: -ms-flex;
@@ -96,8 +96,8 @@ git clone git@github.com:antoniandre/grid.git</pre>
     width: 100%;
     color: rgba(255,255,255,.25);
     font-size: 200%;
-}
-</pre>
+    font-family: sans-serif;
+}</pre>
             <pre data-type="javascript" data-default>$('.thegrid').grid();
 
 // Alternatively you can call it this way:
@@ -109,9 +109,46 @@ git clone git@github.com:antoniandre/grid.git</pre>
         <p>Hum. I can already guess that it won't be enough to suit your picky needs, so you'd better add a few parameters.</p>
 
         <h2 class="i-check"><a name="settings"></a> <a href="#settings">Settings - TO BE UPDATED SOON</a></h2>
-        <p>You can use all these settings</p>
+        <p>Design-wise, you can fully customise your grid aspect, everything is doable from your CSS file!</p>
+        <div class="code-wrapper i-code" data-result="true" style="min-height: 350px">
+            <pre class="i-code" data-type="css" data-default>
+.thegrid .cell {padding: 0;}
+.thegrid .cell > div {
+    background-image: radial-gradient(circle at top right,#f33,pink);
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+}
+.cell div:after {
+    content: attr(data-text);
+    display: block;
+    text-align: center;
+    width: 100%;
+    color: rgba(255,255,255,.25);
+    font-size: 200%;
+    font-family: sans-serif;
+}</pre>
+            <pre class="i-code" data-type="javascript">$('.thegrid').grid();</pre>
+            <pre class="i-code" data-type="html">
+&lt;div class="thegrid"&gt;
+    &lt;div class="cell" data-width="1" data-height="4"&gt;&lt;div data-text="1"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="2"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="3" data-height="1"&gt;&lt;div data-text="3"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="5" data-height="1"&gt;&lt;div data-text="4"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="5"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="6"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="2" data-height="1"&gt;&lt;div data-text="7"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="3"&gt;&lt;div data-text="8"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="2"&gt;&lt;div data-text="9"&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="cell" data-width="1" data-height="1"&gt;&lt;div data-text="10"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <p>For the settings and calculations which can only be applied by Javascript, you can use all these settings:</p>
         <pre class="i-code" data-type="javascript">{
     grid: $('.thegrid'),// The container of the cells.
+                        // This var will be removed after init to avoid circular error due to recursion.
+                        // It is stored in public var 'grid' instead.
     cells: $('.cell'),// The cells to render / place / filter.
     cellsPerRow: 7,
     cellHeight: 100,// Cell height in pixels.
@@ -119,48 +156,64 @@ git clone git@github.com:antoniandre/grid.git</pre>
                     // function(gh){return ((gh.gridWidth / gh.options.cellsPerRow) * 262 / 400) + 100};
                     // But be aware that it will be much more costy (you may opt for throttling).
 
-    // Animations.
+    //========= Animations =========//
     // By default the cells animation will be handled via CSS transitions as it is known to be smoother and
     // of better performances. however if you want some fancy easing effects (e.g. elastic or bounce) you may
     // want to switch to javascript animations. If so just turn animationPlatform to 'js' and provide the easing
     // speed and curve that you want.
     // You can also override the default CSS transitions in a custom CSS like:
-    // .thegrid.transitions .cell {
-    //     -webkit-transition: .3s ease-in-out;
-    //     -o-transition: .3s ease-in-out;
-    //     transition: .3s ease-in-out;
-    // }
+    //     .thegrid.transitions .cell {
+    //         -webkit-transition: .3s ease-in-out;
+    //         -o-transition: .3s ease-in-out;
+    //         transition: .3s ease-in-out;
+    //     }
     animationPlatform: 'css',// 'css' or 'js'.
+    animationEasing: 'swing',// jQuery built-in easings are 'swing', 'linear'. the jquery.easing plug-in can add many more.
     animationSpeed: 500,
-    animationEasing: 'linear',
     animationDelay: 0,
 
     updateGridHeight: true,// On each render.
 
-    // Responsiveness.
+    //========= Responsiveness =========//
     // Only if breakpoints are set the redraw() function is triggered on each resize event.
     // You can throttle the redraw to alight the resizing event.
     // (while resizing the redraw() function is exec every throttlingDelay milliseconds)
     throttling: false,
     throttlingDelay: 300,// in ms.
-    /* Breakpoints (from desktop to mobile) to have a different behavior according to the device screen width.
-    Example of use:
-    breakpoints:
-    {
-        1199:
-        {
-            cellsPerRow: 5
-        },
-        767:
-        {
-            cellsPerRow: 4
-        },
-        479:
-        {
-            cellsPerRow: 3
-        },
-    }*/
-    breakpoints: {}
+
+    //========= Breakpoints =========//
+    // (from desktop to mobile).
+    // Use it to allow a different behavior according to the device screen width.
+    // Example of use:
+    //     breakpoints:
+    //     {
+    //         1199:
+    //         {
+    //             cellsPerRow: 5
+    //         },
+    //         767:
+    //         {
+    //             cellsPerRow: 4
+    //         },
+    //         479:
+    //         {
+    //             cellsPerRow: 3
+    //         },
+    //     }
+    breakpoints: {},
+
+    //========= Sorting =========//
+    // If you want to apply sorting on The Grid cells.
+    // Each criterion that you use for sorting can apply a numeric or string sorting.
+    // This allows to sort naturally: numeric to [1, 3, 11], or string to ['1a', '11a', '3a'].
+    // Note that for performance concerns this is set as a parameter and not as a native guess.
+    // Example of use:
+    //     sortingCriteria:
+    //     {
+    //         name: {type: 'string'},
+    //         price: {type: 'int'},
+    //     }
+    sortingCriteria: {}
 }</pre>
 
         <h2 class="i-check"><a name="methods"></a> <a href="#methods">Methods - TO BE UPDATED SOON</a></h2>
@@ -202,7 +255,7 @@ git clone git@github.com:antoniandre/grid.git</pre>
 
         <h3><a name="events.breakpoint-change"></a> <a href="#events.breakpoint-change">breakpointChange - on grid element</a></h3>
         <p>This event is triggered when the browser is resized.</p>
-        <pre class="i-code" data-type="javascript">$('.thegrid').on('breakpointChange');</pre>
+        <pre class="i-code" data-type="javascript">$('.thegrid').on('breakpointChange', function(){...});</pre>
 
         <h3><a name="events.redraw"></a> <a href="#events.redraw">redraw</a></h3>
         <p>This event is triggered when The Grid has just finished redrawing the grid. Meaning recalculating the position of each cell and displaying them.</p>

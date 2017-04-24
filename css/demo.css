@@ -169,7 +169,26 @@ li:hover .topbar-submenu {
 .documentation p {margin-top: 10px;}
 .documentation h3 {margin-top: 30px;}
 .documentation h3:before {content: '#';color: #ddd;padding-right: 10px;}
-.warning {background-color: #fee;border: 1px solid #fdd;padding: 10px;}
+.warning {background-color: #fee;border-left: 5px solid #f66;padding: 15px 20px;position: relative;}
+.warning:before {
+    content: "!";
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    left: -2px;
+    margin-left: -.75em;
+    margin-top: -.15em;
+    background-color: #f66;
+    width: 1.5em;
+    line-height: 1.5em;
+    height: 1.5em;
+    font-size: 1em;
+    font-family: "arial black", Gadget, sans-serif;
+    border-radius: 1em;
+}
 .warning span {color: #f66;display: inline-block;padding-right: 10px;}
 
 .documentation .lighter, .documentation .lighter h3 {color: #bbb;}
