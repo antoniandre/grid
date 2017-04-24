@@ -573,7 +573,7 @@ var thegrid = function(options)
                 }
 
                 // Watch breakpoints and apply new config if a set of breakpoints is defined.
-                var breakpointChange = hasBreakpoints ? watchBreakpoints() : false;
+                var breakpointChange = hasBreakpoints ? watchBreakpoints(e) : false;
 
                 // Only redraw if current breakpoint has changed or if we want to recalculate height at each step.
                 if (breakpointChange || typeof self.options.cellHeight === 'function') self.redraw();
@@ -589,7 +589,7 @@ var thegrid = function(options)
      * @access Private.
      * @return {boolean} true if the breakpoint has changed, false otherwise.
      */
-    var watchBreakpoints = function()
+    var watchBreakpoints = function(e)
     {
         var params = {},
             screenWidth = this.innerWidth,
