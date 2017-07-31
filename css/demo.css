@@ -450,7 +450,6 @@ pre .selector {color: #f0d;}
     body {padding-left: 10px;padding-right: 10px;}
     .topbar-menu li :before {padding-right: 0;}
     .topbar-menu li a, .topbar-menu li > span {padding-left: 40px;margin-left: 0;}
-    .topbar-menu li a {padding-left: 20px;}
     .topbar-menu li a span, .topbar-menu li span span {display: none;}
     .topbar-submenu {left: auto;right: 0;}
     .topbar-submenu li a:before {right: 10px;}
